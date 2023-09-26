@@ -6,7 +6,7 @@ import io.cucumber.java.en.When;
 
 public class MenuStepDefinitions {
 
-
+    CampusUser user = new CampusUser();
 
     @Given("{string} is on the menu page")
     public void is_on_the_menu_page(String string) {
