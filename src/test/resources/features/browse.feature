@@ -1,9 +1,6 @@
-Feature : Browse Menus
-   Background :
-     Given an Internet users called "John" is on the "Browse Menus" page
+Feature: Menu Retrieval
 
-     Scenario : See in detail a menu
-       When "John" selects the "See in detail" button
-       Then "John" should see the "Menu detail" page
-
-
+  Scenario: "John" retrieves the list of menus
+    Given "John" is on the menu page
+    When "John" requests the list of menus
+    Then the system should display a list of menus for "John"
