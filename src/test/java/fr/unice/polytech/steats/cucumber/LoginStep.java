@@ -1,9 +1,9 @@
-package fr.unice.polytech.biblio;
+package fr.unice.polytech.steats.cucumber;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import io.cucumber.java.en.And;
+import fr.unice.polytech.steats.model.CampusUser;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;

@@ -1,17 +1,14 @@
-package fr.unice.polytech.biblio;
+package fr.unice.polytech.steats.cucumber;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import fr.unice.polytech.steats.model.CampusUser;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.HashMap;
-import java.util.Map;
 
 public class MenuStepDefinitions {
 

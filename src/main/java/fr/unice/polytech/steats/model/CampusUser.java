@@ -1,4 +1,4 @@
-package fr.unice.polytech.biblio;
+package fr.unice.polytech.steats.model;
 
 import java.util.Date;
 
