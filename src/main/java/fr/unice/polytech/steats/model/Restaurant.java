@@ -9,7 +9,7 @@ public class Restaurant {
     private List<Menu> menus;
 
     private List<RestaurantStaff> employees;
-    private List<Menu> orderList;
+    private List<Order> orderList;
 
     public Restaurant(String restaurantID, String restaurantName) {
         this.restaurantID = restaurantID;
@@ -43,14 +43,17 @@ public class Restaurant {
         employees.add(employee);
     }
 
-    public List<Menu> getOrderList() {
+    public List<Order> getOrderList() {
         if (orderList.isEmpty()) {
             throw new IllegalStateException("No order found for acceptance");
         }
         return orderList;
     }
+    public void addOrder(Order order) {
+        orderList.add(order);
+    }
 
-    public void setOrderList(List<Menu> orderList) {
+    public void setOrderList(List<Order> orderList) {
         this.orderList = orderList;
     }
 }
