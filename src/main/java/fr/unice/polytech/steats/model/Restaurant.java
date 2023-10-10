@@ -14,6 +14,11 @@ public class Restaurant {
         this.menus = new ArrayList<>();  // Initialize the menus list
     }
 
+    public Restaurant(String restaurantName) {
+        this.restaurantName = restaurantName;
+        this.menus = new ArrayList<>();  // Initialize the menus list
+    }
+
     public String getRestaurantID() {
         return restaurantID;
     }
@@ -24,6 +29,15 @@ public class Restaurant {
 
     public List<Menu> getMenus() {
         return menus;
+    }
+
+    public Menu getMenufromName(String menuName) {
+        for (Menu menu : menus) {
+            if (menu.getMenuName().equals(menuName)) {
+                return menu;
+            }
+        }
+        return null;
     }
 
     public void addMenu(Menu menu) {

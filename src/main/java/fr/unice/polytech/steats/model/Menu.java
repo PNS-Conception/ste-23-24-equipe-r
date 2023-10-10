@@ -9,6 +9,10 @@ public class Menu {
         this.menuName = menuName;
     }
 
+    public Menu(String menuName) {
+        this.menuName = menuName;
+    }
+
     // Getters and Setters
     public String getMenuID() {
         return menuID;
