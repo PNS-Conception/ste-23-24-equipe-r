@@ -7,7 +7,7 @@ public class Restaurant {
     private String restaurantID;
     private String restaurantName;
     private List<Menu> menus;
-
+    private String Id;
     private List<RestaurantStaff> employees;
     private List<Order> orderList;
 
@@ -22,6 +22,10 @@ public class Restaurant {
     public Restaurant(String restaurantName) {
         this.restaurantName = restaurantName;
         this.menus = new ArrayList<>();  // Initialize the menus list
+    }
+
+    public String getId() {
+        return Id;
     }
 
     public String getRestaurantID() {

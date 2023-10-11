@@ -10,12 +10,28 @@ public class Order {
     private String orderID;
 
     private int totalMenus;
+    private CampusUser customer;
 
     public Order(String orderID, double price) {
         this.orderID = orderID;
         this.price = price;
         this.orderStatus = OrderStatus.CREATED;
         this.totalMenus = 0;
+    }
+
+    public Order(String orderID, double price,CampusUser customer) {
+        this.orderID = orderID;
+        this.price = price;
+        this.orderStatus = OrderStatus.CREATED;
+        this.totalMenus = 0;
+        this.customer = customer;
+    }
+
+    public Order(String orderID,CampusUser customer) {
+        this.orderID = orderID;
+        this.orderStatus = OrderStatus.CREATED;
+        this.totalMenus = 0;
+        this.customer = customer;
     }
 
     public double getPrice() {
@@ -36,5 +52,9 @@ public class Order {
 
     public int getTotalMenus() {
         return totalMenus;
+    }
+
+    public Object getCustomer() {
+        return customer;
     }
 }
