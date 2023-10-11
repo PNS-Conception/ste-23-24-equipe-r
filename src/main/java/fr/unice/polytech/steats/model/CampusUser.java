@@ -31,7 +31,7 @@ public class CampusUser {
     public CampusUser(String name){
         this.name = name;
         this.timeSlot= "2023-09-26 10:00:00";
-        this.id = 0;
+        this.campusUserId = 0;
         this.password = "";
     }
 
