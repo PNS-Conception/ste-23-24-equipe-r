@@ -12,19 +12,19 @@ public class CampusUser {
 
     private String timeSlot;
 
-    private int id;
+    private int campusUserId;
     private String password;
 
     public CampusUser(){
         this.name = "CampusUser";
         this.timeSlot= "2023-09-26 10:00:00";
-        this.id = 0;
+        this.campusUserId = 0;
         this.password = "";
     }
 
     public CampusUser(String name, int id, String password){
         this.name = name;
-        this.id = id;
+        this.campusUserId = id;
         this.password = password;
     }
 
@@ -53,7 +53,7 @@ public class CampusUser {
     }
 
     public int getId(){
-        return this.id;
+        return this.campusUserId;
     }
 
     public String getPassword() {
