@@ -32,7 +32,7 @@ public class OrderAcceptanceSteps {
         restaurant.setOrderList(new ArrayList<>());
     }
 
-    @When("the {string} attempts to accept an order")
+    @When("the {string} consult an order")
     public void the_attempts_to_accept_an_order(String string) {
         restaurant.getEmployees().add(restaurantStaff);
         assertEquals(restaurantStaff.getName(),string);
