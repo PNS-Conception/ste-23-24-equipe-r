@@ -23,7 +23,7 @@ public class CheckDeliveryStatus {
     }
 
     @When("{string} checks the delivery status of the order")
-    public void he_user_checks_the_delivery_status_of_the() {
+    public void he_user_checks_the_delivery_status_of_the(String string) {
         orderStatus = orderRegistry.getOrderStatus(order.getOrderID(), customer);
     }
 

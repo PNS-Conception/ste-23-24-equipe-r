@@ -17,14 +17,14 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class OrderAcceptanceSteps {
 
-    RestaurantStaff restaurantStaff = new RestaurantStaff("1", "restaurantStaff1@email.fr","password", "restaurantStaff1");
-    Restaurant restaurant = new Restaurant("12", "");
+    RestaurantStaff restaurantStaff;
+    Restaurant restaurant ;
 
 
     @Given("{string} member is logged into the {string} system")
     public void member_is_logged_into_the(String string, String string2) {
-        restaurantStaff.setName(string);
-        restaurant = new Restaurant(restaurant.getRestaurantID(), string2);
+        restaurantStaff = new RestaurantStaff(string);
+        restaurant = new Restaurant("12", string2);
     }
     @Given("there is no order awaiting acceptance")
     public void there_is_no_order_awaiting_acceptance() {
