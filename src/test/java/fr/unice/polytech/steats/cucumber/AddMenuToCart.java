@@ -2,6 +2,7 @@ package fr.unice.polytech.steats.cucumber;
 
 import fr.unice.polytech.steats.model.CampusUser;
 import fr.unice.polytech.steats.model.Menu;
+import fr.unice.polytech.steats.model.Order;
 import fr.unice.polytech.steats.model.Restaurant;
 import fr.unice.polytech.steats.service.RestaurantDao;
 import io.cucumber.java.en.Given;
@@ -14,16 +15,16 @@ public class AddMenuToCart {
     CampusUser user;
     Restaurant restaurant;
     RestaurantDao restaurantRegistry;
-    @Given("{string} is a campus user")
-    public void is_a_campus_user(String userName) {
+    @Given("{string} is a campus user and a restaurant {string} who has a menu {string}")
+    public void is_a_campus_user(String userName,String restaurantName,String menuName) {
         user = new CampusUser(userName);
-        restaurant = new Restaurant("restau");
-        restaurant.addMenu(new Menu("Pizza"));
+        restaurant = new Restaurant(restaurantName);
+        restaurant.addMenu(new Menu(menuName));
         restaurantRegistry = new RestaurantDao(Arrays.asList(restaurant));
     }
 
-    @When("he selects a menu {string} from a restaurant {string}")
-    public void selects_a_menu_from_a_restaurant_restau(String menuName, String restaurantName) {
+    @When("{string} selects a menu {string} from {string}")
+    public void selects_a_menu_from_a_restaurant_restau(String userName,String menuName, String restaurantName) {
         Restaurant r= restaurantRegistry.getRestaurantFromName(restaurantName);
         r.getMenufromName(menuName);
         user.addMenuToCart(r.getMenufromName(menuName));
@@ -32,5 +33,4 @@ public class AddMenuToCart {
     public void the_menu_is_added_to_the_cart() {
         assert user.getCart().size() == 1;
     }
-
 }

@@ -11,11 +11,6 @@ import java.util.Optional;
 public class OrderDao implements IDao<Order> {
 
     List<Order> orders;
-
-    public OrderDao(List<Order> orders) {
-        this.orders = orders;
-    }
-
     public OrderDao() {
         orders = new ArrayList<>();
     }
