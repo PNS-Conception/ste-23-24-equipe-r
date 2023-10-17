@@ -7,6 +7,7 @@ import fr.unice.polytech.steats.model.Order;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 public class OrderDao implements IDao<Order> {
 
@@ -40,7 +41,7 @@ public class OrderDao implements IDao<Order> {
         return Optional.empty();
     }
 
-    public OrderStatus getOrderStatus(String orderID, CampusUser user) {
+    public OrderStatus getOrderStatus(UUID orderID, CampusUser user) {
         for (Order order : orders) {
             if (order.getOrderID().equals(orderID)) {
                 if(order.getCustomer().equals(user)) {

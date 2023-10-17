@@ -1,5 +1,7 @@
 package fr.unice.polytech.steats.model;
 
+import fr.unice.polytech.steats.service.OrderDao;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,8 +9,6 @@ public class CampusUser extends User {
 
 
     private List<Menu> cart = new ArrayList<>();
-
-
 
     public CampusUser(){
         super();

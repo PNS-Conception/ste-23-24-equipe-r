@@ -3,32 +3,40 @@ package fr.unice.polytech.steats.model;
 
 import fr.unice.polytech.steats.enumeration.OrderStatus;
 
+import java.util.UUID;
+
 public class Order {
 
     private double price;
     private OrderStatus orderStatus;
-    private String orderID;
+    private UUID orderID;
 
     private int totalMenus;
     private CampusUser customer;
 
-    public Order(String orderID, double price) {
-        this.orderID = orderID;
+    public Order(){
+        this.orderID = UUID.randomUUID();
+        this.orderStatus = OrderStatus.CREATED;
+        this.totalMenus = 0;
+    }
+
+    public Order(double price) {
+        this.orderID = UUID.randomUUID();
         this.price = price;
         this.orderStatus = OrderStatus.CREATED;
         this.totalMenus = 0;
     }
 
-    public Order(String orderID, double price,CampusUser customer) {
-        this.orderID = orderID;
+    public Order(double price,CampusUser customer) {
+        this.orderID = UUID.randomUUID();
         this.price = price;
         this.orderStatus = OrderStatus.CREATED;
         this.totalMenus = 0;
         this.customer = customer;
     }
 
-    public Order(String orderID,CampusUser customer) {
-        this.orderID = orderID;
+    public Order(CampusUser customer) {
+        this.orderID = UUID.randomUUID();
         this.orderStatus = OrderStatus.CREATED;
         this.totalMenus = 0;
         this.customer = customer;
@@ -46,7 +54,7 @@ public class Order {
         this.orderStatus = orderStatus;
     }
 
-    public String getOrderID() {
+    public UUID getOrderID() {
         return orderID;
     }
 

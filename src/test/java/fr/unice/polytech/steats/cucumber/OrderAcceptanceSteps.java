@@ -9,6 +9,7 @@ import io.cucumber.java.en.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import static org.junit.Assert.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -19,6 +20,7 @@ public class OrderAcceptanceSteps {
 
     RestaurantStaff restaurantStaff;
     Restaurant restaurant ;
+    Order order;
 
 
     @Given("{string} member is logged into the {string} system")
@@ -49,35 +51,35 @@ public class OrderAcceptanceSteps {
         assertEquals(exception.getMessage(), string2);
     }
 
-    @Given("there is an {string} with ID {string} awaiting acceptance")
-    public void there_is_an_with_id_awaiting_acceptance(String string, String string2) {
-        restaurant.addOrder(new Order(string2, 10.0));
+    @Given("there is an order awaiting acceptance")
+    public void there_is_an_with_id_awaiting_acceptance() {
+        order = new Order();
+        restaurant.addOrder(order);
     }
 
 
-    @When("the {string} member accepts the order with ID {string} for preparation")
-    public void the_member_accepts_the_order_for_preparation(String string, String string2) {
+    @When("the {string} member accepts the order for preparation")
+    public void the_member_accepts_the_order_for_preparation(String string) {
         assertEquals(restaurantStaff.getName(),string);
         restaurant.getEmployees().add(restaurantStaff);
         assertTrue(restaurant.getEmployees().contains(restaurantStaff));
         for(Order order : restaurant.getOrderList()){
-            if(order.getOrderID().equals(string2)){
+            if(order.getOrderID().equals(this.order.getOrderID())){
                 order.setOrderStatus(OrderStatus.ACCEPTED);
             }
         }
     }
 
-    @Then("the {string} system should mark the order with ID {string} as {string}")
-    public void the_system_should_mark_the_order_as(String string, String string2, String string3) {
-        assertEquals(restaurant.getRestaurantName(),string);
+    @Then("the order status becomes ACCEPTED")
+    public void the_system_should_mark_the_order_as() {
+        assertEquals(this.restaurant.getRestaurantName(),restaurant.getRestaurantName());
         Order order1 = null;
-        for(Order order : restaurant.getOrderList()){
-            if(order.getOrderID().equals(string2)){
+        for(Order order : this.restaurant.getOrderList()){
+            if(order.getOrderID().equals(UUID.fromString(order.getOrderID().toString()))){
                 order1= order;
             }
         }
-        assertEquals(order1.getOrderStatus().toString(), string3);
-
+        assertEquals(order1.getOrderStatus(), OrderStatus.ACCEPTED);
     }
 
 }
