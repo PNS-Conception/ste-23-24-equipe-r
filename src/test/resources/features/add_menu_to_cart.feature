@@ -2,9 +2,8 @@
 Feature: Adding an menu to the cart
 
   Background:
-    Given "Marcel" is a campus user
+    Given "Marcel" is a campus user and a restaurant "restau" who has a menu "Pizza"
 
   Scenario: Add an existing menu to the cart
-    When he selects a menu "Pizza" from a restaurant "restau"
+    When "marcel" selects a menu "Pizza" from "restau"
     Then the menu is added to the cart
-
