@@ -1,33 +1,35 @@
 package fr.unice.polytech.steats.model;
 
-import fr.unice.polytech.steats.service.OrderDao;
-
 import java.util.ArrayList;
 import java.util.List;
 
 public class CampusUser extends User {
+    private Cart cart;
 
-
-    private List<Menu> cart = new ArrayList<>();
-
-    public CampusUser(){
+    public CampusUser() {
         super();
+        this.cart = new Cart(new ArrayList<>());
     }
 
-    public CampusUser(String name){
+    public CampusUser(String name) {
         super(name);
+        this.cart = new Cart(new ArrayList<>());
     }
 
     public CampusUser(String userID, String name) {
         super(userID, name);
+        this.cart = new Cart(new ArrayList<>());
     }
 
-
-    public void addMenuToCart(Menu menufromName) {
-        cart.add(menufromName);
-    }
-
-    public List<Menu> getCart() {
+    public Cart getCart() {
         return cart;
+    }
+
+    public void addMenuToCart(Menu menu) {
+        cart.addToCart(menu);
+    }
+
+    public void removeFromCart(Menu menu) {
+        cart.removeFromCart(menu);
     }
 }

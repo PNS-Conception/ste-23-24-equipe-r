@@ -1,4 +1,4 @@
-package fr.unice.polytech.steats.service;
+package fr.unice.polytech.steats.repository;
 
 import fr.unice.polytech.steats.enumeration.OrderStatus;
 import fr.unice.polytech.steats.model.CampusUser;
@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-public class OrderDao implements IDao<Order> {
+public class OrderDao implements Dao<Order> {
 
     List<Order> orders;
     public OrderDao() {

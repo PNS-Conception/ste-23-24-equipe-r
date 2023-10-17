@@ -1,4 +1,4 @@
-package fr.unice.polytech.steats.service;
+package fr.unice.polytech.steats.repository;
 
 import fr.unice.polytech.steats.model.Restaurant;
 
@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class RestaurantDao implements IDao<Restaurant> {
+public class RestaurantDao implements Dao<Restaurant> {
     List<Restaurant> restaurants;
 
     public RestaurantDao(List<Restaurant> restaurants) {

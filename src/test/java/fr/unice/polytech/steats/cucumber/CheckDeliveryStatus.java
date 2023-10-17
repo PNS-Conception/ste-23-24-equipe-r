@@ -3,7 +3,7 @@ package fr.unice.polytech.steats.cucumber;
 import fr.unice.polytech.steats.enumeration.OrderStatus;
 import fr.unice.polytech.steats.model.CampusUser;
 import fr.unice.polytech.steats.model.Order;
-import fr.unice.polytech.steats.service.OrderDao;
+import fr.unice.polytech.steats.repository.OrderDao;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;

@@ -3,6 +3,7 @@ package fr.unice.polytech.steats.model;
 public class Menu {
     private String menuID;
     private String menuName;
+    private double price;
 
     public Menu(String menuID, String menuName) {
         this.menuID = menuID;
@@ -20,5 +21,9 @@ public class Menu {
 
     public String getMenuName() {
         return menuName;
+    }
+
+    public double getPrice() {
+        return price;
     }
 }
