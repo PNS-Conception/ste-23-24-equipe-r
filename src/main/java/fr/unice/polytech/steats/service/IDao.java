@@ -1,9 +1,9 @@
-package fr.unice.polytech.steats.model;
+package fr.unice.polytech.steats.service;
 
 import java.util.List;
 import java.util.Optional;
 
-public interface Dao<T> {
+public interface IDao<T> {
 
     Optional<T> get(String id);
 

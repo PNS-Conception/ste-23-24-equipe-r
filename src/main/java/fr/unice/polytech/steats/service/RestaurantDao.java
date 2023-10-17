@@ -1,18 +1,19 @@
-package fr.unice.polytech.steats.model;
+package fr.unice.polytech.steats.service;
+
+import fr.unice.polytech.steats.model.Restaurant;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
-public class RestaurantRegistry implements Dao<Restaurant>{
+public class RestaurantDao implements IDao<Restaurant> {
     List<Restaurant> restaurants;
 
-    public RestaurantRegistry(List<Restaurant> restaurants) {
+    public RestaurantDao(List<Restaurant> restaurants) {
         this.restaurants = restaurants;
     }
 
-    public RestaurantRegistry() {
+    public RestaurantDao() {
         restaurants = new ArrayList<>();
     }
 

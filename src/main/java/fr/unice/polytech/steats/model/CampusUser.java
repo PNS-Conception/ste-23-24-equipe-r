@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class CampusUser {
+public class CampusUser extends User {
 
     private String name;
 
@@ -16,6 +16,7 @@ public class CampusUser {
     private String password;
 
     public CampusUser(){
+        super();
         this.name = "CampusUser";
         this.timeSlot= "2023-09-26 10:00:00";
         this.campusUserId = 0;
@@ -23,6 +24,7 @@ public class CampusUser {
     }
 
     public CampusUser(String name, int id, String password){
+        super();
         this.name = name;
         this.campusUserId = id;
         this.password = password;

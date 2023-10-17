@@ -3,7 +3,7 @@ package fr.unice.polytech.steats.cucumber;
 import fr.unice.polytech.steats.enumeration.OrderStatus;
 import fr.unice.polytech.steats.model.CampusUser;
 import fr.unice.polytech.steats.model.Order;
-import fr.unice.polytech.steats.model.OrderRegistry;
+import fr.unice.polytech.steats.service.OrderDao;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -12,7 +12,7 @@ public class CheckDeliveryStatus {
 
     Order order;
     CampusUser customer;
-    OrderRegistry orderRegistry = new OrderRegistry();
+    OrderDao orderRegistry = new OrderDao();
     OrderStatus orderStatus;
 
     @Given("a {string} have an order with an order Id {string}")
@@ -23,7 +23,7 @@ public class CheckDeliveryStatus {
     }
 
     @When("{string} checks the delivery status of the order")
-    public void he_user_checks_the_delivery_status_of_the(String string) {
+    public void he_user_checks_the_delivery_status_of_the() {
         orderStatus = orderRegistry.getOrderStatus(order.getOrderID(), customer);
     }
 

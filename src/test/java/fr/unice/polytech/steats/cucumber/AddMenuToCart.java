@@ -3,7 +3,7 @@ package fr.unice.polytech.steats.cucumber;
 import fr.unice.polytech.steats.model.CampusUser;
 import fr.unice.polytech.steats.model.Menu;
 import fr.unice.polytech.steats.model.Restaurant;
-import fr.unice.polytech.steats.model.RestaurantRegistry;
+import fr.unice.polytech.steats.service.RestaurantDao;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -13,13 +13,13 @@ import java.util.Arrays;
 public class AddMenuToCart {
     CampusUser user;
     Restaurant restaurant;
-    RestaurantRegistry restaurantRegistry;
+    RestaurantDao restaurantRegistry;
     @Given("{string} is a campus user")
     public void is_a_campus_user(String userName) {
         user = new CampusUser(userName);
         restaurant = new Restaurant("restau");
         restaurant.addMenu(new Menu("Pizza"));
-        restaurantRegistry = new RestaurantRegistry(Arrays.asList(restaurant));
+        restaurantRegistry = new RestaurantDao(Arrays.asList(restaurant));
     }
 
     @When("he selects a menu {string} from a restaurant {string}")

@@ -1,20 +1,22 @@
-package fr.unice.polytech.steats.model;
+package fr.unice.polytech.steats.service;
 
 import fr.unice.polytech.steats.enumeration.OrderStatus;
+import fr.unice.polytech.steats.model.CampusUser;
+import fr.unice.polytech.steats.model.Order;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class OrderRegistry implements Dao<Order>{
+public class OrderDao implements IDao<Order> {
 
     List<Order> orders;
 
-    public OrderRegistry(List<Order> orders) {
+    public OrderDao(List<Order> orders) {
         this.orders = orders;
     }
 
-    public OrderRegistry() {
+    public OrderDao() {
         orders = new ArrayList<>();
     }
 
