@@ -4,14 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CampusUser extends User {
-
-
     private List<Menu> cart = new ArrayList<>();
-
-
-
     public CampusUser(){
-        super();
+        super("CampusUser");
     }
 
     public CampusUser(String name){
@@ -21,7 +16,6 @@ public class CampusUser extends User {
     public CampusUser(String userID, String name) {
         super(userID, name);
     }
-
 
     public void addMenuToCart(Menu menufromName) {
         cart.add(menufromName);
