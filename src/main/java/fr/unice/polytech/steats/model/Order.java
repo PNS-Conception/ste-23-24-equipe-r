@@ -3,6 +3,7 @@ package fr.unice.polytech.steats.model;
 
 import fr.unice.polytech.steats.enumeration.OrderStatus;
 
+import java.sql.Time;
 import java.util.UUID;
 
 public class Order {
@@ -13,6 +14,8 @@ public class Order {
 
     private int totalMenus;
     private CampusUser customer;
+    private DeliveryLocation deliveryLocation;
+    private TimeSlot timeSlot;
 
     public Order(){
         this.orderID = UUID.randomUUID();
@@ -62,7 +65,15 @@ public class Order {
         return totalMenus;
     }
 
-    public Object getCustomer() {
+    public CampusUser getCustomer() {
         return customer;
+    }
+
+    public void setDeliveryLocation(DeliveryLocation deliveryLocation) {
+        this.deliveryLocation = deliveryLocation;
+    }
+
+    public void setTimeSlot(TimeSlot timeSlot) {
+        this.timeSlot = timeSlot;
     }
 }

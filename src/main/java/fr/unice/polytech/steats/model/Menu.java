@@ -13,6 +13,10 @@ public class Menu {
     public Menu(String menuName) {
         this.menuName = menuName;
     }
+    public Menu(String menuID, String menuName, double price) {
+        this.menuName = menuName;
+        this.price = price;
+    }
 
     // Getters and Setters
     public String getMenuID() {
