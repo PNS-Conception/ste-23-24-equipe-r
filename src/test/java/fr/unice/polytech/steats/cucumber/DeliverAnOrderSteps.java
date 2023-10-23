@@ -22,7 +22,7 @@ public class DeliverAnOrderSteps {
 
 
     // Scenario: No Order Ready for delivery
-    @Given("Order has the status {string}")
+    @Given("Order had the status {string}")
     public void has_the_status(String string2) {
         order = new Order("1", 10.0);
         for (OrderStatus orderStatus : OrderStatus.values()) {
@@ -44,7 +44,7 @@ public class DeliverAnOrderSteps {
 
 
     // Scenario: Order Ready for delivery
-    @Given("Order has a status {string}")
+    @Given("Order had a status {string}")
     public void has_a_status(String string2) {
         for (OrderStatus orderStatus : OrderStatus.values()) {
             if (orderStatus.toString().equals(string2)) {
