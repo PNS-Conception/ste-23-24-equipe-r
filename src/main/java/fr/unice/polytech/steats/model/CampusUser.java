@@ -22,7 +22,7 @@ public class CampusUser extends User {
     }
 
     public Cart getCart() {
-        return cart;
+        return this.cart;
     }
 
     public void addMenuToCart(Menu menu) {
