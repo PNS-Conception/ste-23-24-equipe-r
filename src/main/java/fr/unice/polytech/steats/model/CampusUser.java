@@ -8,6 +8,7 @@ import java.util.List;
 public class CampusUser extends User {
     private List<Menu> cart = new ArrayList<>();
 
+
     public CampusUser(){
         super("CampusUser");
     }
@@ -27,4 +28,6 @@ public class CampusUser extends User {
     public List<Menu> getCart() {
         return cart;
     }
+
+
 }
