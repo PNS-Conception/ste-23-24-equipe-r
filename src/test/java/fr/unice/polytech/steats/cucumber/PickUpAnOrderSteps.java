@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
 
-public class DeliverAnOrderSteps {
+public class PickUpAnOrderSteps {
 
     OrderDao orderDao = new OrderDao();
 
@@ -55,11 +55,11 @@ public class DeliverAnOrderSteps {
     }
 
 
-    @Then("the list should contains at least {string} order")
-    public void the_should_contains_at_least_order(String string) {
+    @Then("the list should contains the order")
+    public void the_should_contains_at_least_order() {
         List<Order> orders = orderDao.getAll();
         orders.add(order);
-        assertTrue(orders.size()>=Integer.parseInt(string));
+        assertTrue(orders.contains(order));
     }
 
 }
