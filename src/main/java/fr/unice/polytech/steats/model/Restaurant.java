@@ -74,8 +74,4 @@ public class Restaurant {
     public void setOrderList(List<Order> orderList) {
         this.orderList = orderList;
     }
-
-    public boolean checkRestaurant(){
-      return true;
-    }
 }
