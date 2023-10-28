@@ -1,9 +1,9 @@
 package fr.unice.polytech.steats.cucumber;
 
-import fr.unice.polytech.steats.enumeration.OrderStatus;
-import fr.unice.polytech.steats.model.CampusUser;
-import fr.unice.polytech.steats.model.Order;
-import fr.unice.polytech.steats.repository.OrderDao;
+import fr.unice.polytech.steats.order.OrderStatus;
+import fr.unice.polytech.steats.user.CampusUser;
+import fr.unice.polytech.steats.order.Order;
+import fr.unice.polytech.steats.order.OrderDao;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;

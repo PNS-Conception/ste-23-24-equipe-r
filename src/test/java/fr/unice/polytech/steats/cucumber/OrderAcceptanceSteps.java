@@ -1,14 +1,12 @@
 package fr.unice.polytech.steats.cucumber;
 
-import fr.unice.polytech.steats.enumeration.OrderStatus;
-import fr.unice.polytech.steats.model.Menu;
-import fr.unice.polytech.steats.model.Order;
-import fr.unice.polytech.steats.model.Restaurant;
-import fr.unice.polytech.steats.model.RestaurantStaff;
+import fr.unice.polytech.steats.order.OrderStatus;
+import fr.unice.polytech.steats.order.Order;
+import fr.unice.polytech.steats.restaurant.Restaurant;
+import fr.unice.polytech.steats.user.RestaurantStaff;
 import io.cucumber.java.en.*;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 import static org.junit.Assert.assertThrows;

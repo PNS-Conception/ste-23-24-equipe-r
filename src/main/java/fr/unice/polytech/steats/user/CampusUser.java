@@ -1,7 +1,9 @@
-package fr.unice.polytech.steats.model;
+package fr.unice.polytech.steats.user;
+
+import fr.unice.polytech.steats.order.Cart;
+import fr.unice.polytech.steats.restaurant.Menu;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class CampusUser extends User {
     private Cart cart;

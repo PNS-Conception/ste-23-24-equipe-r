@@ -1,4 +1,4 @@
-package fr.unice.polytech.steats.model;
+package fr.unice.polytech.steats.restaurant;
 
 public class Menu {
     private String menuID;

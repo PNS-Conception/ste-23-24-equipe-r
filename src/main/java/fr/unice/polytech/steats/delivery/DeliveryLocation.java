@@ -1,4 +1,4 @@
-package fr.unice.polytech.steats.model;
+package fr.unice.polytech.steats.delivery;
 
 public class DeliveryLocation {
     private String locationName;

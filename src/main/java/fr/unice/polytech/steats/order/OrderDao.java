@@ -1,8 +1,7 @@
-package fr.unice.polytech.steats.repository;
+package fr.unice.polytech.steats.order;
 
-import fr.unice.polytech.steats.enumeration.OrderStatus;
-import fr.unice.polytech.steats.model.CampusUser;
-import fr.unice.polytech.steats.model.Order;
+import fr.unice.polytech.steats.user.CampusUser;
+import fr.unice.polytech.steats.repository.Dao;
 
 import java.util.ArrayList;
 import java.util.List;

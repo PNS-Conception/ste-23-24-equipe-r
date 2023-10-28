@@ -1,6 +1,8 @@
-package fr.unice.polytech.steats.model;
+package fr.unice.polytech.steats.user;
 
-public class RestaurantStaff extends User{
+import fr.unice.polytech.steats.user.User;
+
+public class RestaurantStaff extends User {
 
     public RestaurantStaff(){
         super("RestaurantStaff");

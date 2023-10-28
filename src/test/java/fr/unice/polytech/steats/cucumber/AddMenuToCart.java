@@ -1,9 +1,9 @@
 package fr.unice.polytech.steats.cucumber;
 
-import fr.unice.polytech.steats.model.CampusUser;
-import fr.unice.polytech.steats.model.Menu;
-import fr.unice.polytech.steats.model.Restaurant;
-import fr.unice.polytech.steats.repository.RestaurantDao;
+import fr.unice.polytech.steats.user.CampusUser;
+import fr.unice.polytech.steats.restaurant.Menu;
+import fr.unice.polytech.steats.restaurant.Restaurant;
+import fr.unice.polytech.steats.restaurant.RestaurantDao;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;

@@ -1,4 +1,4 @@
-package fr.unice.polytech.steats.enumeration;
+package fr.unice.polytech.steats.order;
 
 public enum OrderStatus {
     CREATED,

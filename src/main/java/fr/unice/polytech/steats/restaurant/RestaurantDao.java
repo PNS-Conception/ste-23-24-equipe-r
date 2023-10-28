@@ -1,6 +1,6 @@
-package fr.unice.polytech.steats.repository;
+package fr.unice.polytech.steats.restaurant;
 
-import fr.unice.polytech.steats.model.Restaurant;
+import fr.unice.polytech.steats.repository.Dao;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,11 +16,9 @@ public class RestaurantDao implements Dao<Restaurant> {
     public RestaurantDao() {
         restaurants = new ArrayList<>();
     }
-
     public List<Restaurant> getAll() {
         return restaurants;
     }
-
     public void save(Restaurant restaurant) {
         restaurants.add(restaurant);
     }

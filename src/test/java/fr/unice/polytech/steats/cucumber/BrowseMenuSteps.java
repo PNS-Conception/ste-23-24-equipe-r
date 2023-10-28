@@ -1,7 +1,7 @@
 package fr.unice.polytech.steats.cucumber;
 
-import fr.unice.polytech.steats.model.Menu;
-import fr.unice.polytech.steats.model.Restaurant;
+import fr.unice.polytech.steats.restaurant.Menu;
+import fr.unice.polytech.steats.restaurant.Restaurant;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.When;
 import io.cucumber.java.en.Then;

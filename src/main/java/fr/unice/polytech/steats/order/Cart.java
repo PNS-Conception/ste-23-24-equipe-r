@@ -1,5 +1,7 @@
-package fr.unice.polytech.steats.model;
+package fr.unice.polytech.steats.order;
 
+
+import fr.unice.polytech.steats.restaurant.Menu;
 
 import java.util.List;
 

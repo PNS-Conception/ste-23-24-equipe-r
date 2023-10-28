@@ -1,6 +1,8 @@
-package fr.unice.polytech.steats.model;
+package fr.unice.polytech.steats.delivery;
 
-public class DeliveryPerson extends User{
+import fr.unice.polytech.steats.user.User;
+
+public class DeliveryPerson extends User {
 
     public DeliveryPerson() {
         super("DeliveryPerson");

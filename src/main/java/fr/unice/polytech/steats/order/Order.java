@@ -1,9 +1,10 @@
-package fr.unice.polytech.steats.model;
+package fr.unice.polytech.steats.order;
 
 
-import fr.unice.polytech.steats.enumeration.OrderStatus;
+import fr.unice.polytech.steats.user.CampusUser;
+import fr.unice.polytech.steats.delivery.DeliveryLocation;
+import fr.unice.polytech.steats.delivery.TimeSlot;
 
-import java.sql.Time;
 import java.util.UUID;
 
 public class Order {

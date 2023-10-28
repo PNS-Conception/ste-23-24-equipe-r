@@ -1,4 +1,4 @@
-package fr.unice.polytech.steats.model;
+package fr.unice.polytech.steats.user;
 
 public abstract class User {
     private String name;
