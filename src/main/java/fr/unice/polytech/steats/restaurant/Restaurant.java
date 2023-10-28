@@ -1,6 +1,6 @@
 package fr.unice.polytech.steats.restaurant;
 
-import fr.unice.polytech.steats.user.RestaurantStaff;
+import fr.unice.polytech.steats.users.RestaurantStaff;
 import fr.unice.polytech.steats.order.Order;
 
 import java.util.ArrayList;

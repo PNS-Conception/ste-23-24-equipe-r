@@ -1,7 +1,7 @@
 package fr.unice.polytech.steats.cucumber;
 
 import fr.unice.polytech.steats.order.OrderStatus;
-import fr.unice.polytech.steats.user.CampusUser;
+import fr.unice.polytech.steats.users.CampusUser;
 import fr.unice.polytech.steats.order.Order;
 import fr.unice.polytech.steats.order.OrderDao;
 import io.cucumber.java.en.Given;

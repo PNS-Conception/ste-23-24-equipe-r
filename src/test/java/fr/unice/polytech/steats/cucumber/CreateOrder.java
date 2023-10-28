@@ -6,7 +6,7 @@ import fr.unice.polytech.steats.order.OrderStatus;
 import fr.unice.polytech.steats.order.Cart;
 import fr.unice.polytech.steats.order.Order;
 import fr.unice.polytech.steats.restaurant.Menu;
-import fr.unice.polytech.steats.user.CampusUser;
+import fr.unice.polytech.steats.users.CampusUser;
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;

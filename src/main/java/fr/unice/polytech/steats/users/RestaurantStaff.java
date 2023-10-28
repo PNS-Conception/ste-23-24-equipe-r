@@ -1,6 +1,4 @@
-package fr.unice.polytech.steats.user;
-
-import fr.unice.polytech.steats.user.User;
+package fr.unice.polytech.steats.users;
 
 public class RestaurantStaff extends User {
 

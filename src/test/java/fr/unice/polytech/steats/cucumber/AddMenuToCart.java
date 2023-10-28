@@ -1,6 +1,6 @@
 package fr.unice.polytech.steats.cucumber;
 
-import fr.unice.polytech.steats.user.CampusUser;
+import fr.unice.polytech.steats.users.CampusUser;
 import fr.unice.polytech.steats.restaurant.Menu;
 import fr.unice.polytech.steats.restaurant.Restaurant;
 import fr.unice.polytech.steats.restaurant.RestaurantDao;

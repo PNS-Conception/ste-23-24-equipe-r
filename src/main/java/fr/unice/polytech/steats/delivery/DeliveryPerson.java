@@ -1,6 +1,6 @@
 package fr.unice.polytech.steats.delivery;
 
-import fr.unice.polytech.steats.user.User;
+import fr.unice.polytech.steats.users.User;
 
 public class DeliveryPerson extends User {
 

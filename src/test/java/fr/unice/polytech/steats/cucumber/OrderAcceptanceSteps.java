@@ -3,7 +3,7 @@ package fr.unice.polytech.steats.cucumber;
 import fr.unice.polytech.steats.order.OrderStatus;
 import fr.unice.polytech.steats.order.Order;
 import fr.unice.polytech.steats.restaurant.Restaurant;
-import fr.unice.polytech.steats.user.RestaurantStaff;
+import fr.unice.polytech.steats.users.RestaurantStaff;
 import io.cucumber.java.en.*;
 
 import java.util.ArrayList;
