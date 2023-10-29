@@ -1,26 +1,20 @@
 package fr.unice.polytech.steats.restaurant;
 
+import java.util.UUID;
+
 public class Menu {
-    private String menuID;
+    private UUID id;
     private String menuName;
     private double price;
 
-    public Menu(String menuID, String menuName) {
-        this.menuID = menuID;
-        this.menuName = menuName;
-    }
-
-    public Menu(String menuName) {
-        this.menuName = menuName;
-    }
-    public Menu(String menuID, String menuName, double price) {
+    public Menu(String menuName, double price) {
         this.menuName = menuName;
         this.price = price;
     }
 
     // Getters and Setters
-    public String getMenuID() {
-        return menuID;
+    public UUID getMenuID() {
+        return id;
     }
 
     public String getMenuName() {

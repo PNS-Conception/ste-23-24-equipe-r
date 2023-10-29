@@ -1,7 +1,8 @@
 package fr.unice.polytech.steats.order;
 
 
-import fr.unice.polytech.steats.user.CampusUser;
+import fr.unice.polytech.steats.restaurant.Restaurant;
+import fr.unice.polytech.steats.users.CampusUser;
 import fr.unice.polytech.steats.delivery.DeliveryLocation;
 import fr.unice.polytech.steats.delivery.TimeSlot;
 

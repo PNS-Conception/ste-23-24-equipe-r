@@ -6,7 +6,7 @@ import fr.unice.polytech.steats.order.OrderStatus;
 import fr.unice.polytech.steats.order.Cart;
 import fr.unice.polytech.steats.order.Order;
 import fr.unice.polytech.steats.restaurant.Menu;
-import fr.unice.polytech.steats.user.CampusUser;
+import fr.unice.polytech.steats.users.CampusUser;
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
@@ -35,11 +35,9 @@ public class CreateOrder {
         List<Map<String, String>> rows = table.asMaps(String.class, String.class);
 
         for (Map<String, String> columns : rows) {
-            String menuID = columns.get("menuID");
             String menuName = columns.get("menuName");
             double price = Double.parseDouble(columns.get("price"));
-
-            Menu menu = new Menu(menuID, menuName, price);
+            Menu menu = new Menu(menuName, price);
             campusUser.addMenuToCart(menu);
         }
     }

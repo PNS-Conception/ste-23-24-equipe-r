@@ -1,38 +1,25 @@
 package fr.unice.polytech.steats.restaurant;
 
-import fr.unice.polytech.steats.user.RestaurantStaff;
+import fr.unice.polytech.steats.users.RestaurantStaff;
 import fr.unice.polytech.steats.order.Order;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class Restaurant {
-    private String restaurantID;
+
+    private UUID id;
     private String restaurantName;
     private List<Menu> menus;
-    private String Id;
-    private List<RestaurantStaff> employees;
-    private List<Order> orderList;
-
-    public Restaurant(String restaurantID, String restaurantName) {
-        this.restaurantID = restaurantID;
-        this.restaurantName = restaurantName;
-        this.orderList = new ArrayList<>();  // Initialize the order list
-        this.employees = new ArrayList<>();  // Initialize the employees list
-        this.menus = new ArrayList<>();  // Initialize the menus list
-    }
 
     public Restaurant(String restaurantName) {
+        this.id = UUID.randomUUID();
         this.restaurantName = restaurantName;
         this.menus = new ArrayList<>();  // Initialize the menus list
     }
-
-    public String getId() {
-        return Id;
-    }
-
-    public String getRestaurantID() {
-        return restaurantID;
+    public UUID getId() {
+        return id;
     }
 
     public String getRestaurantName() {
@@ -54,27 +41,5 @@ public class Restaurant {
 
     public void addMenu(Menu menu) {
         menus.add(menu);
-    }
-
-    public List<RestaurantStaff> getEmployees() {
-        return employees;
-    }
-
-    public void addEmployee(RestaurantStaff employee) {
-        employees.add(employee);
-    }
-
-    public List<Order> getOrderList() {
-        if (orderList.isEmpty()) {
-            throw new IllegalStateException("No order found for acceptance");
-        }
-        return orderList;
-    }
-    public void addOrder(Order order) {
-        orderList.add(order);
-    }
-
-    public void setOrderList(List<Order> orderList) {
-        this.orderList = orderList;
     }
 }

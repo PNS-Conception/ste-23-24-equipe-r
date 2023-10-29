@@ -1,4 +1,4 @@
-package fr.unice.polytech.steats.user;
+package fr.unice.polytech.steats.users;
 
 import fr.unice.polytech.steats.order.Cart;
 import fr.unice.polytech.steats.restaurant.Menu;
@@ -31,7 +31,5 @@ public class CampusUser extends User {
         cart.addToCart(menu);
     }
 
-    public void removeFromCart(Menu menu) {
-        cart.removeFromCart(menu);
-    }
+    public void removeFromCart(Menu menu) {cart.removeFromCart(menu);}
 }

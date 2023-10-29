@@ -3,9 +3,9 @@ Feature: Order confirmation
   Background:
     Given I am an authenticated CampusUser
     And I have the following items in my cart
-      | menuID | menuName | price |
-      | 1      | Pizza    | 10.0  |
-      | 2      | Burger   | 8.0   |
+      | menuName | price |
+      | Pizza    | 10.0  |
+      | Burger   | 8.0   |
 
   Scenario: Successfully confirming an order
     When I choose the available delivery location "CampusCenter"
