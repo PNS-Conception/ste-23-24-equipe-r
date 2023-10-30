@@ -1,8 +1,8 @@
 Feature: Order confirmation
 
   Background:
-    Given I am an authenticated CampusUser
-    And I have the following items in my cart
+    Given "Marcel" is an authenticated CampusUser
+    And he has the following items in my cart
       | menuName | price |
       | Pizza    | 10.0  |
       | Burger   | 8.0   |

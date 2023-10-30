@@ -1,6 +1,6 @@
 package fr.unice.polytech.steats.cucumber;
 import fr.unice.polytech.steats.order.OrderStatus;
-import fr.unice.polytech.steats.delivery.DeliveryPerson;
+import fr.unice.polytech.steats.users.DeliveryPerson;
 import fr.unice.polytech.steats.order.Order;
 import fr.unice.polytech.steats.order.OrderRepository;
 import io.cucumber.java.en.*;

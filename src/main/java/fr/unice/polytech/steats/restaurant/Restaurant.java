@@ -1,6 +1,4 @@
 package fr.unice.polytech.steats.restaurant;
-
-import fr.unice.polytech.steats.users.RestaurantStaff;
 import fr.unice.polytech.steats.order.Order;
 
 import java.util.ArrayList;
@@ -13,6 +11,7 @@ public class Restaurant {
     private String restaurantName;
     private List<Menu> menus = new ArrayList<>();
     private List<Order> pendingOrders = new ArrayList<>();
+    private int slotCapacity;
 
     public Restaurant(String restaurantName) {
         this.id = UUID.randomUUID();
@@ -47,4 +46,11 @@ public class Restaurant {
         menus.add(menu);
     }
     public void addOrder(Order order){pendingOrders.add(order);}
+    public int getSlotCapacity() {
+        return this.slotCapacity;
+    }
+
+    public void setSlotCapacity(int slotCapacity) {
+        this.slotCapacity = slotCapacity;
+    }
 }

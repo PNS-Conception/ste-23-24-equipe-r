@@ -1,7 +1,7 @@
 package fr.unice.polytech.steats.cucumber;
 
 import fr.unice.polytech.steats.delivery.DeliveryLocation;
-import fr.unice.polytech.steats.delivery.TimeSlot;
+import fr.unice.polytech.steats.restaurant.TimeSlot;
 import fr.unice.polytech.steats.order.OrderStatus;
 import fr.unice.polytech.steats.order.Cart;
 import fr.unice.polytech.steats.order.Order;
@@ -24,16 +24,15 @@ public class CreateOrder {
     Order order;
     Cart cart;
 
-    @Given("I am an authenticated CampusUser")
-    public void iAmAnAuthenticatedCampusUser() {
-        campusUser = new CampusUser("John");
+    @Given("{string} is an authenticated CampusUser")
+    public void iAmAnAuthenticatedCampusUser(String username) {
+        campusUser = new CampusUser(username);
         cart = campusUser.getCart();
     }
 
-    @And("I have the following items in my cart")
+    @And("he has the following items in my cart")
     public void iHaveTheFollowingItemsInMyCart(DataTable table) {
         List<Map<String, String>> rows = table.asMaps(String.class, String.class);
-
         for (Map<String, String> columns : rows) {
             String menuName = columns.get("menuName");
             double price = Double.parseDouble(columns.get("price"));
@@ -42,11 +41,10 @@ public class CreateOrder {
         }
     }
 
-    @When("I choose the available delivery location {string}")
+    @When("he chooses the available delivery location {string}")
     public void iChooseTheDeliveryLocation(String locationName) {
         order = new Order(campusUser);
-        DeliveryLocation deliveryLocation = new DeliveryLocation(locationName);
-        order.setDeliveryLocation(deliveryLocation);
+        order.setDeliveryLocation(DeliveryLocation.LIBRARY);
     }
 
     @And("I choose the available delivery time {string}")

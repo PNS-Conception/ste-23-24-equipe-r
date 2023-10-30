@@ -2,8 +2,6 @@ package fr.unice.polytech.steats.order;
 
 
 import fr.unice.polytech.steats.restaurant.Menu;
-import fr.unice.polytech.steats.restaurant.Restaurant;
-
 import java.util.List;
 
 public class Cart {
