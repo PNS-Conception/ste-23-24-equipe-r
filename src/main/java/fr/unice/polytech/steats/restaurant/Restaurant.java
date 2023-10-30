@@ -1,21 +1,31 @@
 package fr.unice.polytech.steats.restaurant;
 import fr.unice.polytech.steats.order.Order;
+import net.bytebuddy.asm.Advice;
 
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 public class Restaurant {
-
     private UUID id;
     private String restaurantName;
     private List<Menu> menus = new ArrayList<>();
     private List<Order> pendingOrders = new ArrayList<>();
-    private int slotCapacity;
+    private Schedule schedule;
 
-    public Restaurant(String restaurantName) {
+    public Restaurant(String restaurantName, LocalTime openingTime, LocalTime closingTime,int slotCapacity) {
         this.id = UUID.randomUUID();
         this.restaurantName = restaurantName;
+        this.schedule = new Schedule(openingTime, closingTime, slotCapacity);
+    }
+    public Restaurant(String restaurantName){
+        this.id = UUID.randomUUID();
+        this.restaurantName = restaurantName;
+        LocalTime openingTime = LocalTime.of(9, 0);  // 9:00 AM
+        LocalTime closingTime = LocalTime.of(20, 0);  // 5:00 PM
+        int capacity = 10;
+        this.schedule = new Schedule(openingTime, closingTime, capacity);
     }
     public UUID getId() {
         return id;
@@ -46,11 +56,8 @@ public class Restaurant {
         menus.add(menu);
     }
     public void addOrder(Order order){pendingOrders.add(order);}
-    public int getSlotCapacity() {
-        return this.slotCapacity;
-    }
 
-    public void setSlotCapacity(int slotCapacity) {
-        this.slotCapacity = slotCapacity;
+    public Schedule getSchedule() {
+        return this.schedule;
     }
 }

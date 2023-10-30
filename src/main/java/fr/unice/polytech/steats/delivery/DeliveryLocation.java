@@ -1,5 +1,8 @@
 package fr.unice.polytech.steats.delivery;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class DeliveryLocation {
 
     public static final DeliveryLocation LIBRARY = new DeliveryLocation("Library", 43.6187102, 7.075759);
@@ -16,5 +19,20 @@ public class DeliveryLocation {
         this.locationName = locationName;
         this.latitude = latitude;
         this.longitude = longitude;
+    }
+    private static final Map<String, DeliveryLocation> LOCATIONS_MAP = createLocationsMap();
+
+    private static Map<String, DeliveryLocation> createLocationsMap() {
+        Map<String, DeliveryLocation> map = new HashMap<>();
+        map.put("Library", LIBRARY);
+        map.put("Student Center", STUDENT_CENTER);
+        map.put("Engineering Building", ENGINEERING_BUILDING);
+        map.put("Sports Complex", SPORTS_COMPLEX);
+        map.put("Residence Hall", RESIDENCE_HALL);
+        return map;
+    }
+
+    public static DeliveryLocation getByName(String name) {
+        return LOCATIONS_MAP.get(name);
     }
 }
