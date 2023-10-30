@@ -1,38 +1,34 @@
 package fr.unice.polytech.steats.restaurant;
-
-import fr.unice.polytech.steats.users.RestaurantStaff;
 import fr.unice.polytech.steats.order.Order;
+import net.bytebuddy.asm.Advice;
 
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class Restaurant {
-    private String restaurantID;
+    private UUID id;
     private String restaurantName;
-    private List<Menu> menus;
-    private String Id;
-    private List<RestaurantStaff> employees;
-    private List<Order> orderList;
+    private List<Menu> menus = new ArrayList<>();
+    private List<Order> pendingOrders = new ArrayList<>();
+    private Schedule schedule;
 
-    public Restaurant(String restaurantID, String restaurantName) {
-        this.restaurantID = restaurantID;
+    public Restaurant(String restaurantName, LocalTime openingTime, LocalTime closingTime,int slotCapacity) {
+        this.id = UUID.randomUUID();
         this.restaurantName = restaurantName;
-        this.orderList = new ArrayList<>();  // Initialize the order list
-        this.employees = new ArrayList<>();  // Initialize the employees list
-        this.menus = new ArrayList<>();  // Initialize the menus list
+        this.schedule = new Schedule(openingTime, closingTime, slotCapacity);
     }
-
-    public Restaurant(String restaurantName) {
+    public Restaurant(String restaurantName){
+        this.id = UUID.randomUUID();
         this.restaurantName = restaurantName;
-        this.menus = new ArrayList<>();  // Initialize the menus list
+        LocalTime openingTime = LocalTime.of(9, 0);  // 9:00 AM
+        LocalTime closingTime = LocalTime.of(20, 0);  // 5:00 PM
+        int capacity = 10;
+        this.schedule = new Schedule(openingTime, closingTime, capacity);
     }
-
-    public String getId() {
-        return Id;
-    }
-
-    public String getRestaurantID() {
-        return restaurantID;
+    public UUID getId() {
+        return id;
     }
 
     public String getRestaurantName() {
@@ -42,6 +38,10 @@ public class Restaurant {
     public List<Menu> getMenus() {
         return menus;
     }
+    public List<Order> getPendingOrders() {
+        return pendingOrders;
+    }
+
 
     public Menu getMenufromName(String menuName) {
         for (Menu menu : menus) {
@@ -55,26 +55,9 @@ public class Restaurant {
     public void addMenu(Menu menu) {
         menus.add(menu);
     }
+    public void addOrder(Order order){pendingOrders.add(order);}
 
-    public List<RestaurantStaff> getEmployees() {
-        return employees;
-    }
-
-    public void addEmployee(RestaurantStaff employee) {
-        employees.add(employee);
-    }
-
-    public List<Order> getOrderList() {
-        if (orderList.isEmpty()) {
-            throw new IllegalStateException("No order found for acceptance");
-        }
-        return orderList;
-    }
-    public void addOrder(Order order) {
-        orderList.add(order);
-    }
-
-    public void setOrderList(List<Order> orderList) {
-        this.orderList = orderList;
+    public Schedule getSchedule() {
+        return this.schedule;
     }
 }

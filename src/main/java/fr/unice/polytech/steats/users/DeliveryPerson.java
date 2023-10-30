@@ -1,4 +1,4 @@
-package fr.unice.polytech.steats.delivery;
+package fr.unice.polytech.steats.users;
 
 import fr.unice.polytech.steats.users.User;
 

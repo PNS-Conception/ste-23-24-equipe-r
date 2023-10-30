@@ -31,7 +31,5 @@ public class CampusUser extends User {
         cart.addToCart(menu);
     }
 
-    public void removeFromCart(Menu menu) {
-        cart.removeFromCart(menu);
-    }
+    public void removeFromCart(Menu menu) {cart.removeFromCart(menu);}
 }

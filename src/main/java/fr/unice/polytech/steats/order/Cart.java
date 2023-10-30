@@ -2,11 +2,10 @@ package fr.unice.polytech.steats.order;
 
 
 import fr.unice.polytech.steats.restaurant.Menu;
-
 import java.util.List;
 
 public class Cart {
-    private final List<Menu> menusList;
+    private List<Menu> menusList;
     private double cartPrice;
     public Cart(List<Menu> menusMap) {
         this.menusList = menusMap;
