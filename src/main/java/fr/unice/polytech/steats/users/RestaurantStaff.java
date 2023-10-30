@@ -9,8 +9,5 @@ public class RestaurantStaff extends User {
     public RestaurantStaff(String name){
         super(name);
     }
-    public RestaurantStaff(String userID, String name) {
-        super(userID,name);
-    }
 
 }

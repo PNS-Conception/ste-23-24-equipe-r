@@ -18,10 +18,6 @@ public class CampusUser extends User {
         this.cart = new Cart(new ArrayList<>());
     }
 
-    public CampusUser(String userID, String name) {
-        super(userID, name);
-        this.cart = new Cart(new ArrayList<>());
-    }
 
     public Cart getCart() {
         return this.cart;

@@ -1,25 +1,22 @@
 package fr.unice.polytech.steats.users;
 
+import java.util.UUID;
+
 public abstract class User {
     private String name;
-    private String userID;
+    private UUID userID;
 
     public User() {
-        this.userID = "0";
+        this.userID = UUID.randomUUID();
         this.name = "User";
     }
 
     public User(String name){
         this.name = name;
-        this.userID = "0";
+        this.userID = UUID.randomUUID();
     }
 
-    public User(String userID, String name) {
-        this.userID = userID;
-        this.name=name;
-    }
-
-    public String getUserID() {
+    public UUID getUserID() {
         return userID;
     }
 
