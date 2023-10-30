@@ -5,6 +5,9 @@ import fr.unice.polytech.steats.order.Order;
 import fr.unice.polytech.steats.order.OrderRepository;
 import io.cucumber.java.en.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.Assert.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -13,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class PickUpAnOrderSteps {
 
-    OrderRepository orderDao = new OrderRepository();
+    OrderRepository orderRepository = new OrderRepository();
 
     Order order = new Order(10.0);
     DeliveryPerson deliveryPerson;
@@ -37,7 +40,7 @@ public class PickUpAnOrderSteps {
     }
     @Then("the list should contains {string} order")
     public void the_should_contains_order(String integer) {
-        assertEquals(orderDao.findAll().size(), Integer.parseInt(integer));
+        assertEquals(orderRepository.count(), Integer.parseInt(integer));
     }
 
 
@@ -55,7 +58,9 @@ public class PickUpAnOrderSteps {
 
     @Then("the list should contains the order")
     public void the_should_contains_at_least_order() {
-        Iterable<T> orders = orderDao.findAll();
+        Iterable<Order> iterable = (Iterable<Order>) orderRepository.findAll();
+        List<Order> orders = new ArrayList<>();
+        iterable.forEach(orders::add);
         orders.add(order);
         assertTrue(orders.contains(order));
     }

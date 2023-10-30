@@ -10,5 +10,5 @@ Feature: Adding a menu to the cart
       | BBQ Chicken Pizza | 13.00 |
 
   Scenario: Add an existing menu to the cart
-    When "Marcel" selects a menu "Margherita Pizza" from "restau"
+    When he selects a menu "Margherita Pizza" from the restaurant
     Then the menu is added to the cart

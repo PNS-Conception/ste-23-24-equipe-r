@@ -11,12 +11,12 @@ public class Restaurant {
 
     private UUID id;
     private String restaurantName;
-    private List<Menu> menus;
+    private List<Menu> menus = new ArrayList<>();
+    private List<Order> pendingOrders = new ArrayList<>();
 
     public Restaurant(String restaurantName) {
         this.id = UUID.randomUUID();
         this.restaurantName = restaurantName;
-        this.menus = new ArrayList<>();  // Initialize the menus list
     }
     public UUID getId() {
         return id;
@@ -29,6 +29,10 @@ public class Restaurant {
     public List<Menu> getMenus() {
         return menus;
     }
+    public List<Order> getPendingOrders() {
+        return pendingOrders;
+    }
+
 
     public Menu getMenufromName(String menuName) {
         for (Menu menu : menus) {
@@ -42,4 +46,5 @@ public class Restaurant {
     public void addMenu(Menu menu) {
         menus.add(menu);
     }
+    public void addOrder(Order order){pendingOrders.add(order);}
 }
