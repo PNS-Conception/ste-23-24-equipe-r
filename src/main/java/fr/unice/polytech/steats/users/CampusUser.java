@@ -6,6 +6,8 @@ import fr.unice.polytech.steats.rating.RatingSystem;
 import fr.unice.polytech.steats.restaurant.Menu;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 public class CampusUser extends User {
@@ -35,4 +37,7 @@ public class CampusUser extends User {
     public void rateRestaurantByUser(RatingSystem ratingSystem, UUID restaurantID, RatingLevel ratingLevel) {
         ratingSystem.rateRestaurant(restaurantID, ratingLevel);
     }
+     public Map<UUID,RatingLevel> getRestaurantRatings(RatingSystem ratingSystem){
+        return ratingSystem.getRestaurantRatings();
+     }
 }
