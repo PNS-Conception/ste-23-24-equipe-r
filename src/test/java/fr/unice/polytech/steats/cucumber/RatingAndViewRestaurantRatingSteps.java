@@ -14,8 +14,8 @@ public class RatingAndViewRestaurantRatingSteps {
     CampusUser campusUser2 = new CampusUser();
     RatingSystem ratingSystem = new RatingSystem();
 
-
-    @Given("Restaurant named A is rated at {int} stars")
+    /////////////////////////////////////////// Scenario 1 ///////////////////////////////////////////
+    @Given("Restaurant A is rated at {int} stars")
     public void a_restaurant_is_rated_at_stars(int rating) {
         RatingLevel ratingLevel = RatingLevel.values()[rating - 1];
         ratingSystem.getRestaurantRatings().put(restaurant.getId(), ratingLevel);
@@ -36,6 +36,7 @@ public class RatingAndViewRestaurantRatingSteps {
         System.out.println("Actual"+ restaurant.getRestaurantName()+ " rating = " + actualRating); // 3 stars (average)
     }
 
+    /////////////////////////////////////////// Scenario 2 ///////////////////////////////////////////
     @When("the CampusUser2 checks the rating of the restaurant")
     public void the_campus_user_checks_the_rating_of_the_restaurant() {
         assertFalse(campusUser2.getRestaurantRatings(ratingSystem).isEmpty());

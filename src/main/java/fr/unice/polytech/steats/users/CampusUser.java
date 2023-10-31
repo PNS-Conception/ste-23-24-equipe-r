@@ -37,7 +37,15 @@ public class CampusUser extends User {
     public void rateRestaurantByUser(RatingSystem ratingSystem, UUID restaurantID, RatingLevel ratingLevel) {
         ratingSystem.rateRestaurant(restaurantID, ratingLevel);
     }
+
+    public void rateDeliveryPersonByUser(RatingSystem ratingSystem, UUID deliveryID, RatingLevel ratingLevel) {
+        ratingSystem.rateDeliveryPerson(deliveryID, ratingLevel);
+    }
      public Map<UUID,RatingLevel> getRestaurantRatings(RatingSystem ratingSystem){
         return ratingSystem.getRestaurantRatings();
+     }
+
+     public Map<UUID,RatingLevel> getDeliveryPersonRatings(RatingSystem ratingSystem){
+        return ratingSystem.getDeliveryPersonRatings();
      }
 }
