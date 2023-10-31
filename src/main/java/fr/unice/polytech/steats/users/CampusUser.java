@@ -1,9 +1,12 @@
 package fr.unice.polytech.steats.users;
 
 import fr.unice.polytech.steats.order.Cart;
+import fr.unice.polytech.steats.rating.RatingLevel;
+import fr.unice.polytech.steats.rating.RatingSystem;
 import fr.unice.polytech.steats.restaurant.Menu;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
 public class CampusUser extends User {
     private Cart cart;
@@ -28,4 +31,8 @@ public class CampusUser extends User {
     }
 
     public void removeFromCart(Menu menu) {cart.removeFromCart(menu);}
+
+    public void rateRestaurantByUser(RatingSystem ratingSystem, UUID restaurantID, RatingLevel ratingLevel) {
+        ratingSystem.rateRestaurant(restaurantID, ratingLevel);
+    }
 }

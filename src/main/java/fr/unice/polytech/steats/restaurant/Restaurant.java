@@ -60,4 +60,5 @@ public class Restaurant {
     public Schedule getSchedule() {
         return this.schedule;
     }
+
 }
