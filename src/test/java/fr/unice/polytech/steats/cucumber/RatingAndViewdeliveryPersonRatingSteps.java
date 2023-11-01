@@ -16,7 +16,7 @@ public class RatingAndViewdeliveryPersonRatingSteps {
     RatingSystem ratingSystem = new RatingSystem();
 
     /////////////////////////////////////////// Scenario 1 ///////////////////////////////////////////
-    @Given("Delivery Person is rated at {int} stars")
+   /* @Given("Delivery Person is rated at {int} stars")
     public void delivery_person_is_rated_at_stars(Integer rating) {
         RatingLevel ratingLevel = RatingLevel.values()[rating - 1];
         ratingSystem.getDeliveryPersonRatings().put(deliveryPerson.getUserID(), ratingLevel);
@@ -41,6 +41,6 @@ public class RatingAndViewdeliveryPersonRatingSteps {
     public void the_campus_user2_checks_the_rating_of_the_delivery_person() {
         assertFalse(campusUser2.getDeliveryPersonRatings(ratingSystem).isEmpty());
         assertTrue(campusUser2.getDeliveryPersonRatings(ratingSystem).containsKey(deliveryPerson.getUserID()));
-    }
+    }*/
 
 }

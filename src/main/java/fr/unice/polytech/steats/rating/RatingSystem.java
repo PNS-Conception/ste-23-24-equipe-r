@@ -1,12 +1,10 @@
 package fr.unice.polytech.steats.rating;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 public class RatingSystem {
-    private Map<UUID, RatingLevel> restaurantRatings;
-    private Map<UUID, RatingLevel> deliveryPersonRatings;
+    private Map<UUID, List<Double>> restaurantRatings;
+    private Map<UUID, List<Double>> deliveryPersonRatings;
 
     public RatingSystem(){
         restaurantRatings= new HashMap<>();
@@ -14,42 +12,64 @@ public class RatingSystem {
     }
 
     ///// getters
-    public Map<UUID, RatingLevel> getRestaurantRatings() {
+    public Map<UUID, List<Double>> getRestaurantRatings() {
         return restaurantRatings;
     }
-    public Map<UUID, RatingLevel> getDeliveryPersonRatings() {
+    public Map<UUID, List<Double>> getDeliveryPersonRatings() {
         return deliveryPersonRatings;
     }
 
 
 
-    public RatingLevel averageRating(UUID id,RatingLevel ratingLevel){
+    public Double averageRating(UUID id) {
+        double somme = 0.0;
         if (restaurantRatings.containsKey(id)) {
-            int averageOrdinal = (restaurantRatings.get(id).ordinal() + ratingLevel.ordinal()) / 2;
-            return RatingLevel.values()[averageOrdinal];
-        } else {
-            int averageOrdinal = (deliveryPersonRatings.get(id).ordinal() + ratingLevel.ordinal()) / 2;
-            return RatingLevel.values()[averageOrdinal];
+            for (Double rating : restaurantRatings.get(id)) {
+                somme += rating;
+            }
+            double average = somme / restaurantRatings.get(id).size();
+
+            String formattedResult = String.format("%.1f", average);
+            formattedResult = formattedResult.replace(',', '.');
+            return Double.parseDouble(formattedResult);
         }
+        if(deliveryPersonRatings.containsKey(id)){
+            for (Double rating : deliveryPersonRatings.get(id)) {
+                somme += rating;
+            }
+            double average = somme / restaurantRatings.get(id).size();
+
+            String formattedResult = String.format("%.1f", average);
+            formattedResult = formattedResult.replace(',', '.');
+            return Double.parseDouble(formattedResult);
+        }
+        else {
+            return somme;
+        }
+
     }
 
 
-    public void rateRestaurant(UUID restaurantID, RatingLevel ratingLevel) {
+    public void rateRestaurant(UUID restaurantID, Double rate) {
         if (restaurantRatings.containsKey(restaurantID)) {
-            restaurantRatings.replace(restaurantID, averageRating(restaurantID, ratingLevel));
+            restaurantRatings.get(restaurantID).add(rate);
         }
         else {
-            restaurantRatings.put(restaurantID, ratingLevel);
+             List<Double> listOfRatingOfNewRestaurant = new ArrayList<>();
+             listOfRatingOfNewRestaurant.add(rate);
+             restaurantRatings.put(restaurantID, listOfRatingOfNewRestaurant);
         }
     }
 
 
-    public void rateDeliveryPerson(UUID deliveryId, RatingLevel ratingLevel) {
+    public void rateDeliveryPerson(UUID deliveryId, Double rate) {
         if (deliveryPersonRatings.containsKey(deliveryId)) {
-            deliveryPersonRatings.replace(deliveryId, averageRating(deliveryId, ratingLevel));
+            deliveryPersonRatings.get(deliveryId).add(rate);
         }
         else {
-            deliveryPersonRatings.put(deliveryId, ratingLevel);
+            List<Double> listOfRatingOfNewDeliveryPerson = new ArrayList<>();
+            listOfRatingOfNewDeliveryPerson.add(rate);
+            deliveryPersonRatings.put(deliveryId, listOfRatingOfNewDeliveryPerson);
         }
     }
 }

@@ -5,10 +5,7 @@ import fr.unice.polytech.steats.rating.RatingLevel;
 import fr.unice.polytech.steats.rating.RatingSystem;
 import fr.unice.polytech.steats.restaurant.Menu;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 public class CampusUser extends User {
     private Cart cart;
@@ -34,18 +31,24 @@ public class CampusUser extends User {
 
     public void removeFromCart(Menu menu) {cart.removeFromCart(menu);}
 
-    public void rateRestaurantByUser(RatingSystem ratingSystem, UUID restaurantID, RatingLevel ratingLevel) {
-        ratingSystem.rateRestaurant(restaurantID, ratingLevel);
+    public void rateRestaurantByUser(RatingSystem ratingSystem, UUID restaurantID, int rating) {
+        if(rating < 0 || rating > 5){
+            throw new IllegalArgumentException("Rating must be between 0 and 5");
+        }
+        ratingSystem.rateRestaurant(restaurantID, (double)rating);
     }
 
-    public void rateDeliveryPersonByUser(RatingSystem ratingSystem, UUID deliveryID, RatingLevel ratingLevel) {
-        ratingSystem.rateDeliveryPerson(deliveryID, ratingLevel);
+    public void rateDeliveryPersonByUser(RatingSystem ratingSystem, UUID deliveryID, int rating) {
+        if(rating< 0 || rating > 5){
+            throw new IllegalArgumentException("Rating must be between 0 and 5");
+        }
+        ratingSystem.rateDeliveryPerson(deliveryID,(double) rating);
     }
-     public Map<UUID,RatingLevel> getRestaurantRatings(RatingSystem ratingSystem){
+     public Map<UUID, List<Double>> getRestaurantRatings(RatingSystem ratingSystem){
         return ratingSystem.getRestaurantRatings();
      }
 
-     public Map<UUID,RatingLevel> getDeliveryPersonRatings(RatingSystem ratingSystem){
+     public Map<UUID,List<Double>> getDeliveryPersonRatings(RatingSystem ratingSystem){
         return ratingSystem.getDeliveryPersonRatings();
      }
 }
