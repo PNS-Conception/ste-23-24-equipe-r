@@ -50,4 +50,13 @@ public class RestaurantDao implements IDao<Restaurant> {
         }
         return null;
     }
+
+    public Restaurant findByName(String string) {
+        for (Restaurant restaurant : restaurants) {
+            if (restaurant.getRestaurantName().equals(string)) {
+                return restaurant;
+            }
+        }
+        return null;
+    }
 }
