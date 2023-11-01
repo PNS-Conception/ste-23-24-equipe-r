@@ -67,6 +67,10 @@ public class Order {
         return totalMenus;
     }
 
+    public void setTotalMenus(int totalMenus) {
+        this.totalMenus = totalMenus;
+    }
+
     public CampusUser getCustomer() {
         return customer;
     }
@@ -78,4 +82,5 @@ public class Order {
     public void setTimeSlot(TimeSlot timeSlot) {
         this.timeSlot = timeSlot;
     }
+
 }
