@@ -13,7 +13,6 @@ public class Order {
     private double price;
     private OrderStatus orderStatus;
     private UUID orderID;
-
     private int totalMenus;
     private CampusUser customer;
     private DeliveryLocation deliveryLocation;
