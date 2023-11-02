@@ -3,9 +3,7 @@ package fr.unice.polytech.steats.cucumber;
 import fr.unice.polytech.steats.rating.RatingSystem;
 import fr.unice.polytech.steats.users.CampusUser;
 import fr.unice.polytech.steats.users.DeliveryPerson;
-import io.cucumber.java.en.Given;
-import io.cucumber.java.en.Then;
-import io.cucumber.java.en.When;
+import io.cucumber.java.en.*;
 
 import java.util.ArrayList;
 import java.util.List;
