@@ -1,31 +1,32 @@
 package fr.unice.polytech.steats.order;
-
-
 import fr.unice.polytech.steats.restaurant.Menu;
-import java.util.List;
+import java.util.Map;
 
 public class Cart {
-    private List<Menu> menusList;
-    private double cartPrice;
-    public Cart(List<Menu> menusMap) {
-        this.menusList = menusMap;
+    private Map<Menu, Integer> menuMap;
+    public Cart(Map<Menu, Integer> menusMap) {
+        this.menuMap = menusMap;
     }
-    public double getCartPrice() {
-        return cartPrice;
+    public Map<Menu, Integer> getMenuMap() {
+        return menuMap;
     }
-    public List<Menu> getMenusList() {
-        return menusList;
-    }
-
-
-    public void addToCart(Menu menu) {
-        menusList.add(menu);
-        this.cartPrice+= menu.getPrice();
-    }
-
-    public void removeFromCart(Menu menu) {
-        if (this.menusList.remove(menu)) {
-            this.cartPrice -= menu.getPrice();
+    public int getSize(){
+        int totalQuantity = 0;
+        for (int quantity : menuMap.values()) {
+            totalQuantity += quantity;
         }
+        return totalQuantity;
+    }
+    public double getPrice(){
+        double total = 0;
+        for (Map.Entry<Menu, Integer> entry : menuMap.entrySet()) {
+            Menu menu = entry.getKey();
+            int quantity = entry.getValue();
+            total += menu.getPrice() * quantity;
+        }
+        return total;
+    }
+    public void emptyCart() {
+        menuMap.clear();
     }
 }

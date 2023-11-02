@@ -15,24 +15,18 @@ public class CampusUser extends User {
 
     public CampusUser() {
         super();
-        this.cart = new Cart(new ArrayList<>());
+        this.cart = new Cart(new HashMap<>());
     }
 
     public CampusUser(String name) {
         super(name);
-        this.cart = new Cart(new ArrayList<>());
+        this.cart = new Cart(new HashMap<>());
     }
 
 
     public Cart getCart() {
         return this.cart;
     }
-
-    public void addMenuToCart(Menu menu) {
-        cart.addToCart(menu);
-    }
-
-    public void removeFromCart(Menu menu) {cart.removeFromCart(menu);}
 
     public void rateRestaurantByUser(RatingSystem ratingSystem, UUID restaurantID, RatingLevel ratingLevel) {
         ratingSystem.rateRestaurant(restaurantID, ratingLevel);

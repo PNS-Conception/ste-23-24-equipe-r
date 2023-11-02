@@ -3,6 +3,7 @@ package fr.unice.polytech.steats.restaurant;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class Schedule {
     private static final int SLOT_DURATION_IN_MINUTES = 10;
@@ -27,12 +28,12 @@ public class Schedule {
         return timeSlots;
     }
 
-    public TimeSlot findTimeSlotByStartTime(LocalTime startTime) {
+    public Optional<TimeSlot> findTimeSlotByStartTime(LocalTime startTime) {
         for (TimeSlot timeSlot : timeSlots) {
             if (timeSlot.getStartTime().equals(startTime)) {
-                return timeSlot;
+                return Optional.of(timeSlot);
             }
         }
-        return null;
+        return Optional.empty();
     }
 }
