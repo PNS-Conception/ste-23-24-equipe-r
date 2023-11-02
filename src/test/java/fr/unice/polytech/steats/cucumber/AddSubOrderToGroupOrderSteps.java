@@ -25,7 +25,7 @@ public class AddSubOrderToGroupOrderSteps {
 
     GroupOrderRepository GORepo ;
 
-    Order Order ;
+    Order Order=  new Order(); ;
     List<Order> suborders ;
     @Given("I am a logged-in Campus User and a group Order")
     public void i_am_a_logged_in_campus_user() {
@@ -47,8 +47,6 @@ public class AddSubOrderToGroupOrderSteps {
 
     @When("I add my selections to the sub-order")
     public void i_add_my_selections_to_the_sub_order() {
-        Order = new Order();
-        Order.setTotalMenus(1);
 
     }
 

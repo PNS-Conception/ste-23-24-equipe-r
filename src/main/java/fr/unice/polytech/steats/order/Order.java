@@ -5,6 +5,7 @@ import fr.unice.polytech.steats.users.CampusUser;
 import fr.unice.polytech.steats.delivery.DeliveryLocation;
 import fr.unice.polytech.steats.restaurant.TimeSlot;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
@@ -17,8 +18,17 @@ public class Order {
     private DeliveryLocation deliveryLocation;
     private TimeSlot timeSlot;
 
+    public Order(){
+        this.orderID = UUID.randomUUID();
+        this.customer = new CampusUser();
+        this.menusOrdered = new HashMap<>();
+        this.deliveryLocation =DeliveryLocation.LIBRARY;
+        this.timeSlot = null;
+    }
+
     public Order(CampusUser customer, Map<Menu, Integer> menusOrdered,
                  DeliveryLocation deliveryLocation, TimeSlot timeslot){
+        this.orderID = UUID.randomUUID();
         this.customer = customer;
         this.menusOrdered = menusOrdered;
         this.deliveryLocation = deliveryLocation;

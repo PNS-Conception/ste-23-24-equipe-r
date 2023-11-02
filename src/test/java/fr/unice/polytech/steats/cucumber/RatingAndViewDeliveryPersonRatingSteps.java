@@ -26,26 +26,26 @@ public class RatingAndViewDeliveryPersonRatingSteps {
         for (String value : valueArray) {
             listOfRating.add(Double.parseDouble(value));
         }
-        ratingSystem.getDeliveryPersonRatings().put(deliveryPerson.getId(), listOfRating);
-        System.out.println(deliveryPerson.getName()+" rating = " + ratingSystem.getDeliveryPersonRatings().get(deliveryPerson.getId()));
+        ratingSystem.getDeliveryPersonRatings().put(deliveryPerson.getUserID(), listOfRating);
+        System.out.println(deliveryPerson.getName()+" rating = " + ratingSystem.getDeliveryPersonRatings().get(deliveryPerson.getUserID()));
     }
     @When("the CampusUser1 rates the delivery person with {int} out of 5")
     public void the_campus_user1_rates_the_delivery_person_with_out_of(int rating) {
         System.out.println("User's rating = " + rating);
-        campusUser1.rateDeliveryPersonByUser(ratingSystem, deliveryPerson.getId(), rating);
+        campusUser1.rateDeliveryPersonByUser(ratingSystem, deliveryPerson.getUserID(), rating);
     }
     @Then("the rating of this delivery person should be {double} out of 5")
     public void the_rating_of_this_delivery_person_should_be_out_of(double expectedRating) {
-        Double actualRating = ratingSystem.averageRating(deliveryPerson.getId());
+        Double actualRating = ratingSystem.averageRating(deliveryPerson.getUserID());
         assertEquals(actualRating, expectedRating);
-        System.out.println("List of rating of this delivery person = " + ratingSystem.getDeliveryPersonRatings().get(deliveryPerson.getId()));
+        System.out.println("List of rating of this delivery person = " + ratingSystem.getDeliveryPersonRatings().get(deliveryPerson.getUserID()));
         System.out.println("Actual "+ deliveryPerson.getName()+ " rating = " + actualRating);
     }
 
     @When("the CampusUser2 checks the rating of the delivery person")
     public void the_campus_user2_checks_the_rating_of_the_delivery_person() {
         assertFalse(campusUser2.getDeliveryPersonRatings(ratingSystem).isEmpty());
-        assertTrue(campusUser2.getDeliveryPersonRatings(ratingSystem).containsKey(deliveryPerson.getId()));
+        assertTrue(campusUser2.getDeliveryPersonRatings(ratingSystem).containsKey(deliveryPerson.getUserID()));
     }
 
 

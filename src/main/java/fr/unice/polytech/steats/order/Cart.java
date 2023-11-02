@@ -1,9 +1,16 @@
 package fr.unice.polytech.steats.order;
 import fr.unice.polytech.steats.restaurant.Menu;
+
+import java.util.HashMap;
 import java.util.Map;
 
 public class Cart {
     private Map<Menu, Integer> menuMap;
+
+    public Cart() {
+        Map<Menu, Integer> menuMap1 = new HashMap<>();
+        this.menuMap=menuMap1;
+    }
     public Cart(Map<Menu, Integer> menusMap) {
         this.menuMap = menusMap;
     }
