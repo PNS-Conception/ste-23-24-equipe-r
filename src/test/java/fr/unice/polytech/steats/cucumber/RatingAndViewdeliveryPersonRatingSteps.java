@@ -1,11 +1,11 @@
 package fr.unice.polytech.steats.cucumber;
 
-import fr.unice.polytech.steats.rating.RatingLevel;
 import fr.unice.polytech.steats.rating.RatingSystem;
-import fr.unice.polytech.steats.restaurant.Restaurant;
 import fr.unice.polytech.steats.users.CampusUser;
 import fr.unice.polytech.steats.users.DeliveryPerson;
-import io.cucumber.java.en.*;
+import io.cucumber.java.en.Given;
+import io.cucumber.java.en.Then;
+import io.cucumber.java.en.When;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +13,6 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class RatingAndViewDeliveryPersonRatingSteps {
-
     DeliveryPerson deliveryPerson = new DeliveryPerson("DP1");
     CampusUser campusUser1 = new CampusUser();
     CampusUser campusUser2 = new CampusUser();
@@ -47,7 +46,4 @@ public class RatingAndViewDeliveryPersonRatingSteps {
         assertFalse(campusUser2.getDeliveryPersonRatings(ratingSystem).isEmpty());
         assertTrue(campusUser2.getDeliveryPersonRatings(ratingSystem).containsKey(deliveryPerson.getId()));
     }
-
-
-
 }
