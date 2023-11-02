@@ -27,12 +27,12 @@ public class RatingAndViewRestaurantRatingSteps {
             listOfRating.add(Double.parseDouble(value));
         }
         ratingSystem.getRestaurantRatings().put(restaurant.getId(), listOfRating);
-        System.out.println(restaurant.getRestaurantName()+" rating = " + ratingSystem.getRestaurantRatings().get(restaurant.getId())+" /5"); // 2 out of 5
+        System.out.println(restaurant.getRestaurantName()+" rating = " + ratingSystem.getRestaurantRatings().get(restaurant.getId()));
     }
 
     @When("the CampusUser1 rates the restaurant {int} out of 5")
     public void the_campus_user_rates_the_restaurant_stars(int rating) {
-        System.out.println("User's rating = " + rating); // 4 out of 5
+        System.out.println("User's rating = " + rating);
         campusUser1.rateRestaurantByUser(ratingSystem, restaurant.getId(), rating);
     }
 
@@ -41,7 +41,7 @@ public class RatingAndViewRestaurantRatingSteps {
         Double actualRating = ratingSystem.averageRating(restaurant.getId());
         assertEquals(actualRating, expectedRating);
         System.out.println("List of rating of this restaurant = " + ratingSystem.getRestaurantRatings().get(restaurant.getId()));
-        System.out.println("Actual "+ restaurant.getRestaurantName()+ " rating = " + actualRating); // 3 out of 5 (average)
+        System.out.println("Actual "+ restaurant.getRestaurantName()+ " rating = " + actualRating);
     }
 
     /////////////////////////////////////////// Scenario 2 ///////////////////////////////////////////

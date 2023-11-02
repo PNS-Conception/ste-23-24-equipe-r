@@ -37,7 +37,7 @@ public class RatingSystem {
             for (Double rating : deliveryPersonRatings.get(id)) {
                 somme += rating;
             }
-            double average = somme / restaurantRatings.get(id).size();
+            double average = somme / deliveryPersonRatings.get(id).size();
 
             String formattedResult = String.format("%.1f", average);
             formattedResult = formattedResult.replace(',', '.');
