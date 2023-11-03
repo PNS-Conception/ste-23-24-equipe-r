@@ -17,11 +17,36 @@ public class Schedule {
         initializeTimeSlots(slotCapacity);
     }
 
+    public Schedule(LocalTime openingTime, LocalTime closingTime) {
+        this.openingTime = openingTime;
+        this.closingTime = closingTime;
+        initializeTimeSlots(0);
+    }
+
+    public void setCapacity(int slotCapacity) {
+        if(timeSlots.size() > 0) {
+            timeSlots.clear();
+        }
+        initializeTimeSlots(slotCapacity);
+    }
+
     private void initializeTimeSlots(int slotCapacity) {
         for (LocalTime time = openingTime; time.isBefore(closingTime);
              time = time.plusMinutes(SLOT_DURATION_IN_MINUTES)) {
             timeSlots.add(new TimeSlot(time, slotCapacity));
         }
+    }
+
+    public LocalTime getOpeningTime() {
+        return openingTime;
+    }
+
+    public LocalTime getClosingTime() {
+        return closingTime;
+    }
+
+    public static LocalTime parseTime(String time) {
+        return LocalTime.parse(time);
     }
 
     public List<TimeSlot> getTimeSlots() {
