@@ -1,71 +1,50 @@
 package fr.unice.polytech.steats.order;
-
-
+import fr.unice.polytech.steats.restaurant.Menu;
 import fr.unice.polytech.steats.restaurant.Restaurant;
 import fr.unice.polytech.steats.users.CampusUser;
 import fr.unice.polytech.steats.delivery.DeliveryLocation;
 import fr.unice.polytech.steats.restaurant.TimeSlot;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 public class Order {
-
-    private double price;
-    private OrderStatus orderStatus;
     private UUID orderID;
-    private int totalMenus;
+    private OrderStatus orderStatus;
+    private Restaurant restaurant;
     private CampusUser customer;
+    private Map<Menu, Integer> menusOrdered;
     private DeliveryLocation deliveryLocation;
     private TimeSlot timeSlot;
 
     public Order(){
         this.orderID = UUID.randomUUID();
-        this.orderStatus = OrderStatus.CREATED;
-        this.totalMenus = 0;
+        this.customer = new CampusUser();
+        this.menusOrdered = new HashMap<>();
+        this.deliveryLocation =DeliveryLocation.LIBRARY;
+        this.timeSlot = null;
     }
 
-    public Order(double price) {
+    public Order(CampusUser customer, Map<Menu, Integer> menusOrdered,
+                 DeliveryLocation deliveryLocation, TimeSlot timeslot){
         this.orderID = UUID.randomUUID();
-        this.price = price;
-        this.orderStatus = OrderStatus.CREATED;
-        this.totalMenus = 0;
-    }
-
-    public Order(double price,CampusUser customer) {
-        this.orderID = UUID.randomUUID();
-        this.price = price;
-        this.orderStatus = OrderStatus.CREATED;
-        this.totalMenus = 0;
         this.customer = customer;
+        this.menusOrdered = menusOrdered;
+        this.deliveryLocation = deliveryLocation;
+        this.timeSlot = timeslot;
     }
-
-    public Order(CampusUser customer) {
-        this.orderID = UUID.randomUUID();
-        this.orderStatus = OrderStatus.CREATED;
-        this.totalMenus = 0;
-        this.customer = customer;
-    }
-
-    public double getPrice() {
-        return price;
-    }
-
-    public OrderStatus getOrderStatus() {
+    public OrderStatus getStatus() {
         return orderStatus;
     }
 
-    public void setOrderStatus(OrderStatus orderStatus) {
+    public void setStatus(OrderStatus orderStatus) {
         this.orderStatus = orderStatus;
     }
 
-    public UUID getOrderID() {
+    public UUID getId() {
         return orderID;
     }
-
-    public int getTotalMenus() {
-        return totalMenus;
-    }
-
     public CampusUser getCustomer() {
         return customer;
     }
@@ -76,5 +55,21 @@ public class Order {
 
     public void setTimeSlot(TimeSlot timeSlot) {
         this.timeSlot = timeSlot;
+    }
+    public int getTotalMenus(){
+        int sum = 0;
+        for (int value : menusOrdered.values()) {
+            sum += value;
+        }
+        return sum;
+    }
+    public double getPrice(){
+        double total = 0;
+        for (Map.Entry<Menu, Integer> entry : menusOrdered.entrySet()) {
+            Menu menu = entry.getKey();
+            int quantity = entry.getValue();
+            total += menu.getPrice() * quantity;
+        }
+        return total;
     }
 }
