@@ -8,6 +8,8 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 public class ManageRestaurantsSteps {
 
     RestaurantRepository restaurantRepository = new RestaurantRepository();
@@ -21,7 +23,7 @@ public class ManageRestaurantsSteps {
     }
     @Given("a restaurant {string} match the requirements")
     public void a_restaurant_match_the_requirements(String string) {
-        assert restaurantRepository.checkRequirements(new Restaurant(string));
+        assertTrue(restaurantRepository.checkRequirements(new Restaurant(string)));
     }
     @When("the campus admin attempts to add a new restaurant {string}")
     public void the_campus_admin_attempts_to_add_a_new_restaurant(String res) {
@@ -29,17 +31,17 @@ public class ManageRestaurantsSteps {
         restaurantRepository.save(restaurant, restaurant.getId());
     }
     @Then("the campus should have {int} restaurants")
-    public void the_campus_should_have_restaurants(Integer int1) {
-        assert restaurantRepository.count() == int1;
+    public void the_campus_should_have_restaurants(int int1) {
+        assertEquals(int1, restaurantRepository.count());
     }
     @And("the restaurant {string} should not be added the campus")
     public void the_restaurant_should_not_be_in_the_campus(String string) {
-        assert restaurantRepository.getRestaurantByName(string) == null;
+        assertNull(restaurantRepository.getRestaurantByName(string));
     }
 
     @Then("the restaurant {string} should be in the campus")
     public void the_restaurant_should_be_in_the_campus(String string) {
-        assert restaurantRepository.getRestaurantByName(string) != null;
+        assertNotNull(restaurantRepository.getRestaurantByName(string));
     }
 
     @When("The campus admin removes the restaurant {string}")
@@ -50,4 +52,8 @@ public class ManageRestaurantsSteps {
         restaurantRepository.deleteById(restaurantRepository.getRestaurantByName(restaurantName).getId());
     }
 
+    @And("the restaurant {string} should be removed from the campus")
+    public void theRestaurantShouldBeRemovedFromTheCampus(String restaurantName) {
+        assertNull(restaurantRepository.getRestaurantByName(restaurantName));
+    }
 }
