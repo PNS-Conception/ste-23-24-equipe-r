@@ -44,10 +44,6 @@ public class Schedule {
         return openingTime;
     }
 
-    public LocalTime getClosingTime() {
-        return closingTime;
-    }
-
     public static LocalTime parseTime(String time) {
         return LocalTime.parse(time);
     }
