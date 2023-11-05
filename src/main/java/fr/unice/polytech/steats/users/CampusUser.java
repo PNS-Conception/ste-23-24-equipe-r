@@ -1,9 +1,7 @@
 package fr.unice.polytech.steats.users;
 
-import fr.unice.polytech.steats.order.Cart;
-import fr.unice.polytech.steats.rating.RatingLevel;
+import fr.unice.polytech.steats.cart.Cart;
 import fr.unice.polytech.steats.rating.RatingSystem;
-import fr.unice.polytech.steats.restaurant.Menu;
 
 import java.util.*;
 
@@ -47,4 +45,8 @@ public class CampusUser extends User {
      public Map<UUID,List<Double>> getDeliveryPersonRatings(RatingSystem ratingSystem){
         return ratingSystem.getDeliveryPersonRatings();
      }
+
+    public void setCart(Cart cart) {
+        this.cart = cart;
+    }
 }

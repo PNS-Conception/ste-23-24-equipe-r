@@ -1,4 +1,4 @@
-package fr.unice.polytech.steats.exceptions;
+package fr.unice.polytech.steats.exceptions.restaurant;
 
 import fr.unice.polytech.steats.restaurant.TimeSlot;
 

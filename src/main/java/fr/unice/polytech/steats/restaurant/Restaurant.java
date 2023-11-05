@@ -1,7 +1,8 @@
 package fr.unice.polytech.steats.restaurant;
-import fr.unice.polytech.steats.exceptions.NonExistentOrder;
-import fr.unice.polytech.steats.exceptions.NonExistentTimeSlot;
+import fr.unice.polytech.steats.exceptions.restaurant.NonExistentTimeSlot;
+import fr.unice.polytech.steats.util.DailyResetScheduler;
 
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,11 +13,13 @@ public class Restaurant {
     private String restaurantName;
     private List<Menu> menus = new ArrayList<>();
     private Schedule schedule;
+    private DailyResetScheduler dailyResetScheduler;
 
     public Restaurant(String restaurantName, Schedule schedule) {
         this.id = UUID.randomUUID();
         this.restaurantName = restaurantName;
         this.schedule = schedule;
+        this.dailyResetScheduler = new DailyResetScheduler(schedule);
     }
     public Restaurant(String restaurantName){
         this.id = UUID.randomUUID();
@@ -25,6 +28,7 @@ public class Restaurant {
         LocalTime closingTime = LocalTime.of(20, 0);
         int capacity = 10;
         this.schedule = new Schedule(openingTime, closingTime, capacity);
+        this.dailyResetScheduler = new DailyResetScheduler(schedule);
     }
     public UUID getId() {
         return id;

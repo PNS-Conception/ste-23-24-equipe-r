@@ -1,4 +1,5 @@
 package fr.unice.polytech.steats.order;
+import fr.unice.polytech.steats.order.grouporder.GroupOrder;
 import fr.unice.polytech.steats.restaurant.Menu;
 import fr.unice.polytech.steats.restaurant.Restaurant;
 import fr.unice.polytech.steats.users.CampusUser;
@@ -17,6 +18,7 @@ public class Order {
     private Map<Menu, Integer> menusOrdered;
     private DeliveryLocation deliveryLocation;
     private TimeSlot timeSlot;
+    private GroupOrder groupOrder;
 
     public Order(){
         this.orderID = UUID.randomUUID();
@@ -26,13 +28,22 @@ public class Order {
         this.timeSlot = null;
     }
 
-    public Order(CampusUser customer, Map<Menu, Integer> menusOrdered,
+    public Order(Restaurant restaurant, CampusUser customer, Map<Menu, Integer> menusOrdered,
                  DeliveryLocation deliveryLocation, TimeSlot timeslot){
         this.orderID = UUID.randomUUID();
         this.customer = customer;
         this.menusOrdered = menusOrdered;
         this.deliveryLocation = deliveryLocation;
         this.timeSlot = timeslot;
+    }
+    public Order(Restaurant restaurant, CampusUser customer, Map<Menu, Integer> menusOrdered,
+                 GroupOrder groupOrder){
+        this.orderID = UUID.randomUUID();
+        this.customer = customer;
+        this.menusOrdered = menusOrdered;
+        this.groupOrder = groupOrder;
+        this.deliveryLocation = groupOrder.getDeliveryLocation();
+        this.timeSlot = groupOrder.getTimeSlot();
     }
     public OrderStatus getStatus() {
         return orderStatus;

@@ -1,15 +1,24 @@
-package fr.unice.polytech.steats.groupOrder;
+package fr.unice.polytech.steats.order.grouporder;
 
+import fr.unice.polytech.steats.delivery.DeliveryLocation;
 import fr.unice.polytech.steats.order.Order;
+import fr.unice.polytech.steats.restaurant.TimeSlot;
+import fr.unice.polytech.steats.users.CampusUser;
 
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 public class GroupOrder {
+    private CampusUser groupOrderOwner;
+    private Duration groupOrderOpenDuration;
     private boolean isOpen = true ;
     private UUID groupOrderID;
+    private String groupOrderCode;
     private List<Order> subOrders ;
+    private TimeSlot timeslot;
+    private DeliveryLocation deliveryLocation;
 
 
 
@@ -42,4 +51,11 @@ public class GroupOrder {
         isOpen = open;
     }
 
+    public DeliveryLocation getDeliveryLocation() {
+        return deliveryLocation;
+    }
+
+    public TimeSlot getTimeSlot() {
+        return timeslot;
+    }
 }

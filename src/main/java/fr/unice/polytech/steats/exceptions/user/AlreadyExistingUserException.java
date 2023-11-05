@@ -1,4 +1,4 @@
-package fr.unice.polytech.steats.exceptions;
+package fr.unice.polytech.steats.exceptions.user;
 
 public class AlreadyExistingUserException extends Exception {
     public AlreadyExistingUserException(String name){

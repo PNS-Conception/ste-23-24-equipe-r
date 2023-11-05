@@ -1,8 +1,8 @@
-package fr.unice.polytech.steats.order;
+package fr.unice.polytech.steats.cart;
 
-import fr.unice.polytech.steats.exceptions.MenuRemovalFromCartException;
+import fr.unice.polytech.steats.cart.Cart;
+import fr.unice.polytech.steats.exceptions.cart.MenuRemovalFromCartException;
 import fr.unice.polytech.steats.restaurant.Menu;
-import java.util.Map;
 
 public class CartService {
     private Cart cart;
@@ -11,7 +11,7 @@ public class CartService {
         this.cart = cart;
     }
 
-    public void addItem(Menu menu, int quantity) {
+    public void addItem(Menu menu, int quantity){
         int existingQuantity = cart.getMenuMap().getOrDefault(menu, 0);
         cart.getMenuMap().put(menu, existingQuantity + quantity);
     }

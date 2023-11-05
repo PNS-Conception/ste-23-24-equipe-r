@@ -1,4 +1,4 @@
-package fr.unice.polytech.steats.exceptions;
+package fr.unice.polytech.steats.exceptions.restaurant;
 
 public class AlreadyExistingRestaurantException extends Exception{
     public AlreadyExistingRestaurantException(String name){

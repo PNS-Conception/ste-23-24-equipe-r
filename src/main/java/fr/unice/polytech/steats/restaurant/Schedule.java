@@ -10,14 +10,17 @@ public class Schedule {
     private LocalTime openingTime;
     private LocalTime closingTime;
     private List<TimeSlot> timeSlots = new ArrayList<>();
+    private int slotCapacity;
 
     public Schedule(LocalTime openingTime, LocalTime closingTime, int slotCapacity) {
         this.openingTime = openingTime;
         this.closingTime = closingTime;
-        initializeTimeSlots(slotCapacity);
+        this.slotCapacity = slotCapacity;
+        initializeTimeSlots(this.slotCapacity);
     }
 
     private void initializeTimeSlots(int slotCapacity) {
+        timeSlots.clear(); // Clear existing slots before initializing
         for (LocalTime time = openingTime; time.isBefore(closingTime);
              time = time.plusMinutes(SLOT_DURATION_IN_MINUTES)) {
             timeSlots.add(new TimeSlot(time, slotCapacity));
@@ -29,11 +32,19 @@ public class Schedule {
     }
 
     public Optional<TimeSlot> findTimeSlotByStartTime(LocalTime startTime) {
-        for (TimeSlot timeSlot : timeSlots) {
-            if (timeSlot.getStartTime().equals(startTime)) {
-                return Optional.of(timeSlot);
-            }
+        return timeSlots.stream()
+                .filter(slot -> slot.getStartTime().equals(startTime))
+                .findFirst();
+    }
+
+    public LocalTime getClosingTime() {
+        return this.closingTime;
+    }
+
+    // Reset all time slots to initial capacity for a new day
+    public void resetTimeSlotsForNewDay() {
+        for (TimeSlot slot : timeSlots) {
+            slot.setCapacity(slotCapacity);
         }
-        return Optional.empty();
     }
 }

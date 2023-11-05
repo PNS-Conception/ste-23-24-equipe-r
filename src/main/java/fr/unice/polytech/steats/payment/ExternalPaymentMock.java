@@ -1,4 +1,4 @@
-package fr.unice.polytech.steats.Payment;
+package fr.unice.polytech.steats.payment;
 
 import fr.unice.polytech.steats.users.CampusUser;
 

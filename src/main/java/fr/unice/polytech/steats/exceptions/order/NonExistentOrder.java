@@ -1,4 +1,4 @@
-package fr.unice.polytech.steats.exceptions;
+package fr.unice.polytech.steats.exceptions.order;
 
 import java.util.UUID;
 

@@ -1,7 +1,15 @@
 package fr.unice.polytech.steats.cucumber;
 
+import fr.unice.polytech.steats.cart.Cart;
+import fr.unice.polytech.steats.cart.CartService;
 import fr.unice.polytech.steats.delivery.DeliveryLocation;
-import fr.unice.polytech.steats.exceptions.*;
+import fr.unice.polytech.steats.exceptions.cart.MenuRemovalFromCartException;
+import fr.unice.polytech.steats.exceptions.order.EmptyCartException;
+import fr.unice.polytech.steats.exceptions.order.PaymentException;
+import fr.unice.polytech.steats.exceptions.restaurant.AlreadyExistingRestaurantException;
+import fr.unice.polytech.steats.exceptions.user.AlreadyExistingUserException;
+import fr.unice.polytech.steats.exceptions.restaurant.InsufficientTimeSlotCapacity;
+import fr.unice.polytech.steats.exceptions.restaurant.NonExistentTimeSlot;
 import fr.unice.polytech.steats.order.*;
 import fr.unice.polytech.steats.restaurant.*;
 import fr.unice.polytech.steats.users.CampusUser;
@@ -15,6 +23,7 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 
 import java.time.LocalTime;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -88,13 +97,11 @@ public class PlaceOrder {
         campusUser = campusUserRegistry.findByName(customerName).get();
         cart = campusUser.getCart();
     }
-
     @Then("there is {int} menus in his cart")
     public void verifyNumberOfMenusInCart(int numberOfMenus) {
         assertEquals(numberOfMenus, cart.getSize());
     }
-
-    @When("{string} orders {int} x {string}")
+    @When("{string} chooses {int} x {string}")
     public void addMenusToCart(String customerName, int quantity, String menuName) {
         campusUser = campusUserRegistry.findByName(customerName).get();
         cart = campusUser.getCart();
@@ -132,14 +139,15 @@ public class PlaceOrder {
         TimeSlot timeSlot = restaurant.getSchedule().findTimeSlotByStartTime(openingTime).get();
         timeSlot.setCapacity(capacity);
     }
-    @And("choose available timeslot {string} and delivery location {string}")
+    @And("chooses timeslot {string} and delivery location {string}")
     public void chooseAvailableTimeslotAndDeliveryLocation(String timeSlotString, String delivLocation) {
         LocalTime openingTime = LocalTime.parse(timeSlotString);
         timeSlot = restaurant.getSchedule().findTimeSlotByStartTime(openingTime).get();
         deliveryLocation = DeliveryLocation.getByName(delivLocation);
     }
     @And("{string} confirms and pays for the cart")
-    public void confirmsAndPaysForTheCart(String customerName) throws PaymentException, NonExistentTimeSlot, InsufficientTimeSlotCapacity {
+    public void confirmsAndPaysForTheCart(String customerName) throws PaymentException,
+            NonExistentTimeSlot, InsufficientTimeSlotCapacity, EmptyCartException {
         campusUser = campusUserRegistry.findByName(customerName).get();
         order = orderRegistry.register(restaurant, campusUser, campusUser.getCart().getMenuMap(),
                 timeSlot, deliveryLocation);

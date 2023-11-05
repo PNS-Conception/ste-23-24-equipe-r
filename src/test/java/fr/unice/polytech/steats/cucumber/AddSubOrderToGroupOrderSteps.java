@@ -1,14 +1,14 @@
 package fr.unice.polytech.steats.cucumber;
 
-import fr.unice.polytech.steats.groupOrder.GroupOrder;
-import fr.unice.polytech.steats.groupOrder.GroupOrderRepository;
+import fr.unice.polytech.steats.order.grouporder.GroupOrder;
+import fr.unice.polytech.steats.order.grouporder.GroupOrderRepository;
 import fr.unice.polytech.steats.order.Order;
 import fr.unice.polytech.steats.users.CampusUser;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 
-;import java.util.ArrayList;
+;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -41,7 +41,7 @@ public class AddSubOrderToGroupOrderSteps {
     @When("I select an existing group order with the ID {string}")
     public void i_select_an_existing_group_order(String string) {
         UUID uuid = UUID.fromString(string);
-        GO = GORepo.findByID(uuid);
+        GO = GORepo.findById(uuid);
 
     }
 
@@ -69,7 +69,7 @@ public class AddSubOrderToGroupOrderSteps {
     @When("I select a group order with the ID {string} that is closed for new sub-orders")
     public void i_select_a_group_order_with_the_id_that_is_closed_for_new_sub_orders(String string) {
         UUID uuid = UUID.fromString(string);
-        GO = GORepo.findByID(uuid);
+        GO = GORepo.findById(uuid);
 
 
 

@@ -1,8 +1,6 @@
 package fr.unice.polytech.steats.order;
 
-import fr.unice.polytech.steats.exceptions.NonExistentOrder;
-import fr.unice.polytech.steats.restaurant.Restaurant;
-import fr.unice.polytech.steats.restaurant.TimeSlot;
+import fr.unice.polytech.steats.exceptions.order.NonExistentOrder;
 
 import java.util.Optional;
 import java.util.UUID;

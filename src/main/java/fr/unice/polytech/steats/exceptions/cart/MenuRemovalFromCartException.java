@@ -1,4 +1,4 @@
-package fr.unice.polytech.steats.exceptions;
+package fr.unice.polytech.steats.exceptions.cart;
 
 public class MenuRemovalFromCartException extends Exception{
     public MenuRemovalFromCartException(){

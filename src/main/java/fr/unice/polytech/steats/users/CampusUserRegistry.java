@@ -1,6 +1,6 @@
 package fr.unice.polytech.steats.users;
 
-import fr.unice.polytech.steats.exceptions.AlreadyExistingUserException;
+import fr.unice.polytech.steats.exceptions.user.AlreadyExistingUserException;
 
 import java.util.Optional;
 import java.util.stream.StreamSupport;
