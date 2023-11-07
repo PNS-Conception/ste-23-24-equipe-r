@@ -2,6 +2,7 @@ package fr.unice.polytech.steats.users;
 
 import fr.unice.polytech.steats.cart.Cart;
 import fr.unice.polytech.steats.rating.RatingSystem;
+import fr.unice.polytech.steats.restaurant.Menu;
 
 import java.util.*;
 
@@ -48,5 +49,9 @@ public class CampusUser extends User {
 
     public void setCart(Cart cart) {
         this.cart = cart;
+    }
+
+    public void addMenuToCart(Menu mn){
+        this.cart.addMenu(mn);
     }
 }
