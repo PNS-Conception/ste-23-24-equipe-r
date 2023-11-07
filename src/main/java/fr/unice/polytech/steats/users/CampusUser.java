@@ -8,14 +8,24 @@ import java.util.*;
 public class CampusUser extends User {
     private Cart cart;
 
+    private CampusUserStatus status;
+
     public CampusUser() {
         super();
         this.cart = new Cart();
+        this.status = CampusUserStatus.EXTERNAL;
     }
 
     public CampusUser(String name) {
         super(name);
         this.cart = new Cart();
+        this.status = CampusUserStatus.EXTERNAL;
+    }
+
+    public CampusUser(String name, CampusUserStatus status) {
+        super(name);
+        this.cart = new Cart();
+        this.status = status;
     }
 
 
@@ -48,5 +58,13 @@ public class CampusUser extends User {
 
     public void setCart(Cart cart) {
         this.cart = cart;
+    }
+
+    public CampusUserStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(CampusUserStatus status) {
+        this.status = status;
     }
 }

@@ -129,8 +129,7 @@ public class PlaceOrder {
     @Then("the price of {string}'s cart is {double}")
     public void verifyCartPrice(String customerName, double cartPrice) {
         campusUser = campusUserRegistry.findByName(customerName).get();
-        cart = campusUser.getCart();
-        assertEquals(cart.getPrice(), cartPrice, 0.01);
+        assertEquals(cartService.getPriceForUserType(campusUser), cartPrice, 0.01);
     }
 
     @Given("timeslot {string} has capacity {int}")
