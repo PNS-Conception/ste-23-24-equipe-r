@@ -1,6 +1,6 @@
 package fr.unice.polytech.steats.payment;
 
-import fr.unice.polytech.steats.exceptions.order.PaymentException;
+import fr.unice.polytech.steats.exceptions.order.InsufficientBalanceException;
 import fr.unice.polytech.steats.users.CampusUser;
 
 public class PaymentManager {
@@ -9,11 +9,8 @@ public class PaymentManager {
         this.externalPaymentMock = externalPaymentMock;
     }
 
-    public void completePayment(CampusUser user) throws PaymentException {
+    public void completePayment(CampusUser user) throws InsufficientBalanceException {
         double totalPrice = user.getCart().getPrice();
-        if (!externalPaymentMock.executePayment(user, totalPrice)){
-            throw new PaymentException();
-        }
+        externalPaymentMock.executePayment(user, totalPrice);
     }
-
 }

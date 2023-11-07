@@ -5,6 +5,7 @@ import fr.unice.polytech.steats.cart.CartService;
 import fr.unice.polytech.steats.delivery.DeliveryLocation;
 import fr.unice.polytech.steats.exceptions.cart.MenuRemovalFromCartException;
 import fr.unice.polytech.steats.exceptions.order.EmptyCartException;
+import fr.unice.polytech.steats.exceptions.order.InsufficientBalanceException;
 import fr.unice.polytech.steats.exceptions.order.PaymentException;
 import fr.unice.polytech.steats.exceptions.restaurant.AlreadyExistingRestaurantException;
 import fr.unice.polytech.steats.exceptions.user.AlreadyExistingUserException;
@@ -23,7 +24,6 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 
 import java.time.LocalTime;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -39,7 +39,7 @@ public class PlaceOrder {
     DeliveryLocation deliveryLocation;
     OrderRegistry orderRegistry;
     OrderRepository orderRepository;
-
+    boolean balanceErrorThrown;
     RestaurantRepository restaurantRepository;
     CampusUserRepository campusUserRepository;
     CampusUserRegistry campusUserRegistry;
@@ -61,9 +61,11 @@ public class PlaceOrder {
         campusUserRepository.deleteAll();
         orderRepository.deleteAll();
     }
-    @Given("{string} is a campus user")
-    public void isACampusUser(String username) throws AlreadyExistingUserException {
+    @Given("{string} is a campus user with a balance of {double}")
+    public void isACampusUser(String username,double balance) throws AlreadyExistingUserException {
         campusUserRegistry.register(username);
+        campusUser = campusUserRegistry.findByName(username).get();
+        campusUser.setBalance(balance);
     }
     @And("a restaurant {string} exists with the following details")
     public void aRestaurantExistsWithTheFollowingDetails(String restaurantName, DataTable dataTable)
@@ -130,7 +132,7 @@ public class PlaceOrder {
     public void verifyCartPrice(String customerName, double cartPrice) {
         campusUser = campusUserRegistry.findByName(customerName).get();
         cart = campusUser.getCart();
-        assertEquals(cart.getPrice(), cartPrice, 0.01);
+        assertEquals(cartPrice, cart.getPrice(), 0.01);
     }
 
     @Given("timeslot {string} has capacity {int}")
@@ -147,16 +149,17 @@ public class PlaceOrder {
     }
     @And("{string} confirms and pays for the cart")
     public void confirmsAndPaysForTheCart(String customerName) throws PaymentException,
-            NonExistentTimeSlot, InsufficientTimeSlotCapacity, EmptyCartException {
+            NonExistentTimeSlot, InsufficientTimeSlotCapacity, EmptyCartException, InsufficientBalanceException {
         campusUser = campusUserRegistry.findByName(customerName).get();
         order = orderRegistry.register(restaurant, campusUser, campusUser.getCart().getMenuMap(),
                 timeSlot, deliveryLocation);
+
     }
     @Then("timeslot {string} should have capacity {int}")
     public void timeslotShouldHaveCapacity(String timeslotString, int capacity) {
         LocalTime openingTime = LocalTime.parse(timeslotString);
         timeSlot = restaurant.getSchedule().findTimeSlotByStartTime(openingTime).get();
-        assertEquals(timeSlot.getCapacity(), capacity);
+        assertEquals(capacity, timeSlot.getCapacity());
     }
     @And("the price of the order is {double}")
     public void thePriceOfSOrderIs(double price) {
@@ -171,7 +174,28 @@ public class PlaceOrder {
         assertEquals(order.getStatus(), orderStatus);
     }
 
+    @And("{string} tries to confirm and pay for the cart")
+    public void triesToConfirmAndPayForTheCart(String userName) throws EmptyCartException, NonExistentTimeSlot, InsufficientBalanceException, InsufficientTimeSlotCapacity {
+        try{
+            campusUser = campusUserRegistry.findByName(userName).get();
+            order = orderRegistry.register(restaurant, campusUser, campusUser.getCart().getMenuMap(),
+                    timeSlot, deliveryLocation);
+        }
+
+        catch (InsufficientBalanceException e){
+            balanceErrorThrown = true;
+        }
+    }
 
 
+    @Then("a \"InsufficientBalanceException\" should be thrown")
+    public void aShouldBeThrown() {
+        assertTrue(balanceErrorThrown);
+    }
 
+    @And("{string} has a balance of {double}")
+    public void hasABalanceOf(String userName, double balance) {
+        campusUser = campusUserRegistry.findByName(userName).get();
+        campusUser.setBalance(balance);
+    }
 }

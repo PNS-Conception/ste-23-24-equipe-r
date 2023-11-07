@@ -1,6 +1,7 @@
 package fr.unice.polytech.steats.order;
 
 import fr.unice.polytech.steats.exceptions.order.EmptyCartException;
+import fr.unice.polytech.steats.exceptions.order.InsufficientBalanceException;
 import fr.unice.polytech.steats.payment.PaymentManager;
 import fr.unice.polytech.steats.delivery.DeliveryLocation;
 import fr.unice.polytech.steats.exceptions.restaurant.InsufficientTimeSlotCapacity;
@@ -22,7 +23,7 @@ public class OrderRegistry {
     }
     public Order register(Restaurant restaurant, CampusUser customer, Map<Menu, Integer> menusOrdered,
                           TimeSlot timeSlot, DeliveryLocation deliveryLocation)
-            throws InsufficientTimeSlotCapacity, NonExistentTimeSlot, PaymentException, EmptyCartException {
+            throws InsufficientTimeSlotCapacity, NonExistentTimeSlot, EmptyCartException, InsufficientBalanceException {
         isValidOrder(restaurant, timeSlot, menusOrdered);
         Map<Menu, Integer> menusOrderedCopy = menusOrdered.entrySet().stream()
                 .collect(Collectors.toMap(
@@ -32,6 +33,8 @@ public class OrderRegistry {
         Order order = new Order(restaurant, customer, menusOrderedCopy, deliveryLocation, timeSlot);
         order.setStatus(OrderStatus.PREPARING);
         paymentManager.completePayment(customer);
+        int menusNumber = menusOrdered.values().stream().mapToInt(Integer::intValue).sum();
+        timeSlot.subtractCapacity(menusNumber);
         orderRepository.save(order, order.getId());
         customer.getCart().emptyCart();
         return order;
@@ -47,8 +50,6 @@ public class OrderRegistry {
             int menusNumber = menus.values().stream().mapToInt(Integer::intValue).sum();
             if (menusNumber > restaurant.getTimeSlotCapacity(timeslot)){
                 throw new InsufficientTimeSlotCapacity();
-            } else {
-                timeslot.setCapacity(timeslot.getCapacity() - menusNumber);
             }
         }else {
             throw new NonExistentTimeSlot(timeslot);

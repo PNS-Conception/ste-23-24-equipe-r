@@ -19,6 +19,7 @@ public class Order {
     private DeliveryLocation deliveryLocation;
     private TimeSlot timeSlot;
     private GroupOrder groupOrder;
+    private double discount = 0.1;
 
     public Order(){
         this.orderID = UUID.randomUUID();
@@ -74,12 +75,20 @@ public class Order {
         }
         return sum;
     }
+
+    public void setDiscount(double discount){
+        this.discount = discount;
+    }
+
     public double getPrice(){
         double total = 0;
         for (Map.Entry<Menu, Integer> entry : menusOrdered.entrySet()) {
             Menu menu = entry.getKey();
             int quantity = entry.getValue();
             total += menu.getPrice() * quantity;
+        }
+        if(getTotalMenus()>=10){
+            return total-(total*discount);
         }
         return total;
     }

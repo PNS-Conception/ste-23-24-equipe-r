@@ -1,12 +1,14 @@
 package fr.unice.polytech.steats.users;
 
 import fr.unice.polytech.steats.cart.Cart;
+import fr.unice.polytech.steats.exceptions.order.InsufficientBalanceException;
 import fr.unice.polytech.steats.rating.RatingSystem;
 
 import java.util.*;
 
 public class CampusUser extends User {
     private Cart cart;
+    private double balance;
 
     public CampusUser() {
         super();
@@ -46,7 +48,22 @@ public class CampusUser extends User {
         return ratingSystem.getDeliveryPersonRatings();
      }
 
+     public void setBalance(double balance) {
+         this.balance = balance;
+     }
+
+    public double getBalance() {
+        return balance;
+    }
+
     public void setCart(Cart cart) {
         this.cart = cart;
+    }
+
+    public void pay(double amount) throws InsufficientBalanceException {
+        if(this.balance < amount){
+            throw new InsufficientBalanceException();
+        }
+        this.balance -= amount;
     }
 }
