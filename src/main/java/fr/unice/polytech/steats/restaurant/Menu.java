@@ -1,8 +1,10 @@
 package fr.unice.polytech.steats.restaurant;
 
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.UUID;
 
 public class Menu {
@@ -14,8 +16,14 @@ public class Menu {
     private Map<String, String> selectedOptions = new HashMap<>();
 
     public Menu(String menuName, double price) {
+        this.id = UUID.randomUUID();
         this.menuName = menuName;
         this.price = price;
+    }
+    public Menu(Menu menu){
+        this.id = UUID.randomUUID();
+        this.menuName = menu.getMenuName();
+        this.price = menu.getPrice();
     }
 
     // Getters and Setters
@@ -31,6 +39,7 @@ public class Menu {
         return price;
     }
 
+
     public Map<String, List<String>> getOptions() {
         return options;
     }
@@ -45,5 +54,17 @@ public class Menu {
 
     public void setSelectedOptions(Map<String, String> selectedOptions) {
         this.selectedOptions = selectedOptions;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Menu menu = (Menu) o;
+        return Double.compare(menu.price, price) == 0 && menuName.equals(menu.menuName);
+    }
+    @Override
+    public int hashCode() {
+        return Objects.hash(menuName, price);
+
     }
 }

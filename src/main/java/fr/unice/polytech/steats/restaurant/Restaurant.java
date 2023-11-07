@@ -1,9 +1,11 @@
 package fr.unice.polytech.steats.restaurant;
-import fr.unice.polytech.steats.order.Order;
-import net.bytebuddy.asm.Advice;
+import fr.unice.polytech.steats.exceptions.restaurant.NonExistentTimeSlot;
+import fr.unice.polytech.steats.util.DailyResetScheduler;
 
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
@@ -11,21 +13,23 @@ public class Restaurant {
     private UUID id;
     private String restaurantName;
     private List<Menu> menus = new ArrayList<>();
-    private List<Order> pendingOrders = new ArrayList<>();
     private Schedule schedule;
+    private DailyResetScheduler dailyResetScheduler;
 
-    public Restaurant(String restaurantName, LocalTime openingTime, LocalTime closingTime,int slotCapacity) {
+    public Restaurant(String restaurantName, Schedule schedule) {
         this.id = UUID.randomUUID();
         this.restaurantName = restaurantName;
-        this.schedule = new Schedule(openingTime, closingTime, slotCapacity);
+        this.schedule = schedule;
+        this.dailyResetScheduler = new DailyResetScheduler(schedule);
     }
     public Restaurant(String restaurantName){
         this.id = UUID.randomUUID();
         this.restaurantName = restaurantName;
-        LocalTime openingTime = LocalTime.of(9, 0);  // 9:00 AM
-        LocalTime closingTime = LocalTime.of(20, 0);  // 5:00 PM
+        LocalTime openingTime = LocalTime.of(9, 0);
+        LocalTime closingTime = LocalTime.of(20, 0);
         int capacity = 10;
         this.schedule = new Schedule(openingTime, closingTime, capacity);
+        this.dailyResetScheduler = new DailyResetScheduler(schedule);
     }
     public UUID getId() {
         return id;
@@ -37,9 +41,6 @@ public class Restaurant {
 
     public List<Menu> getMenus() {
         return menus;
-    }
-    public List<Order> getPendingOrders() {
-        return pendingOrders;
     }
 
 
@@ -55,10 +56,19 @@ public class Restaurant {
     public void addMenu(Menu menu) {
         menus.add(menu);
     }
-    public void addOrder(Order order){pendingOrders.add(order);}
-
     public Schedule getSchedule() {
         return this.schedule;
     }
+    public int getTimeSlotCapacity(TimeSlot timeslot) throws NonExistentTimeSlot {
+        for (TimeSlot tslot : schedule.getTimeSlots()){
+            if (timeslot.equals(tslot)){
+                return tslot.getCapacity();
+            }
+        }
+        throw new NonExistentTimeSlot(timeslot);
+    }
 
+    public void setSchedule(Schedule schedule) {
+        this.schedule = schedule;
+    }
 }

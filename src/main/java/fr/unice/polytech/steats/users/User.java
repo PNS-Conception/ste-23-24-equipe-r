@@ -4,20 +4,20 @@ import java.util.UUID;
 
 public abstract class User {
     private String name;
-    private UUID userID;
+    private UUID id;
 
     public User() {
-        this.userID = UUID.randomUUID();
+        this.id = UUID.randomUUID();
         this.name = "User";
     }
 
     public User(String name){
         this.name = name;
-        this.userID = UUID.randomUUID();
+        this.id = UUID.randomUUID();
     }
 
-    public UUID getUserID() {
-        return userID;
+    public UUID getId() {
+        return id;
     }
 
     public String getName() {

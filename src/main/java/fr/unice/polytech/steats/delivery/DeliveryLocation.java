@@ -15,6 +15,7 @@ public class DeliveryLocation {
     private double latitude;
     private double longitude;
 
+
     private DeliveryLocation(String locationName, double latitude, double longitude) {
         this.locationName = locationName;
         this.latitude = latitude;
