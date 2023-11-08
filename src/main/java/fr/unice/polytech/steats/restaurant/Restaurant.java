@@ -1,6 +1,7 @@
 package fr.unice.polytech.steats.restaurant;
 import fr.unice.polytech.steats.exceptions.restaurant.NonExistentTimeSlot;
 import fr.unice.polytech.steats.util.DailyResetScheduler;
+import org.picocontainer.annotations.Inject;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -15,6 +16,7 @@ public class Restaurant {
     private List<Menu> menus = new ArrayList<>();
     private Schedule schedule;
     private DailyResetScheduler dailyResetScheduler;
+
 
     public Restaurant(String restaurantName, Schedule schedule) {
         this.id = UUID.randomUUID();

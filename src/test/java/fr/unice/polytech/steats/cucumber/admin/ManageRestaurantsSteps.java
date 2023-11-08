@@ -1,4 +1,4 @@
-package fr.unice.polytech.steats.cucumber;
+package fr.unice.polytech.steats.cucumber.admin;
 
 import fr.unice.polytech.steats.restaurant.Restaurant;
 import fr.unice.polytech.steats.restaurant.RestaurantRepository;
@@ -47,7 +47,6 @@ public class ManageRestaurantsSteps {
     @When("The campus admin removes the restaurant {string}")
     public void the_campus_admin_removes_the_restaurant(String restaurantName) {
         for (Restaurant restaurant : restaurantRepository.findAll()) {
-            System.out.println(restaurant.getRestaurantName());
         }
         restaurantRepository.deleteById(restaurantRepository.getRestaurantByName(restaurantName).getId());
     }

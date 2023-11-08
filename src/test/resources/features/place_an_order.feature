@@ -17,13 +17,15 @@ Feature: Place an order
     Then there is 0 menus in his cart
 
   Scenario: Adding menu to a cart
-    When "Brahim" chooses 1 x "Margherita Pizza"
+    When "Brahim" chooses the restaurant "Pizza Hut"
+    And "Brahim" chooses 1 x "Margherita Pizza"
     And "Brahim" checks his cart's contents
     Then there is 1 menus in his cart
     And the cart contains the menus : 1 x "Margherita Pizza"
 
   Scenario: Adding multiple menus to a cart
-    When "Brahim" chooses 2 x "Veggie Pizza"
+    When "Brahim" chooses the restaurant "Pizza Hut"
+    And "Brahim" chooses 2 x "Veggie Pizza"
     And "Brahim" chooses 1 x "Meat Lovers Pizza"
     And "Brahim" checks his cart's contents
     Then there is 3 menus in his cart
@@ -31,7 +33,8 @@ Feature: Place an order
     And the cart contains the menus : 1 x "Meat Lovers Pizza"
 
   Scenario: Modifying the menus in a cart
-    When "Brahim" chooses 2 x "BBQ Chicken Pizza"
+    When "Brahim" chooses the restaurant "Pizza Hut"
+    And "Brahim" chooses 2 x "BBQ Chicken Pizza"
     And "Brahim" chooses 3 x "Meat lovers Pizza"
     And "Brahim" chooses 3 x "BBQ Chicken Pizza"
     And "Brahim" checks his cart's contents
@@ -39,14 +42,16 @@ Feature: Place an order
     And the cart contains the menus : 3 x "Meat lovers Pizza"
 
   Scenario: Deleting menus from the cart
-    When "Brahim" chooses 5 x "Veggie Pizza"
+    When "Brahim" chooses the restaurant "Pizza Hut"
+    And "Brahim" chooses 5 x "Veggie Pizza"
     And "Brahim" removes 2 x "Veggie Pizza"
     And "Brahim" checks his cart's contents
     Then there is 3 menus in his cart
     And the cart contains the menus : 3 x "Veggie Pizza"
 
   Scenario: Confirming price of cart
-    When "Brahim" chooses 3 x "BBQ Chicken Pizza"
+    When "Brahim" chooses the restaurant "Pizza Hut"
+    And "Brahim" chooses 3 x "BBQ Chicken Pizza"
     And "Brahim" chooses 2 x "Margherita Pizza"
     And "Brahim" chooses 1 x "Veggie Pizza"
     And "Brahim" checks his cart's contents
@@ -54,10 +59,11 @@ Feature: Place an order
     And the price of "Brahim"'s cart is 71.00
 
   Scenario: placing an order in an available timeslot
-    Given timeslot "15:00" has capacity 5
-    When "Brahim" chooses 2 x "Margherita Pizza"
+    Given timeslot "15:00" of the restaurant "Pizza Hut" has capacity 5
+    When "Brahim" chooses the restaurant "Pizza Hut"
+    And "Brahim" chooses 2 x "Margherita Pizza"
     And "Brahim" chooses 1 x "Veggie Pizza"
-    And chooses timeslot "15:00" and delivery location "LIBRARY"
+    And chooses timeslot "15:00" of the restaurant "Pizza Hut" and delivery location "Library"
     And "Brahim" confirms and pays for the cart
     Then timeslot "15:00" should have capacity 2
     And the price of the order is 32.00

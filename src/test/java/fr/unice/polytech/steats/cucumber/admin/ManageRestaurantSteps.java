@@ -1,4 +1,4 @@
-package fr.unice.polytech.steats.cucumber;
+package fr.unice.polytech.steats.cucumber.admin;
 
 import fr.unice.polytech.steats.restaurant.Menu;
 import fr.unice.polytech.steats.restaurant.Restaurant;

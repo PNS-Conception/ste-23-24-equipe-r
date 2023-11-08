@@ -12,7 +12,8 @@ public class RestaurantRegistry {
     public RestaurantRegistry(RestaurantRepository restaurantRepository){
         this.restaurantRepository = restaurantRepository;
     }
-    public void register(String restaurantName, LocalTime openingTime, LocalTime closingTime, int capacity) throws AlreadyExistingRestaurantException{
+    public void register(String restaurantName, LocalTime openingTime, LocalTime closingTime, int capacity)
+            throws AlreadyExistingRestaurantException{
         if (findByName(restaurantName).isPresent()){
             throw new AlreadyExistingRestaurantException(restaurantName);
         }
