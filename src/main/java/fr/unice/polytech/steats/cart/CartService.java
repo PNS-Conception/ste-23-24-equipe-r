@@ -14,6 +14,10 @@ public class CartService {
         this.cart = cart;
     }
 
+    public Cart getCart() {
+        return cart;
+    }
+
     public void addItem(Menu menu, int quantity){
         int existingQuantity = cart.getMenuMap().getOrDefault(menu, 0);
         cart.getMenuMap().put(menu, existingQuantity + quantity);
