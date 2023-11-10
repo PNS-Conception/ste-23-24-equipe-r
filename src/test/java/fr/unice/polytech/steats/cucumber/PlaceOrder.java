@@ -5,7 +5,6 @@ import fr.unice.polytech.steats.cart.CartService;
 import fr.unice.polytech.steats.delivery.DeliveryLocation;
 import fr.unice.polytech.steats.exceptions.cart.MenuRemovalFromCartException;
 import fr.unice.polytech.steats.exceptions.order.EmptyCartException;
-import fr.unice.polytech.steats.exceptions.order.InsufficientBalanceException;
 import fr.unice.polytech.steats.exceptions.order.PaymentException;
 import fr.unice.polytech.steats.exceptions.restaurant.AlreadyExistingRestaurantException;
 import fr.unice.polytech.steats.exceptions.user.AlreadyExistingUserException;
@@ -24,7 +23,6 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 
 import java.time.LocalTime;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -62,11 +60,9 @@ public class PlaceOrder {
         campusUserRepository.deleteAll();
         orderRepository.deleteAll();
     }
-    @Given("{string} is a campus user with a balance of {double}")
-    public void isACampusUser(String username,double balance) throws AlreadyExistingUserException {
+    @Given("{string} is a campus user")
+    public void isACampusUser(String username) throws AlreadyExistingUserException {
         campusUserRegistry.register(username);
-        campusUser = campusUserRegistry.findByName(username).get();
-        campusUser.setBalance(balance);
     }
     @And("a restaurant {string} exists with the following details")
     public void aRestaurantExistsWithTheFollowingDetails(String restaurantName, DataTable dataTable)
@@ -150,7 +146,7 @@ public class PlaceOrder {
     }
     @And("{string} confirms and pays for the cart")
     public void confirmsAndPaysForTheCart(String customerName) throws PaymentException,
-            NonExistentTimeSlot, InsufficientTimeSlotCapacity, EmptyCartException, InsufficientBalanceException {
+            NonExistentTimeSlot, InsufficientTimeSlotCapacity, EmptyCartException{
         campusUser = campusUserRegistry.findByName(customerName).get();
         order = orderRegistry.register(restaurant, campusUser, campusUser.getCart().getMenuMap(),
                 timeSlot, deliveryLocation);
@@ -172,30 +168,5 @@ public class PlaceOrder {
     public void theOrderStatusIs(String status) {
         OrderStatus orderStatus = OrderStatus.valueOf(status.toUpperCase());
         assertEquals(order.getStatus(), orderStatus);
-    }
-
-    @And("{string} tries to confirm and pay for the cart")
-    public void triesToConfirmAndPayForTheCart(String userName) throws EmptyCartException, NonExistentTimeSlot, InsufficientBalanceException, InsufficientTimeSlotCapacity {
-        try{
-            campusUser = campusUserRegistry.findByName(userName).get();
-            order = orderRegistry.register(restaurant, campusUser, campusUser.getCart().getMenuMap(),
-                    timeSlot, deliveryLocation);
-        }
-
-        catch (InsufficientBalanceException e){
-            balanceErrorThrown = true;
-        }
-    }
-
-
-    @Then("a \"InsufficientBalanceException\" should be thrown")
-    public void aShouldBeThrown() {
-        assertTrue(balanceErrorThrown);
-    }
-
-    @And("{string} has a balance of {double}")
-    public void hasABalanceOf(String userName, double balance) {
-        campusUser = campusUserRegistry.findByName(userName).get();
-        campusUser.setBalance(balance);
     }
 }

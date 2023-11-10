@@ -1,7 +1,6 @@
 package fr.unice.polytech.steats.order;
 
 import fr.unice.polytech.steats.exceptions.order.EmptyCartException;
-import fr.unice.polytech.steats.exceptions.order.InsufficientBalanceException;
 import fr.unice.polytech.steats.payment.PaymentManager;
 import fr.unice.polytech.steats.delivery.DeliveryLocation;
 import fr.unice.polytech.steats.exceptions.restaurant.InsufficientTimeSlotCapacity;
@@ -23,7 +22,7 @@ public class OrderRegistry {
     }
     public Order register(Restaurant restaurant, CampusUser customer, Map<Menu, Integer> menusOrdered,
                           TimeSlot timeSlot, DeliveryLocation deliveryLocation)
-            throws InsufficientTimeSlotCapacity, NonExistentTimeSlot, EmptyCartException, InsufficientBalanceException {
+            throws InsufficientTimeSlotCapacity, NonExistentTimeSlot, EmptyCartException, PaymentException {
         isValidOrder(restaurant, timeSlot, menusOrdered);
         Map<Menu, Integer> menusOrderedCopy = menusOrdered.entrySet().stream()
                 .collect(Collectors.toMap(
