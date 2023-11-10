@@ -23,6 +23,7 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 
 import java.time.LocalTime;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -38,7 +39,6 @@ public class PlaceOrder {
     DeliveryLocation deliveryLocation;
     OrderRegistry orderRegistry;
     OrderRepository orderRepository;
-    boolean balanceErrorThrown;
     RestaurantRepository restaurantRepository;
     CampusUserRepository campusUserRepository;
     CampusUserRegistry campusUserRegistry;
