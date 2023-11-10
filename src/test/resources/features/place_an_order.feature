@@ -1,7 +1,7 @@
 Feature: Place an order
 
   Background:
-    Given "Brahim" is a campus user
+    Given "Brahim" is a campus user with a balance of 100.00
     And a restaurant "Pizza Hut" exists with the following details
       | Opening Time | Closing Time | Capacity |
       | 09:00        | 20:00        | 10       |
@@ -64,3 +64,21 @@ Feature: Place an order
     And the order status is "PREPARING"
     And "Brahim" checks his cart's contents
     And there is 0 menus in his cart
+
+  Scenario: placing an order with insuffisant balance in an available timeslot
+    Given timeslot "15:00" has capacity 5
+    And "Brahim" has a balance of 1.00
+    When "Brahim" chooses 2 x "Margherita Pizza"
+    And "Brahim" chooses 1 x "Veggie Pizza"
+    And chooses timeslot "15:00" and delivery location "LIBRARY"
+    And "Brahim" tries to confirm and pay for the cart
+    Then a "InsufficientBalanceException" should be thrown
+
+  Scenario: getting discount for order with more than 10 menus
+    Given timeslot "15:00" has capacity 15
+    And "Brahim" has a balance of 1000.00
+    When "Brahim" chooses 11 x "Margherita Pizza"
+    And "Brahim" chooses 1 x "Veggie Pizza"
+    And chooses timeslot "15:00" and delivery location "LIBRARY"
+    And "Brahim" confirms and pays for the cart
+    Then the price of the order is 109.8

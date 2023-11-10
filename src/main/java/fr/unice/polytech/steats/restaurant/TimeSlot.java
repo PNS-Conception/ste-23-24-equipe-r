@@ -19,6 +19,10 @@ public class TimeSlot {
         this.capacity--;
     }
 
+    public void subtractCapacity(int numberOfMenus) {
+        this.capacity-=numberOfMenus;
+    }
+
     public LocalTime getStartTime() {
         return this.startTime;
     }
