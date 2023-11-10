@@ -3,12 +3,19 @@ package fr.unice.polytech.steats.cart;
 import fr.unice.polytech.steats.cart.Cart;
 import fr.unice.polytech.steats.exceptions.cart.MenuRemovalFromCartException;
 import fr.unice.polytech.steats.restaurant.Menu;
+import fr.unice.polytech.steats.users.CampusUser;
+
+import java.util.Map;
 
 public class CartService {
     private Cart cart;
 
     public CartService(Cart cart) {
         this.cart = cart;
+    }
+
+    public Cart getCart() {
+        return cart;
     }
 
     public void addItem(Menu menu, int quantity){
@@ -28,5 +35,20 @@ public class CartService {
                 throw new MenuRemovalFromCartException();
             }
         }
+    }
+
+    public double getPriceForUserType(CampusUser campusUser){
+        double total = 0;
+        for (Map.Entry<Menu, Integer> entry : cart.getMenuMap().entrySet()) {
+            Menu menu = entry.getKey();
+            int quantity = entry.getValue();
+            if (menu.getCampusUserStatusPrice().containsKey(campusUser.getStatus())) {
+                double priceForUser = menu.getCampusUserStatusPrice().get(campusUser.getStatus());
+                total += priceForUser * quantity;
+            } else {
+                total += menu.getBasePrice() * quantity;
+            }
+        }
+        return total;
     }
 }

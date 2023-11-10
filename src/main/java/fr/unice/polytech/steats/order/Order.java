@@ -85,7 +85,7 @@ public class Order {
         for (Map.Entry<Menu, Integer> entry : menusOrdered.entrySet()) {
             Menu menu = entry.getKey();
             int quantity = entry.getValue();
-            total += menu.getPrice() * quantity;
+            total += menu.getBasePrice() * quantity;
         }
         if(getTotalMenus()>=10){
             return total-(total*discount);

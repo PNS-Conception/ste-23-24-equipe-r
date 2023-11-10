@@ -24,6 +24,7 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 
 import java.time.LocalTime;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -132,7 +133,7 @@ public class PlaceOrder {
     public void verifyCartPrice(String customerName, double cartPrice) {
         campusUser = campusUserRegistry.findByName(customerName).get();
         cart = campusUser.getCart();
-        assertEquals(cartPrice, cart.getPrice(), 0.01);
+        assertEquals(cartService.getPriceForUserType(campusUser), cartPrice, 0.01);
     }
 
     @Given("timeslot {string} has capacity {int}")
@@ -153,7 +154,6 @@ public class PlaceOrder {
         campusUser = campusUserRegistry.findByName(customerName).get();
         order = orderRegistry.register(restaurant, campusUser, campusUser.getCart().getMenuMap(),
                 timeSlot, deliveryLocation);
-
     }
     @Then("timeslot {string} should have capacity {int}")
     public void timeslotShouldHaveCapacity(String timeslotString, int capacity) {
