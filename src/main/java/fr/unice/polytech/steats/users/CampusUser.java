@@ -3,6 +3,7 @@ package fr.unice.polytech.steats.users;
 import fr.unice.polytech.steats.cart.Cart;
 import fr.unice.polytech.steats.exceptions.order.InsufficientBalanceException;
 import fr.unice.polytech.steats.rating.RatingSystem;
+import fr.unice.polytech.steats.restaurant.Menu;
 
 import java.util.*;
 
@@ -70,6 +71,11 @@ public class CampusUser extends User {
         this.cart = cart;
     }
 
+
+    public void addMenuToCart(Menu mn){
+        this.cart.addMenu(mn);
+    }
+
     public CampusUserStatus getStatus() {
         return status;
     }
@@ -83,5 +89,6 @@ public class CampusUser extends User {
             throw new InsufficientBalanceException();
         }
         this.balance -= amount;
+
     }
 }

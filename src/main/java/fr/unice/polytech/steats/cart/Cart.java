@@ -32,4 +32,8 @@ public class Cart {
     public void setRestaurant(Restaurant restaurant){
         this.restaurant = restaurant;
     }
+
+    public void addMenu(Menu mn){
+        this.menuMap.put(mn,1);
+    }
 }
