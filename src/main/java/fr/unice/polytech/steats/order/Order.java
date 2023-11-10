@@ -6,6 +6,7 @@ import fr.unice.polytech.steats.users.CampusUser;
 import fr.unice.polytech.steats.delivery.DeliveryLocation;
 import fr.unice.polytech.steats.restaurant.TimeSlot;
 
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -20,6 +21,8 @@ public class Order {
     private TimeSlot timeSlot;
     private GroupOrder groupOrder;
     private double discount = 0.1;
+
+    private LocalDate OrderDate;
 
     public Order(){
         this.orderID = UUID.randomUUID();
@@ -46,6 +49,14 @@ public class Order {
         this.deliveryLocation = groupOrder.getDeliveryLocation();
         this.timeSlot = groupOrder.getTimeSlot();
     }
+
+    public Order(Restaurant restaurant,Menu mn, LocalDate orderDate) {
+        this.restaurant = restaurant;
+        OrderDate = orderDate;
+        menusOrdered = new HashMap<>();
+        menusOrdered.put(mn,1);
+    }
+
     public OrderStatus getStatus() {
         return orderStatus;
     }
@@ -91,5 +102,24 @@ public class Order {
             return total-(total*discount);
         }
         return total;
+    }
+
+    public Restaurant getRestaurant() {
+        return restaurant;
+    }
+
+    public void setRestaurant(Restaurant restaurant) {
+        this.restaurant = restaurant;
+    }
+
+    public LocalDate getOrderDate() {
+        return OrderDate;
+    }
+
+    public TimeSlot getTimeSlot() {
+        return timeSlot;
+    }
+    public Menu getMenu(){
+        return menusOrdered.keySet().iterator().next();
     }
 }

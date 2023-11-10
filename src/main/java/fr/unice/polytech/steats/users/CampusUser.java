@@ -1,6 +1,7 @@
 package fr.unice.polytech.steats.users;
 
 import fr.unice.polytech.steats.cart.Cart;
+import fr.unice.polytech.steats.order.Order;
 import fr.unice.polytech.steats.rating.RatingSystem;
 import fr.unice.polytech.steats.restaurant.Menu;
 
@@ -11,6 +12,8 @@ public class CampusUser extends User {
     private double balance;
 
     private CampusUserStatus status;
+
+    private List<Order> PreviousOrders ;
 
     public CampusUser() {
         super();
@@ -73,5 +76,13 @@ public class CampusUser extends User {
 
     public void setStatus(CampusUserStatus status) {
         this.status = status;
+    }
+
+    public List<Order> getPreviousOrders() {
+        return PreviousOrders;
+    }
+
+    public void setPreviousOrders(List<Order> previousOrders) {
+        PreviousOrders = previousOrders;
     }
 }

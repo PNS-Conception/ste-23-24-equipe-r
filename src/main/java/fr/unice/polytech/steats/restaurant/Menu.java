@@ -92,4 +92,12 @@ public class Menu {
     public void setCampusUserStatusPrice(Map<CampusUserStatus, Double> campusUserStatusPrice) {
         this.campusUserStatusPrice = campusUserStatusPrice;
     }
+
+    @Override
+    public String toString() {
+        return "Menu{" +
+                "menuName='" + menuName + '\'' +
+                ", basePrice=" + basePrice +
+                '}';
+    }
 }
