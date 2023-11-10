@@ -182,7 +182,7 @@ public class PlaceOrder {
                     timeSlot, deliveryLocation);
         }
 
-        catch (InsufficientBalanceException e){
+        catch (InsufficientBalanceException | PaymentException e){
             balanceErrorThrown = true;
         }
     }

@@ -23,7 +23,7 @@ public class OrderRegistry {
     }
     public Order register(Restaurant restaurant, CampusUser customer, Map<Menu, Integer> menusOrdered,
                           TimeSlot timeSlot, DeliveryLocation deliveryLocation)
-            throws InsufficientTimeSlotCapacity, NonExistentTimeSlot, EmptyCartException, InsufficientBalanceException {
+            throws InsufficientTimeSlotCapacity, NonExistentTimeSlot, EmptyCartException, InsufficientBalanceException, PaymentException {
         isValidOrder(restaurant, timeSlot, menusOrdered);
         Map<Menu, Integer> menusOrderedCopy = menusOrdered.entrySet().stream()
                 .collect(Collectors.toMap(
