@@ -74,6 +74,7 @@ public class CampusUser extends User {
 
     public void addMenuToCart(Menu mn){
         this.cart.addMenu(mn);
+    }
 
     public CampusUserStatus getStatus() {
         return status;
