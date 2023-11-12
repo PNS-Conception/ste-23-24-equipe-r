@@ -10,8 +10,13 @@ import fr.unice.polytech.steats.restaurant.Menu;
 import fr.unice.polytech.steats.restaurant.Restaurant;
 import fr.unice.polytech.steats.restaurant.TimeSlot;
 import fr.unice.polytech.steats.users.CampusUser;
+import org.mockito.internal.matchers.Or;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 public class OrderRegistry {
     PaymentManager paymentManager;
@@ -53,5 +58,15 @@ public class OrderRegistry {
         }else {
             throw new NonExistentTimeSlot(timeslot);
         }
+    }
+
+    public List<Order> getPreviousOrders(CampusUser user) {
+        List<Order> previousOrders = new ArrayList<>();
+        for (Order order : orderRepository.findAll()) {
+            if (order.getCustomer().equals(user)) {
+                previousOrders.add(order);
+            }
+        }
+        return previousOrders;
     }
 }

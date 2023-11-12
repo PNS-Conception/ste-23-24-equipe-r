@@ -77,12 +77,4 @@ public class CampusUser extends User {
     public void setStatus(CampusUserStatus status) {
         this.status = status;
     }
-
-    public List<Order> getPreviousOrders() {
-        return PreviousOrders;
-    }
-
-    public void setPreviousOrders(List<Order> previousOrders) {
-        PreviousOrders = previousOrders;
-    }
 }
