@@ -8,6 +8,7 @@ import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import org.junit.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -35,6 +36,7 @@ public class ManageRestaurantSteps {
             assertNotNull(restaurant.getMenufromName(dataTable.row(i).get(0)));
         }
     }
+
 
     @Given("the owner of the restaurant {string} with current operating hours from {string} to {string} with a capacity of {int} dishes per ten minutes")
     public void theOwnerOfTheRestaurantWithCurrentOperatingHoursFromTo(String restaurantName, String openingTime, String closingTime, int capacity) {

@@ -1,5 +1,6 @@
 package fr.unice.polytech.steats.payment;
 
+import fr.unice.polytech.steats.cart.CartService;
 import fr.unice.polytech.steats.exceptions.order.PaymentException;
 import fr.unice.polytech.steats.users.CampusUser;
 
@@ -10,7 +11,8 @@ public class PaymentManager {
     }
 
     public void completePayment(CampusUser user) throws PaymentException {
-        double totalPrice = user.getCart().getPrice();
+        CartService cartService = new CartService(user.getCart());
+        double totalPrice = cartService.getPriceForUser(user);
         if (!externalPaymentMock.executePayment(user, totalPrice)){
             throw new PaymentException();
         }

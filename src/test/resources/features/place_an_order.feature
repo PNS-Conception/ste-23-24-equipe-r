@@ -70,3 +70,12 @@ Feature: Place an order
     And the order status is "PREPARING"
     And "Brahim" checks his cart's contents
     And there is 0 menus in his cart
+
+  Scenario: getting discount for order with more than 10 menus
+    Given timeslot "15:00" of the restaurant "Pizza Hut" has capacity 15
+    When "Brahim" chooses the restaurant "Pizza Hut"
+    And "Brahim" chooses 11 x "Margherita Pizza"
+    And "Brahim" chooses 1 x "Veggie Pizza"
+    And chooses timeslot "15:00" of the restaurant "Pizza Hut" and delivery location "LIBRARY"
+    And "Brahim" confirms and pays for the cart
+    Then the price of the order is 109.80

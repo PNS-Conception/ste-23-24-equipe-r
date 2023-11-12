@@ -26,19 +26,14 @@ public class Cart {
         }
         return totalQuantity;
     }
-    public double getPrice(){
-        double total = 0;
-        for (Map.Entry<Menu, Integer> entry : menuMap.entrySet()) {
-            Menu menu = entry.getKey();
-            int quantity = entry.getValue();
-            total += menu.getPrice() * quantity;
-        }
-        return total;
-    }
     public void emptyCart() {
         menuMap.clear();
     }
     public void setRestaurant(Restaurant restaurant){
         this.restaurant = restaurant;
+    }
+
+    public void addMenu(Menu mn){
+        this.menuMap.put(mn,1);
     }
 }

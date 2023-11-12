@@ -5,8 +5,7 @@ import fr.unice.polytech.steats.restaurant.Restaurant;
 import fr.unice.polytech.steats.users.CampusUser;
 import fr.unice.polytech.steats.delivery.DeliveryLocation;
 import fr.unice.polytech.steats.restaurant.TimeSlot;
-
-import java.sql.Time;
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -19,7 +18,18 @@ public class Order {
     private Map<Menu, Integer> menusOrdered;
     private DeliveryLocation deliveryLocation;
     private TimeSlot timeSlot;
+    private GroupOrder groupOrder;
+    private double discount = 0.1;
 
+    private LocalDate OrderDate;
+
+    public Order(){
+        this.orderID = UUID.randomUUID();
+        this.customer = new CampusUser();
+        this.menusOrdered = new HashMap<>();
+        this.deliveryLocation =DeliveryLocation.LIBRARY;
+        this.timeSlot = null;
+    }
     public Order(Restaurant restaurant, CampusUser customer, Map<Menu, Integer> menusOrdered,
                  DeliveryLocation deliveryLocation, TimeSlot timeslot){
         this.orderID = UUID.randomUUID();
@@ -28,6 +38,13 @@ public class Order {
         this.menusOrdered = menusOrdered;
         this.deliveryLocation = deliveryLocation;
         this.timeSlot = timeslot;
+    }
+
+    public Order(Restaurant restaurant,Menu mn, LocalDate orderDate) {
+        this.restaurant = restaurant;
+        OrderDate = orderDate;
+        menusOrdered = new HashMap<>();
+        menusOrdered.put(mn,1);
     }
 
     public OrderStatus getStatus() {
@@ -64,13 +81,36 @@ public class Order {
         }
         return sum;
     }
+
+    public void setDiscount(double discount){
+        this.discount = discount;
+    }
+
     public double getPrice(){
         double total = 0;
         for (Map.Entry<Menu, Integer> entry : menusOrdered.entrySet()) {
             Menu menu = entry.getKey();
             int quantity = entry.getValue();
-            total += menu.getPrice() * quantity;
+            total += menu.getBasePrice() * quantity;
+        }
+        if(getTotalMenus()>=10){
+            return total-(total*discount);
         }
         return total;
+    }
+
+    public Restaurant getRestaurant() {
+        return restaurant;
+    }
+
+    public void setRestaurant(Restaurant restaurant) {
+        this.restaurant = restaurant;
+    }
+
+    public LocalDate getOrderDate() {
+        return OrderDate;
+    }
+    public Menu getMenu(){
+        return menusOrdered.keySet().iterator().next();
     }
 }

@@ -67,8 +67,7 @@ public class CartSteps {
     @Then("the price of {string}'s cart is {double}")
     public void verifyCartPrice(String customerName, double cartPrice) {
         campusUser = campusUserRegistry.findByName(customerName).get();
-        cart = campusUser.getCart();
-        assertEquals(cart.getPrice(), cartPrice, 0.01);
+        assertEquals(cartService.getPriceForUser(campusUser), cartPrice, 0.01);
     }
     @Then("timeslot {string} should have capacity {int}")
     public void timeslotShouldHaveCapacity(String timeslotString, int capacity) {
