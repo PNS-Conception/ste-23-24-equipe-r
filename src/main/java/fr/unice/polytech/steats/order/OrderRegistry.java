@@ -1,6 +1,7 @@
 package fr.unice.polytech.steats.order;
 
 import fr.unice.polytech.steats.exceptions.order.EmptyCartException;
+import fr.unice.polytech.steats.payment.ExternalPaymentMock;
 import fr.unice.polytech.steats.payment.PaymentManager;
 import fr.unice.polytech.steats.delivery.DeliveryLocation;
 import fr.unice.polytech.steats.exceptions.restaurant.InsufficientTimeSlotCapacity;
@@ -25,6 +26,17 @@ public class OrderRegistry {
         this.orderRepository = orderRepository;
         this.paymentManager = paymentManager;
     }
+
+    public OrderRegistry() {
+        this.orderRepository = new OrderRepository();
+        this.paymentManager = new PaymentManager(new ExternalPaymentMock());
+    }
+
+    public OrderRegistry(OrderRepository orderRepository) {
+        this.orderRepository = orderRepository;
+        this.paymentManager = new PaymentManager(new ExternalPaymentMock());
+    }
+
     public Order register(Restaurant restaurant, CampusUser customer, Map<Menu, Integer> menusOrdered,
                           TimeSlot timeSlot, DeliveryLocation deliveryLocation)
             throws InsufficientTimeSlotCapacity, NonExistentTimeSlot, EmptyCartException, PaymentException {
@@ -64,6 +76,16 @@ public class OrderRegistry {
         List<Order> previousOrders = new ArrayList<>();
         for (Order order : orderRepository.findAll()) {
             if (order.getCustomer().equals(user)) {
+                previousOrders.add(order);
+            }
+        }
+        return previousOrders;
+    }
+
+    public List<Order> getOrdersWaitingForPreparation(Restaurant restaurant) {
+        List<Order> previousOrders = new ArrayList<>();
+        for (Order order : orderRepository.findAll()) {
+            if (order.getRestaurant().equals(restaurant) && order.getStatus().equals(OrderStatus.WAITING_FOR_PREPARATION)) {
                 previousOrders.add(order);
             }
         }

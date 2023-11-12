@@ -30,6 +30,7 @@ public class Order {
         this.menusOrdered = new HashMap<>();
         this.deliveryLocation =DeliveryLocation.LIBRARY;
         this.timeSlot = null;
+        this.orderStatus = OrderStatus.WAITING_FOR_PREPARATION;
     }
 
     public Order(Restaurant restaurant, CampusUser customer, Map<Menu, Integer> menusOrdered,
@@ -39,6 +40,7 @@ public class Order {
         this.menusOrdered = menusOrdered;
         this.deliveryLocation = deliveryLocation;
         this.timeSlot = timeslot;
+        this.orderStatus = OrderStatus.WAITING_FOR_PREPARATION;
     }
     public Order(Restaurant restaurant, CampusUser customer, Map<Menu, Integer> menusOrdered,
                  GroupOrder groupOrder){
@@ -48,13 +50,16 @@ public class Order {
         this.groupOrder = groupOrder;
         this.deliveryLocation = groupOrder.getDeliveryLocation();
         this.timeSlot = groupOrder.getTimeSlot();
+        this.orderStatus = OrderStatus.WAITING_FOR_PREPARATION;
     }
 
     public Order(Restaurant restaurant,Menu mn, LocalDate orderDate) {
+        this.orderID = UUID.randomUUID();
         this.restaurant = restaurant;
         OrderDate = orderDate;
         menusOrdered = new HashMap<>();
         menusOrdered.put(mn,1);
+        this.orderStatus = OrderStatus.WAITING_FOR_PREPARATION;
     }
 
     public OrderStatus getStatus() {
