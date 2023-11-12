@@ -10,7 +10,7 @@ import io.cucumber.java.en.When;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class ManageRestaurantsSteps {
+public class CampusManagerManageRestaurantsSteps {
 
     RestaurantRepository restaurantRepository = new RestaurantRepository();
 
