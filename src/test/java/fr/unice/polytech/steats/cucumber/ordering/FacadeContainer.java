@@ -2,6 +2,8 @@ package fr.unice.polytech.steats.cucumber.ordering;
 
 import fr.unice.polytech.steats.order.OrderRegistry;
 import fr.unice.polytech.steats.order.OrderRepository;
+import fr.unice.polytech.steats.order.grouporder.GroupOrderRegistry;
+import fr.unice.polytech.steats.order.grouporder.GroupOrderService;
 import fr.unice.polytech.steats.restaurant.RestaurantRegistry;
 import fr.unice.polytech.steats.restaurant.RestaurantRepository;
 import fr.unice.polytech.steats.users.CampusUserRegistry;
@@ -17,6 +19,10 @@ public class FacadeContainer {
     CampusUserRepository campusUserRepository;
     CampusUserRegistry campusUserRegistry;
     RestaurantRegistry restaurantRegistry;
+    GroupOrderRegistry groupOrderRegistry;
+    GroupOrderService groupOrderService;
+
+
     public FacadeContainer(AppExplicitConfig config){
         this.container = config.getContainer();
         this.restaurantRepository = container.getComponent(RestaurantRepository.class);
@@ -25,5 +31,7 @@ public class FacadeContainer {
         this.campusUserRegistry = container.getComponent(CampusUserRegistry.class);
         this.orderRepository = container.getComponent(OrderRepository.class);
         this.orderRegistry = container.getComponent(OrderRegistry.class);
+        this.groupOrderRegistry = container.getComponent(GroupOrderRegistry.class);
+        this.groupOrderService = container.getComponent(GroupOrderService.class);
     }
 }

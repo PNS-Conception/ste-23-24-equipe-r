@@ -4,9 +4,7 @@ import fr.unice.polytech.steats.delivery.DeliveryLocation;
 import fr.unice.polytech.steats.order.Order;
 import fr.unice.polytech.steats.restaurant.TimeSlot;
 import fr.unice.polytech.steats.users.CampusUser;
-import fr.unice.polytech.steats.util.DailyResetScheduler;
 import fr.unice.polytech.steats.util.GroupOrderCodeGenerator;
-
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,20 +13,19 @@ import java.util.UUID;
 public class GroupOrder {
     private CampusUser groupOrderOwner;
     private Duration groupOrderOpenDuration;
-    private boolean isOpen;
+    private boolean isOpen = true;
     private UUID groupOrderID;
     private String groupOrderCode;
     private List<Order> subOrders ;
     private TimeSlot timeslot;
     private DeliveryLocation deliveryLocation;
-
-
-
     public GroupOrder(CampusUser campusUser, TimeSlot timeSlot, DeliveryLocation deliveryLocation) {
         this.groupOrderID = UUID.randomUUID();
+        this.groupOrderOwner = campusUser;
         this.groupOrderCode = GroupOrderCodeGenerator.generate();
         this.timeslot = timeSlot;
         this.deliveryLocation = deliveryLocation;
+        subOrders = new ArrayList<>();
     }
 
     public List<Order> getSubOrders() {
@@ -37,11 +34,6 @@ public class GroupOrder {
     public boolean isOpen() {
         return isOpen;
     }
-
-    public void setOpen(boolean open) {
-        isOpen = open;
-    }
-
     public DeliveryLocation getDeliveryLocation() {
         return deliveryLocation;
     }
@@ -55,4 +47,14 @@ public class GroupOrder {
     public UUID getId(){
         return groupOrderID;
     }
+    public int getSize(){
+        if (subOrders == null){
+            return 0;
+        }
+        return subOrders.size();
+    }
+    public void setGroupOrderCode(String code){
+        this.groupOrderCode = code;
+    }
+    public void closeGroupOrder(){this.isOpen=false;}
 }

@@ -6,6 +6,7 @@ import fr.unice.polytech.steats.users.CampusUser;
 import fr.unice.polytech.steats.delivery.DeliveryLocation;
 import fr.unice.polytech.steats.restaurant.TimeSlot;
 
+import java.sql.Time;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -18,33 +19,17 @@ public class Order {
     private Map<Menu, Integer> menusOrdered;
     private DeliveryLocation deliveryLocation;
     private TimeSlot timeSlot;
-    private GroupOrder groupOrder;
-
-    public Order(){
-        this.orderID = UUID.randomUUID();
-        this.customer = new CampusUser();
-        this.menusOrdered = new HashMap<>();
-        this.deliveryLocation =DeliveryLocation.LIBRARY;
-        this.timeSlot = null;
-    }
 
     public Order(Restaurant restaurant, CampusUser customer, Map<Menu, Integer> menusOrdered,
                  DeliveryLocation deliveryLocation, TimeSlot timeslot){
         this.orderID = UUID.randomUUID();
+        this.restaurant = restaurant;
         this.customer = customer;
         this.menusOrdered = menusOrdered;
         this.deliveryLocation = deliveryLocation;
         this.timeSlot = timeslot;
     }
-    public Order(Restaurant restaurant, CampusUser customer, Map<Menu, Integer> menusOrdered,
-                 GroupOrder groupOrder){
-        this.orderID = UUID.randomUUID();
-        this.customer = customer;
-        this.menusOrdered = menusOrdered;
-        this.groupOrder = groupOrder;
-        this.deliveryLocation = groupOrder.getDeliveryLocation();
-        this.timeSlot = groupOrder.getTimeSlot();
-    }
+
     public OrderStatus getStatus() {
         return orderStatus;
     }
@@ -63,9 +48,14 @@ public class Order {
     public void setDeliveryLocation(DeliveryLocation deliveryLocation) {
         this.deliveryLocation = deliveryLocation;
     }
-
+    public DeliveryLocation getDeliveryLocation(){
+        return this.deliveryLocation;
+    }
     public void setTimeSlot(TimeSlot timeSlot) {
         this.timeSlot = timeSlot;
+    }
+    public TimeSlot getTimeSlot() {
+        return this.timeSlot;
     }
     public int getTotalMenus(){
         int sum = 0;

@@ -1,7 +1,10 @@
 package fr.unice.polytech.steats.delivery;
 
+import fr.unice.polytech.steats.restaurant.TimeSlot;
+
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class DeliveryLocation {
 
@@ -35,5 +38,12 @@ public class DeliveryLocation {
 
     public static DeliveryLocation getByName(String name) {
         return LOCATIONS_MAP.get(name);
+    }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        DeliveryLocation deliveryLocation = (DeliveryLocation) o;
+        return ((DeliveryLocation) o).locationName.equals(locationName);
     }
 }
