@@ -27,6 +27,7 @@ public class StatisticsManager {
                 orderVolume.getOrderVolume().remove(order);
             }
         }
+
         return orderVolume.getOrderVolume();
     }
 
