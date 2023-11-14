@@ -1,6 +1,7 @@
 package fr.unice.polytech.steats.cucumber;
 
 import fr.unice.polytech.steats.cart.Cart;
+import fr.unice.polytech.steats.cucumber.ordering.FacadeContainer;
 import fr.unice.polytech.steats.exceptions.order.EmptyCartException;
 import fr.unice.polytech.steats.exceptions.order.PaymentException;
 import fr.unice.polytech.steats.exceptions.restaurant.DeliveryDateNotAvailable;
@@ -31,10 +32,13 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 public class AccessPreviousOrders {
     CampusUser campusUser;
-    OrderRepository orderRepository = new OrderRepository();
-    OrderRegistry orderRegistry = new OrderRegistry(orderRepository,new PaymentManager(new ExternalPaymentMock()));
+    OrderRegistry orderRegistry;
 
     List<Order> previousOrders = new ArrayList<>();
+
+    public AccessPreviousOrders(FacadeContainer container) {
+        orderRegistry = container.orderRegistry;
+    }
 
     @Given("a logged-in Campus user {string} and a list of previous orders")
     public void a_logged_in_Campus_user_and_a_list_of_previous_orders (String name) throws EmptyCartException, PaymentException, NonExistentTimeSlot, InsufficientTimeSlotCapacity, DeliveryDateNotAvailable {

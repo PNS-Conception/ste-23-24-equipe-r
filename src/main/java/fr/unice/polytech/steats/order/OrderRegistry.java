@@ -26,24 +26,16 @@ public class OrderRegistry {
     PaymentManager paymentManager;
     OrderRepository orderRepository;
     DeliveryRegistry deliveryRegistry;
-    public OrderRegistry(OrderRepository orderRepository, PaymentManager paymentManager){
+
+    public OrderRegistry(OrderRepository orderRepository,PaymentManager paymentManager, DeliveryRegistry deliveryRegistry) {
         this.orderRepository = orderRepository;
         this.paymentManager = paymentManager;
-    }
-
-    public OrderRegistry() {
-        this.orderRepository = new OrderRepository();
-        this.paymentManager = new PaymentManager(new ExternalPaymentMock());
-    }
-
-    public OrderRegistry(OrderRepository orderRepository) {
-        this.orderRepository = orderRepository;
-        this.paymentManager = new PaymentManager(new ExternalPaymentMock());
+        this.deliveryRegistry = deliveryRegistry;
     }
 
     public Order register(Restaurant restaurant, CampusUser customer, Map<Menu, Integer> menusOrdered,
                           LocalTime localTime, DeliveryLocation deliveryLocation)
-            throws InsufficientTimeSlotCapacity, NonExistentTimeSlot, EmptyCartException, PaymentException, DeliveryDateNotAvailable {
+            throws EmptyCartException, PaymentException, DeliveryDateNotAvailable {
 
 
         int menusNumber = menusOrdered.values().stream().mapToInt(Integer::intValue).sum();
