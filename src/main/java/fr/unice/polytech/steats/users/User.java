@@ -1,5 +1,11 @@
 package fr.unice.polytech.steats.users;
 
+import fr.unice.polytech.steats.exceptions.order.NoOrdersPlacedException;
+import fr.unice.polytech.steats.order.Order;
+import fr.unice.polytech.steats.order.OrderVolume;
+import fr.unice.polytech.steats.stats.StatisticsManager;
+
+import java.util.List;
 import java.util.UUID;
 
 public class User {
@@ -27,4 +33,5 @@ public class User {
     public void setName(String name) {
         this.name = name;
     }
+
 }
