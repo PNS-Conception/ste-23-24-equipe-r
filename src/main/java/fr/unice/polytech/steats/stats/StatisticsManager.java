@@ -31,9 +31,6 @@ public class StatisticsManager {
         return orderVolume.getOrderVolume();
     }
 
-    public HashMap<Restaurant,OrderVolume> getOrderVolumesByRestaurant(UUID restaurantID) {
-        return null;
-    }
 
 
 }

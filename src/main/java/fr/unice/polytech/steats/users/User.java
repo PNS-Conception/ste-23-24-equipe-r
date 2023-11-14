@@ -8,7 +8,7 @@ import fr.unice.polytech.steats.stats.StatisticsManager;
 import java.util.List;
 import java.util.UUID;
 
-public abstract class User {
+public class User {
     private String name;
     private UUID id;
 
@@ -34,8 +34,4 @@ public abstract class User {
         this.name = name;
     }
 
-    public List<Order> getOrderVolumesOverTimeByUser() throws NoOrdersPlacedException {
-        StatisticsManager statisticsManager = new StatisticsManager();
-        return statisticsManager.getOrderVolumesOverTime();
-    }
 }
