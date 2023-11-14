@@ -2,7 +2,7 @@ package fr.unice.polytech.steats.cucumber;
 
 import fr.unice.polytech.steats.rating.RatingSystem;
 import fr.unice.polytech.steats.users.CampusUser;
-import fr.unice.polytech.steats.users.DeliveryPerson;
+import fr.unice.polytech.steats.users.User;
 import io.cucumber.java.en.*;
 
 import java.util.ArrayList;
@@ -11,7 +11,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class RatingAndViewDeliveryPersonRatingSteps {
-    DeliveryPerson deliveryPerson = new DeliveryPerson("DP1");
+    User deliveryPerson = new User("DP1");
     CampusUser campusUser1 = new CampusUser();
     CampusUser campusUser2 = new CampusUser();
     RatingSystem ratingSystem = new RatingSystem();
