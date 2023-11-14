@@ -22,74 +22,46 @@ public class RatingSystem {
         return deliveryPersonRatings;
     }
 
+    private Double calculateAverageRating(List<RatingInfo> ratings) {
+        if (ratings.isEmpty()) {
+            return 0.0;
+        }
+
+        double total = 0.0;
+        for (RatingInfo rating : ratings) {
+            total += rating.getRateFromRatingInfo();
+        }
+
+        double average = total / ratings.size();
+        String formattedResult = String.format("%.1f", average).replace(',', '.');
+        return Double.parseDouble(formattedResult);
+    }
+
 
     public Double averageRatingRestaurant(Restaurant restaurant){
-        double somme = 0.0;
-        if (restaurantRatings.containsKey(restaurant)) {
-            for (RatingInfo ratingInfo : restaurantRatings.get(restaurant)) {
-                double rating = ratingInfo.getRateFromRatingInfo();
-                somme += rating;
-            }
-            double average = somme / restaurantRatings.get(restaurant).size();
-
-            String formattedResult = String.format("%.1f", average);
-            formattedResult = formattedResult.replace(',', '.');
-            return Double.parseDouble(formattedResult);
-        }
-        return somme;
-
+        return calculateAverageRating(restaurantRatings.get(restaurant));
     }
 
 
     public Double averageRatingDeliveryPerson(UUID id) {
-        double somme = 0.0;
-        if(deliveryPersonRatings.containsKey(id)){
-            for (RatingInfo ratingInfo : deliveryPersonRatings.get(id)) {
-                double rating = ratingInfo.getRateFromRatingInfo();
-                somme += rating;
-            }
-            double average = somme / deliveryPersonRatings.get(id).size();
-
-            String formattedResult = String.format("%.1f", average);
-            formattedResult = formattedResult.replace(',', '.');
-            return Double.parseDouble(formattedResult);
-        }
-        return somme;
-
+        return calculateAverageRating(deliveryPersonRatings.get(id));
     }
 
-
-    public void rateRestaurant(Restaurant restaurant,User user, Double rate) {
-        if(rate< 0 || rate > 5){
+    private <T> void addRating(Map<T, List<RatingInfo>> ratingsMap, T entity, User user, Double rate) {
+        if (rate < 0 || rate > 5) {
             throw new IllegalArgumentException("Rating must be between 0 and 5");
         }
-        if (restaurantRatings.containsKey(restaurant)) {
-            RatingInfo ratingInfo = new RatingInfo(user, rate);
-            restaurantRatings.get(restaurant).add(ratingInfo);
-        }
-        else {
-            List<RatingInfo> listOfRatingInfoOfNewRestaurant = new ArrayList<>();
-            RatingInfo rateInfo = new RatingInfo(user, rate);
-             listOfRatingInfoOfNewRestaurant.add(rateInfo);
-             restaurantRatings.put(restaurant, listOfRatingInfoOfNewRestaurant);
-        }
+        List<RatingInfo> ratings = ratingsMap.computeIfAbsent(entity, k -> new ArrayList<>());
+        ratings.add(new RatingInfo(user, rate));
     }
 
-
-    public void rateDeliveryPerson(UUID deliveryId,User user, Double rate) {
-        if(rate< 0 || rate > 5){
-            throw new IllegalArgumentException("Rating must be between 0 and 5");
-        }
-        if (deliveryPersonRatings.containsKey(deliveryId)) {
-            RatingInfo ratingInfo = new RatingInfo(user, rate);
-            deliveryPersonRatings.get(deliveryId).add(ratingInfo);
-        }
-        else {
-            List<RatingInfo> listOfRatingInfoOfNewDeliveryPerson = new ArrayList<>();
-            RatingInfo rateInfo = new RatingInfo(user, rate);
-            listOfRatingInfoOfNewDeliveryPerson.add(rateInfo);
-            deliveryPersonRatings.put(deliveryId, listOfRatingInfoOfNewDeliveryPerson);
-        }
+    public void rateRestaurant(Restaurant restaurant, User user, Double rate) {
+        addRating(restaurantRatings, restaurant, user, rate);
     }
+
+    public void rateDeliveryPerson(UUID deliveryId, User user, Double rate) {
+        addRating(deliveryPersonRatings, deliveryId, user, rate);
+    }
+
 }
 
