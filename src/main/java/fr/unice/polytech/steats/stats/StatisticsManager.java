@@ -1,5 +1,6 @@
 package fr.unice.polytech.steats.stats;
 
+import fr.unice.polytech.steats.delivery.DeliveryLocation;
 import fr.unice.polytech.steats.exceptions.order.NoOrdersPlacedException;
 import fr.unice.polytech.steats.order.Order;
 import fr.unice.polytech.steats.order.OrderStatus;
@@ -46,6 +47,14 @@ public class StatisticsManager {
             }
         }
         return restaurantOrderVolume;
+    }
+
+
+    public DeliveryLocation getDeliveryLocation(Order order1) throws NoOrdersPlacedException{
+        if(orderVolume.getOrderVolume().contains(order1) && !(order1.getStatus().equals(OrderStatus.DELIVERED))){
+            return order1.getDeliveryLocation();
+        }
+        throw new NoOrdersPlacedException();
     }
 
 
