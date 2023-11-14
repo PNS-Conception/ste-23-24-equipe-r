@@ -21,6 +21,7 @@ public class Order {
     private GroupOrder groupOrder;
     private double discount = 0.1;
 
+
     private LocalDate OrderDate;
 
     public Order(){
@@ -30,6 +31,7 @@ public class Order {
         this.deliveryLocation =DeliveryLocation.LIBRARY;
         this.timeSlot = null;
         this.orderStatus = OrderStatus.WAITING_FOR_PREPARATION;
+        OrderVolume.getInstance().addOrder(this);
     }
     public Order(Restaurant restaurant, CampusUser customer, Map<Menu, Integer> menusOrdered,
                  DeliveryLocation deliveryLocation, TimeSlot timeslot){
@@ -40,6 +42,7 @@ public class Order {
         this.deliveryLocation = deliveryLocation;
         this.timeSlot = timeslot;
         this.orderStatus = OrderStatus.WAITING_FOR_PREPARATION;
+        OrderVolume.getInstance().addOrder(this);
     }
 
     public Order(Restaurant restaurant,Menu mn, LocalDate orderDate) {
@@ -49,6 +52,7 @@ public class Order {
         menusOrdered = new HashMap<>();
         menusOrdered.put(mn,1);
         this.orderStatus = OrderStatus.WAITING_FOR_PREPARATION;
+        OrderVolume.getInstance().addOrder(this);
     }
 
     public OrderStatus getStatus() {
