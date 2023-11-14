@@ -6,9 +6,7 @@ import fr.unice.polytech.steats.users.CampusUser;
 import fr.unice.polytech.steats.delivery.DeliveryLocation;
 import fr.unice.polytech.steats.restaurant.TimeSlot;
 import java.time.LocalDate;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 public class Order {
     private UUID orderID;
@@ -20,6 +18,8 @@ public class Order {
     private TimeSlot timeSlot;
     private GroupOrder groupOrder;
     private double discount = 0.1;
+
+    private final List<OrderSubscriber> subscribers = new ArrayList<>();
 
     private LocalDate OrderDate;
 
@@ -40,6 +40,7 @@ public class Order {
         this.deliveryLocation = deliveryLocation;
         this.timeSlot = timeslot;
         this.orderStatus = OrderStatus.WAITING_FOR_PREPARATION;
+        this.subscribe(customer);
     }
 
     public Order(Restaurant restaurant,Menu mn, LocalDate orderDate) {
@@ -57,6 +58,9 @@ public class Order {
 
     public void setStatus(OrderStatus orderStatus) {
         this.orderStatus = orderStatus;
+        if(orderStatus.equals(OrderStatus.READY_FOR_DELIVERY)){
+            notifySubscribers();
+        }
     }
 
     public UUID getId() {
@@ -116,5 +120,25 @@ public class Order {
     }
     public Menu getMenu(){
         return menusOrdered.keySet().iterator().next();
+    }
+
+
+    public void subscribe(OrderSubscriber subscriber) {
+        subscribers.add(subscriber);
+    }
+
+    public void unsubscribe(OrderSubscriber subscriber) {
+        subscribers.remove(subscriber);
+    }
+
+    public void notifySubscribers() {
+        Map<String, Object> event = new HashMap<>();
+        event.put("orderId", orderID);
+        event.put("deliveryDate", deliveryLocation);
+        event.put("location", timeSlot);
+
+        for (OrderSubscriber subscriber : subscribers) {
+            subscriber.update(event);
+        }
     }
 }

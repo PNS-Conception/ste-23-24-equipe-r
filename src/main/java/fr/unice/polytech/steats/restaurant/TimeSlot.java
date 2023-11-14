@@ -42,4 +42,12 @@ public class TimeSlot {
     public int hashCode() {
         return Objects.hash(startTime, capacity);
     }
+
+    @Override
+    public String toString() {
+        return "TimeSlot{" +
+                "startTime=" + startTime +
+                ", capacity=" + capacity +
+                '}';
+    }
 }

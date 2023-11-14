@@ -46,4 +46,13 @@ public class DeliveryLocation {
         DeliveryLocation deliveryLocation = (DeliveryLocation) o;
         return ((DeliveryLocation) o).locationName.equals(locationName);
     }
+
+    @Override
+    public String toString() {
+        return "DeliveryLocation{" +
+                "locationName='" + locationName + '\'' +
+                ", latitude=" + latitude +
+                ", longitude=" + longitude +
+                '}';
+    }
 }

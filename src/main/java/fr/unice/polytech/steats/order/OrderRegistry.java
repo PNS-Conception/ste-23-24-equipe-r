@@ -13,9 +13,7 @@ import fr.unice.polytech.steats.restaurant.TimeSlot;
 import fr.unice.polytech.steats.users.CampusUser;
 import org.mockito.internal.matchers.Or;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -57,6 +55,7 @@ public class OrderRegistry {
     }
 
 
+
     public void isValidOrder(Restaurant restaurant, TimeSlot timeslot, Map<Menu, Integer> menus)
             throws InsufficientTimeSlotCapacity, NonExistentTimeSlot, EmptyCartException {
         if (menus.isEmpty()){
@@ -90,5 +89,14 @@ public class OrderRegistry {
             }
         }
         return previousOrders;
+    }
+    public void MarkOrderAsReady(UUID id){
+        Optional<Order> optionalOrder = orderRepository.findById(id);
+
+        if (optionalOrder.isPresent()) {
+            Order order = optionalOrder.get();
+            order.setStatus(OrderStatus.READY_FOR_DELIVERY);
+            orderRepository.save(order,order.getId());
+        }
     }
 }
