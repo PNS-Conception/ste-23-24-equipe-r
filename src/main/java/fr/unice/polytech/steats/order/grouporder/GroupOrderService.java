@@ -8,6 +8,7 @@ import fr.unice.polytech.steats.exceptions.restaurant.InsufficientTimeSlotCapaci
 import fr.unice.polytech.steats.exceptions.restaurant.NonExistentTimeSlot;
 import fr.unice.polytech.steats.order.Order;
 import fr.unice.polytech.steats.order.OrderRegistry;
+import fr.unice.polytech.steats.order.OrderVolume;
 import fr.unice.polytech.steats.restaurant.Menu;
 import fr.unice.polytech.steats.restaurant.Restaurant;
 import fr.unice.polytech.steats.users.CampusUser;
@@ -33,6 +34,7 @@ public class GroupOrderService {
         GroupOrder groupOrder = validateAndGetGroupOrder(groupOrderCode);
         Order order = orderRegistry.register(restaurant, customer, menusOrdered,groupOrder.getTimeSlot(), groupOrder.getDeliveryLocation());
         groupOrder.getSubOrders().add(order);
+        OrderVolume.getInstance().addOrder(order);
     }
     private GroupOrder validateAndGetGroupOrder(String groupOrderCode)
             throws NonExistentGroupOrder, ClosedGroupOrderException {

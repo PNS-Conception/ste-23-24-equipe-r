@@ -1,6 +1,8 @@
 package fr.unice.polytech.steats.cucumber.stats;
 import fr.unice.polytech.steats.exceptions.order.NoOrdersPlacedException;
 import fr.unice.polytech.steats.order.Order;
+import fr.unice.polytech.steats.order.OrderStatus;
+import fr.unice.polytech.steats.restaurant.Restaurant;
 import fr.unice.polytech.steats.stats.StatisticsManager;
 import fr.unice.polytech.steats.users.User;
 import io.cucumber.java.en.*;
@@ -11,10 +13,12 @@ public class GetStatisticalInsights {
 
     Order order;
 
+    Restaurant restaurant;
+
 
     @Given("an Order has been created but not {string}")
     public void an_Order_has_been_created_but_not(String status) {
-        order= new Order();
+        order= new Order(restaurant,null,null,null,null);
         assertNotEquals(order.getStatus().toString(), status);
     }
     @When("a {string} retrieves statistical data on order volumes")
@@ -25,5 +29,24 @@ public class GetStatisticalInsights {
     public void the_Order_is_included_in_the_order_volume_data_for_the_current_period() throws NoOrdersPlacedException {
         StatisticsManager statisticsManager = new StatisticsManager();
         assertTrue(statisticsManager.getOrderVolumesOverTime().contains(order));
+    }
+
+
+    @Given("an Order from a {string} has been created but not {string}")
+    public void an_order_from_a_restaurant_has_been_created_but_not(String restaurantName,String status) {
+        restaurant = new Restaurant(restaurantName);
+        order = new Order(restaurant,null,null,null,null);
+        assertNotEquals(order.getStatus().toString(), status);
+    }
+    @When("a {string} retrieves statistical data on order volumes per restaurant")
+    public void a_retrieves_statistical_data_on_order_volumes_per_restaurant(String name) {
+        user = new User(name);
+    }
+    @Then("the Order is included in the order volume data per restaurant")
+    public void the_order_is_included_in_the_order_volume_data_per_restaurant() throws NoOrdersPlacedException {
+        StatisticsManager statisticsManager = new StatisticsManager();
+        assertTrue(statisticsManager.getOrderVolumesOverTime().contains(order));
+        assertTrue(statisticsManager.getRestaurantOrderVolume(restaurant).contains(order));
+
     }
 }

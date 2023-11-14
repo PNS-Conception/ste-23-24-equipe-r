@@ -6,6 +6,7 @@ import fr.unice.polytech.steats.order.OrderStatus;
 import fr.unice.polytech.steats.order.OrderVolume;
 import fr.unice.polytech.steats.restaurant.Restaurant;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
@@ -29,6 +30,22 @@ public class StatisticsManager {
         }
 
         return orderVolume.getOrderVolume();
+    }
+
+    public List<Order> getRestaurantOrderVolume(Restaurant restaurant) throws NoOrdersPlacedException {
+        if(orderVolume.getOrderVolume().isEmpty() || orderVolume==null) {
+            throw new NoOrdersPlacedException();
+        }
+        List<Order> restaurantOrderVolume = new ArrayList<>();
+        for(Order order : orderVolume.getOrderVolume()) {
+            if(order.getStatus() == OrderStatus.DELIVERED) {
+                orderVolume.getOrderVolume().remove(order);
+            }
+            if(order.getRestaurant()==restaurant){
+                restaurantOrderVolume.add(order);
+            }
+        }
+        return restaurantOrderVolume;
     }
 
 
