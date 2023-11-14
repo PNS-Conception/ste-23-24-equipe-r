@@ -15,7 +15,7 @@ Feature: Place a group order
       | Chicken McNuggets  | 14.00 |
       | Filet-o-Fish  | 13.00 |
     And a group order exists with the code "5XSD15SS" of user "Chris" with restaurant "McDonalds"
-    And group order "5XSD15SS" is set with delivery time "14:30" and location "Student Center"
+    And group order "5XSD15SS" is set with timeslot "12:25" and location "Student Center"
 
   Scenario: Create a group order
     When "Jotaro" requests to create a group order

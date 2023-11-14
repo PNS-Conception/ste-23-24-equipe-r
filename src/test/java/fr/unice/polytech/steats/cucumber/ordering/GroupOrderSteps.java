@@ -7,7 +7,6 @@ import fr.unice.polytech.steats.exceptions.order.ClosedGroupOrderException;
 import fr.unice.polytech.steats.exceptions.order.EmptyCartException;
 import fr.unice.polytech.steats.exceptions.order.NonExistentGroupOrder;
 import fr.unice.polytech.steats.exceptions.order.PaymentException;
-import fr.unice.polytech.steats.exceptions.restaurant.DeliveryDateNotAvailable;
 import fr.unice.polytech.steats.exceptions.restaurant.InsufficientTimeSlotCapacity;
 import fr.unice.polytech.steats.exceptions.restaurant.NonExistentTimeSlot;
 import fr.unice.polytech.steats.exceptions.user.AlreadyExistingUserException;
@@ -39,7 +38,6 @@ public class GroupOrderSteps {
     GroupOrderRegistry groupOrderRegistry;
     GroupOrderService groupOrderService;
     TimeSlot timeSlot;
-    LocalTime deliveryTime;
     DeliveryLocation deliveryLocation;
 
     public GroupOrderSteps(FacadeContainer container){
@@ -57,12 +55,13 @@ public class GroupOrderSteps {
         restaurant = restaurantRegistry.findByName(restaurantName).get();
     }
 
-    @And("group order {string} is set with delivery time {string} and location {string}")
+    @And("group order {string} is set with timeslot {string} and location {string}")
     public void groupOrderIsSetWithTimeslotAndLocation(String groupOrderCode,
                                                        String timeSlotString, String locationString) {
-        deliveryTime = LocalTime.parse(timeSlotString);
+        LocalTime openingTime = LocalTime.parse(timeSlotString);
+        TimeSlot timeSlot = restaurant.getSchedule().findTimeSlotByStartTime(openingTime).get();
         DeliveryLocation deliveryLocation = DeliveryLocation.getByName(locationString);
-        groupOrder = groupOrderRegistry.register(campusUser, deliveryTime, deliveryLocation);
+        groupOrder = groupOrderRegistry.register(campusUser, timeSlot, deliveryLocation);
         groupOrder.setGroupOrderCode(groupOrderCode);
     }
     @And("chooses timeslot {string} of the restaurant {string} and delivery location {string} for group order")
@@ -82,7 +81,7 @@ public class GroupOrderSteps {
 
     @Then("a group order is created with a unique code")
     public void aGroupOrderIsCreatedWithAUniqueCode() {
-        groupOrderRegistry.register(campusUser,LocalTime.now(),deliveryLocation);
+        groupOrderRegistry.register(campusUser,timeSlot,deliveryLocation);
     }
 
     @And("the group order is in {string} status")
@@ -98,7 +97,7 @@ public class GroupOrderSteps {
     }
 
     @And("{string} orders and pays for {int} x {string}")
-    public void ordersAndPaysForX(String userName, int quantity, String menuName) throws EmptyCartException, PaymentException, NonExistentTimeSlot, InsufficientTimeSlotCapacity, NonExistentGroupOrder, ClosedGroupOrderException, DeliveryDateNotAvailable {
+    public void ordersAndPaysForX(String userName, int quantity, String menuName) throws EmptyCartException, PaymentException, NonExistentTimeSlot, InsufficientTimeSlotCapacity, NonExistentGroupOrder, ClosedGroupOrderException {
         campusUser = campusUserRegistry.findByName(userName).get();
         Cart cart = campusUser.getCart();
         Menu menu = restaurant.getMenufromName(menuName);

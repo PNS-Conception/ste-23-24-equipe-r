@@ -1,6 +1,5 @@
 package fr.unice.polytech.steats.cucumber;
 
-import fr.unice.polytech.steats.cucumber.ordering.FacadeContainer;
 import fr.unice.polytech.steats.exceptions.order.EmptyCartException;
 import fr.unice.polytech.steats.exceptions.order.PaymentException;
 import fr.unice.polytech.steats.exceptions.restaurant.InsufficientTimeSlotCapacity;
@@ -29,14 +28,9 @@ import static org.junit.Assert.assertEquals;
 public class GetOrdersWaitingForPreparationSteps {
     Restaurant restaurant;
     CampusUser staff;
-    OrderRepository orderRepository;
-    OrderRegistry orderRegistry;
+    OrderRepository orderRepository = new OrderRepository();
+    OrderRegistry orderRegistry = new OrderRegistry(orderRepository);
     List<Order> ordersWaitingForPreparation;
-
-    public GetOrdersWaitingForPreparationSteps(FacadeContainer container) {
-        orderRegistry = container.orderRegistry;
-        orderRepository = container.orderRepository;
-    }
 
     @Given("a restaurant staff {string} working at {string}")
     public void a_restaurant_staff_working_at(String staffName, String restaurantName) {
@@ -44,7 +38,7 @@ public class GetOrdersWaitingForPreparationSteps {
         staff = new CampusUser(staffName,STAFF);
     }
     @Given("the restaurant has {int} orders waiting for preparation")
-    public void a_restaurant_with_orders_waiting_for_preparation(int ordersNumber){
+    public void a_restaurant_with_orders_waiting_for_preparation(int ordersNumber) throws EmptyCartException, PaymentException, NonExistentTimeSlot, InsufficientTimeSlotCapacity {
         for(int i = 0; i < ordersNumber; i++){
             LocalDate orderDate = LocalDate.now();
             Order order = new Order(restaurant, new Menu("MaxBurger",12), orderDate);

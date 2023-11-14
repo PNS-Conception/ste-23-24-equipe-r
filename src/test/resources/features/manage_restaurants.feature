@@ -21,9 +21,4 @@ Feature: Manage restaurants
     Then the campus should have 2 restaurants
     And the restaurant "KFC" should be removed from the campus
 
-  Scenario: Add delivery person
-    Given a delivery person "John"
-    When the campus admin attempts to add a new delivery person
-    Then the campus should have 1 delivery person
-
 

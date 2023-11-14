@@ -1,14 +1,10 @@
 package fr.unice.polytech.steats.rating;
 
-import fr.unice.polytech.steats.restaurant.Restaurant;
-import fr.unice.polytech.steats.users.User;
-import fr.unice.polytech.steats.users.UserRole;
-
 import java.util.*;
 
 public class RatingSystem {
-    private Map<Restaurant, List<RatingInfo>> restaurantRatings;
-    private Map<User, List<RatingInfo>> deliveryPersonRatings;
+    private Map<UUID, List<Double>> restaurantRatings;
+    private Map<UUID, List<Double>> deliveryPersonRatings;
 
     public RatingSystem(){
         restaurantRatings= new HashMap<>();
@@ -16,58 +12,65 @@ public class RatingSystem {
     }
 
     ///// getters
-    public Map<Restaurant, List<RatingInfo>> getRestaurantRatings() {
+    public Map<UUID, List<Double>> getRestaurantRatings() {
         return restaurantRatings;
     }
-    public Map<User, List<RatingInfo>> getDeliveryPersonRatings() {
+    public Map<UUID, List<Double>> getDeliveryPersonRatings() {
         return deliveryPersonRatings;
     }
 
-    private Double calculateAverageRating(List<RatingInfo> ratings) {
-        if (ratings.isEmpty()) {
-            return 0.0;
+
+
+    public Double averageRating(UUID id) {
+        double somme = 0.0;
+        if (restaurantRatings.containsKey(id)) {
+            for (Double rating : restaurantRatings.get(id)) {
+                somme += rating;
+            }
+            double average = somme / restaurantRatings.get(id).size();
+
+            String formattedResult = String.format("%.1f", average);
+            formattedResult = formattedResult.replace(',', '.');
+            return Double.parseDouble(formattedResult);
+        }
+        if(deliveryPersonRatings.containsKey(id)){
+            for (Double rating : deliveryPersonRatings.get(id)) {
+                somme += rating;
+            }
+            double average = somme / deliveryPersonRatings.get(id).size();
+
+            String formattedResult = String.format("%.1f", average);
+            formattedResult = formattedResult.replace(',', '.');
+            return Double.parseDouble(formattedResult);
+        }
+        else {
+            return somme;
         }
 
-        double total = 0.0;
-        for (RatingInfo rating : ratings) {
-            total += rating.getRateFromRatingInfo();
+    }
+
+
+    public void rateRestaurant(UUID restaurantID, Double rate) {
+        if (restaurantRatings.containsKey(restaurantID)) {
+            restaurantRatings.get(restaurantID).add(rate);
         }
-
-        double average = total / ratings.size();
-        String formattedResult = String.format("%.1f", average).replace(',', '.');
-        return Double.parseDouble(formattedResult);
-    }
-
-
-    public Double averageRatingRestaurant(Restaurant restaurant){
-        return calculateAverageRating(restaurantRatings.get(restaurant));
-    }
-
-
-    public Double averageRatingDeliveryPerson(User user) {
-        return calculateAverageRating(deliveryPersonRatings.get(user));
-    }
-
-    private <T> void addRating(Map<T, List<RatingInfo>> ratingsMap, T entity, User user, Double rate) {
-        if (rate < 0 || rate > 5) {
-            throw new IllegalArgumentException("Rating must be between 0 and 5");
+        else {
+             List<Double> listOfRatingOfNewRestaurant = new ArrayList<>();
+             listOfRatingOfNewRestaurant.add(rate);
+             restaurantRatings.put(restaurantID, listOfRatingOfNewRestaurant);
         }
-        List<RatingInfo> ratings = ratingsMap.computeIfAbsent(entity, k -> new ArrayList<>());
-        ratings.add(new RatingInfo(user, rate));
     }
 
-    public void rateRestaurant(Restaurant restaurant, User user, Double rate) {
-        addRating(restaurantRatings, restaurant, user, rate);
-    }
 
-    public void rateDeliveryPerson(User userVoted, User user, Double rate) {
-        if(userVoted.getUserRole().equals(UserRole.DELIVERY_PERSON)){
-            addRating(deliveryPersonRatings, userVoted, user, rate);
-            return;
+    public void rateDeliveryPerson(UUID deliveryId, Double rate) {
+        if (deliveryPersonRatings.containsKey(deliveryId)) {
+            deliveryPersonRatings.get(deliveryId).add(rate);
         }
-        throw new IllegalArgumentException("User voted is not a delivery person");
-
+        else {
+            List<Double> listOfRatingOfNewDeliveryPerson = new ArrayList<>();
+            listOfRatingOfNewDeliveryPerson.add(rate);
+            deliveryPersonRatings.put(deliveryId, listOfRatingOfNewDeliveryPerson);
+        }
     }
-
 }
 

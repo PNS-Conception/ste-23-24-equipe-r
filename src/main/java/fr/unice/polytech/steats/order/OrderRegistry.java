@@ -1,9 +1,6 @@
 package fr.unice.polytech.steats.order;
 
-import fr.unice.polytech.steats.delivery.DeliveryRegistry;
-import fr.unice.polytech.steats.delivery.DeliveryRepository;
 import fr.unice.polytech.steats.exceptions.order.EmptyCartException;
-import fr.unice.polytech.steats.exceptions.restaurant.DeliveryDateNotAvailable;
 import fr.unice.polytech.steats.payment.ExternalPaymentMock;
 import fr.unice.polytech.steats.payment.PaymentManager;
 import fr.unice.polytech.steats.delivery.DeliveryLocation;
@@ -14,36 +11,34 @@ import fr.unice.polytech.steats.restaurant.Menu;
 import fr.unice.polytech.steats.restaurant.Restaurant;
 import fr.unice.polytech.steats.restaurant.TimeSlot;
 import fr.unice.polytech.steats.users.CampusUser;
-
+import org.mockito.internal.matchers.Or;
 
 import java.util.*;
-
-import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-
 import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 public class OrderRegistry {
     PaymentManager paymentManager;
     OrderRepository orderRepository;
-    DeliveryRegistry deliveryRegistry;
-
-    public OrderRegistry(OrderRepository orderRepository,PaymentManager paymentManager, DeliveryRegistry deliveryRegistry) {
+    public OrderRegistry(OrderRepository orderRepository, PaymentManager paymentManager){
         this.orderRepository = orderRepository;
         this.paymentManager = paymentManager;
-        this.deliveryRegistry = deliveryRegistry;
+    }
+
+    public OrderRegistry() {
+        this.orderRepository = new OrderRepository();
+        this.paymentManager = new PaymentManager(new ExternalPaymentMock());
+    }
+
+    public OrderRegistry(OrderRepository orderRepository) {
+        this.orderRepository = orderRepository;
+        this.paymentManager = new PaymentManager(new ExternalPaymentMock());
     }
 
     public Order register(Restaurant restaurant, CampusUser customer, Map<Menu, Integer> menusOrdered,
-                          LocalTime localTime, DeliveryLocation deliveryLocation)
-            throws EmptyCartException, PaymentException, DeliveryDateNotAvailable {
-
-
-        int menusNumber = menusOrdered.values().stream().mapToInt(Integer::intValue).sum();
-        TimeSlot timeSlot = getTimeSlot(restaurant, localTime, menusNumber);
+                          TimeSlot timeSlot, DeliveryLocation deliveryLocation)
+            throws InsufficientTimeSlotCapacity, NonExistentTimeSlot, EmptyCartException, PaymentException {
+        isValidOrder(restaurant, timeSlot, menusOrdered);
         Map<Menu, Integer> menusOrderedCopy = menusOrdered.entrySet().stream()
                 .collect(Collectors.toMap(
                         entry -> new Menu(entry.getKey()),  // Using the copy constructor
@@ -52,30 +47,28 @@ public class OrderRegistry {
         Order order = new Order(restaurant, customer, menusOrderedCopy, deliveryLocation, timeSlot);
         order.setStatus(OrderStatus.PREPARING);
         paymentManager.completePayment(customer);
+        int menusNumber = menusOrdered.values().stream().mapToInt(Integer::intValue).sum();
         timeSlot.subtractCapacity(menusNumber);
         orderRepository.save(order, order.getId());
-        deliveryRegistry.register(order);
         customer.getCart().emptyCart();
         return order;
     }
 
 
 
-
     public void isValidOrder(Restaurant restaurant, TimeSlot timeslot, Map<Menu, Integer> menus)
             throws InsufficientTimeSlotCapacity, NonExistentTimeSlot, EmptyCartException {
         if (menus.isEmpty()){
-
-    public TimeSlot getTimeSlot(Restaurant restaurant, LocalTime deliveryDate, int menusNumber)
-            throws EmptyCartException, DeliveryDateNotAvailable {
-        if (menusNumber == 0){
-
             throw new EmptyCartException();
         }
-        if(restaurant.getSchedule().getTimeSlot(deliveryDate,menusNumber).isEmpty()){
-            throw new DeliveryDateNotAvailable(deliveryDate);
+        if (restaurant.getSchedule().getTimeSlots().contains(timeslot)){
+            int menusNumber = menus.values().stream().mapToInt(Integer::intValue).sum();
+            if (menusNumber > restaurant.getTimeSlotCapacity(timeslot)){
+                throw new InsufficientTimeSlotCapacity();
+            }
+        }else {
+            throw new NonExistentTimeSlot(timeslot);
         }
-        return restaurant.getSchedule().getTimeSlot(deliveryDate,menusNumber).get();
     }
 
     public List<Order> getPreviousOrders(CampusUser user) {
