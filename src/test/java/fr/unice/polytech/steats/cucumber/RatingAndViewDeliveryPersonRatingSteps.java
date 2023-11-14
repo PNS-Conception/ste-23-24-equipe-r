@@ -31,7 +31,7 @@ public class RatingAndViewDeliveryPersonRatingSteps {
     }
     @Then("the rating of this delivery person should be {double} out of 5")
     public void the_rating_of_this_delivery_person_should_be_out_of(double expectedRating) {
-        Double actualRating = ratingSystem.averageRating(deliveryPerson.getId());
+        Double actualRating = ratingSystem.averageRatingDeliveryPerson(deliveryPerson.getId());
         assertEquals(actualRating, expectedRating);
     }
 

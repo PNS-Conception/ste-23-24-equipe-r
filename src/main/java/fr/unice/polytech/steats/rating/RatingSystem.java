@@ -1,9 +1,12 @@
 package fr.unice.polytech.steats.rating;
 
+import fr.unice.polytech.steats.restaurant.Restaurant;
+import fr.unice.polytech.steats.users.User;
+
 import java.util.*;
 
 public class RatingSystem {
-    private Map<UUID, List<Double>> restaurantRatings;
+    private Map<Restaurant, List<RatingInfo>> restaurantRatings;
     private Map<UUID, List<Double>> deliveryPersonRatings;
 
     public RatingSystem(){
@@ -12,7 +15,7 @@ public class RatingSystem {
     }
 
     ///// getters
-    public Map<UUID, List<Double>> getRestaurantRatings() {
+    public Map<Restaurant, List<RatingInfo>> getRestaurantRatings() {
         return restaurantRatings;
     }
     public Map<UUID, List<Double>> getDeliveryPersonRatings() {
@@ -20,19 +23,26 @@ public class RatingSystem {
     }
 
 
-
-    public Double averageRating(UUID id) {
+    public Double averageRatingRestaurant(Restaurant restaurant){
         double somme = 0.0;
-        if (restaurantRatings.containsKey(id)) {
-            for (Double rating : restaurantRatings.get(id)) {
+        if (restaurantRatings.containsKey(restaurant)) {
+            for (RatingInfo ratingInfo : restaurantRatings.get(restaurant)) {
+                double rating = ratingInfo.getRateFromRatingInfo();
                 somme += rating;
             }
-            double average = somme / restaurantRatings.get(id).size();
+            double average = somme / restaurantRatings.get(restaurant).size();
 
             String formattedResult = String.format("%.1f", average);
             formattedResult = formattedResult.replace(',', '.');
             return Double.parseDouble(formattedResult);
         }
+        return somme;
+
+    }
+
+
+    public Double averageRatingDeliveryPerson(UUID id) {
+        double somme = 0.0;
         if(deliveryPersonRatings.containsKey(id)){
             for (Double rating : deliveryPersonRatings.get(id)) {
                 somme += rating;
@@ -50,14 +60,16 @@ public class RatingSystem {
     }
 
 
-    public void rateRestaurant(UUID restaurantID, Double rate) {
-        if (restaurantRatings.containsKey(restaurantID)) {
-            restaurantRatings.get(restaurantID).add(rate);
+    public void rateRestaurant(Restaurant restaurant,User user, Double rate) {
+        if (restaurantRatings.containsKey(restaurant)) {
+            RatingInfo ratingInfo = new RatingInfo(user, rate);
+            restaurantRatings.get(restaurant).add(ratingInfo);
         }
         else {
-             List<Double> listOfRatingOfNewRestaurant = new ArrayList<>();
-             listOfRatingOfNewRestaurant.add(rate);
-             restaurantRatings.put(restaurantID, listOfRatingOfNewRestaurant);
+            List<RatingInfo> listOfRatingInfoOfNewRestaurant = new ArrayList<>();
+            RatingInfo rateInfo = new RatingInfo(user, rate);
+             listOfRatingInfoOfNewRestaurant.add(rateInfo);
+             restaurantRatings.put(restaurant, listOfRatingInfoOfNewRestaurant);
         }
     }
 
