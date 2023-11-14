@@ -4,6 +4,7 @@ import fr.unice.polytech.steats.delivery.DeliveryLocation;
 import fr.unice.polytech.steats.restaurant.TimeSlot;
 import fr.unice.polytech.steats.users.CampusUser;
 
+import java.time.LocalTime;
 import java.util.Optional;
 import java.util.stream.StreamSupport;
 
@@ -13,8 +14,8 @@ public class GroupOrderRegistry {
         this.groupOrderRepository = groupOrderRepository;
     }
 
-    public GroupOrder register(CampusUser campusUser, TimeSlot timeSlot, DeliveryLocation deliveryLocation){
-        GroupOrder groupOrder = new GroupOrder(campusUser, timeSlot, deliveryLocation);
+    public GroupOrder register(CampusUser campusUser, LocalTime deliveryTime, DeliveryLocation deliveryLocation){
+        GroupOrder groupOrder = new GroupOrder(campusUser, deliveryTime, deliveryLocation);
         groupOrderRepository.save(groupOrder, groupOrder.getId());
         return groupOrder;
     }

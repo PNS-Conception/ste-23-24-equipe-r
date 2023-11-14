@@ -1,22 +1,36 @@
 package fr.unice.polytech.steats.cucumber.admin;
 
+import fr.unice.polytech.steats.cucumber.ordering.FacadeContainer;
 import fr.unice.polytech.steats.restaurant.Restaurant;
+import fr.unice.polytech.steats.restaurant.RestaurantRegistry;
 import fr.unice.polytech.steats.restaurant.RestaurantRepository;
+import fr.unice.polytech.steats.users.DeliveryPersonRegistry;
+import fr.unice.polytech.steats.users.User;
+import fr.unice.polytech.steats.users.UserRepository;
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 
+import static fr.unice.polytech.steats.users.UserRole.DELIVERY_PERSON;
 import static org.junit.jupiter.api.Assertions.*;
 
-public class CampusManagerManageRestaurantsSteps {
+public class CampusManagerManageCampusSteps {
 
-    RestaurantRepository restaurantRepository = new RestaurantRepository();
+    RestaurantRepository restaurantRepository;
+    DeliveryPersonRegistry deliveryPersonRegistry;
+    UserRepository userRepository;
+    User deliveryPerson;
+
+    public CampusManagerManageCampusSteps(FacadeContainer container){
+        this.restaurantRepository = container.restaurantRepository;
+        this.userRepository = container.userRepository;
+    }
 
     @Given("the campus has {int} restaurants")
     public void the_campus_has_restaurants(Integer int1, DataTable restaurantTable) {
-        for (int i = 0; i < restaurantTable.height(); i++) {
+        for (int i = 0; i < int1; i++) {
             Restaurant restaurant = new Restaurant(restaurantTable.row(i).get(0));
             restaurantRepository.save(restaurant, restaurant.getId());
         }
@@ -46,13 +60,25 @@ public class CampusManagerManageRestaurantsSteps {
 
     @When("The campus admin removes the restaurant {string}")
     public void the_campus_admin_removes_the_restaurant(String restaurantName) {
-        for (Restaurant restaurant : restaurantRepository.findAll()) {
-        }
         restaurantRepository.deleteById(restaurantRepository.getRestaurantByName(restaurantName).getId());
     }
 
     @And("the restaurant {string} should be removed from the campus")
     public void theRestaurantShouldBeRemovedFromTheCampus(String restaurantName) {
         assertNull(restaurantRepository.getRestaurantByName(restaurantName));
+    }
+
+    @Given("a delivery person {string}")
+    public void a_delivery_person_match_the_requirements(String deliveryPersonName) {
+        deliveryPerson = new User(deliveryPersonName);
+    }
+    @When("the campus admin attempts to add a new delivery person")
+    public void the_campus_admin_attempts_to_add_a_new_delivery_person() {
+        deliveryPersonRegistry = new DeliveryPersonRegistry(userRepository);
+        deliveryPersonRegistry.register(deliveryPerson);
+    }
+    @Then("the campus should have {int} delivery person")
+    public void the_campus_should_have_delivery_person(int nb) {
+        assertEquals(nb, userRepository.count());
     }
 }
