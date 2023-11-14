@@ -59,13 +59,13 @@ Feature: Place an order
     And the price of "Brahim"'s cart is 71.00
 
   Scenario: placing an order in an available timeslot
-    Given timeslot "15:00" of the restaurant "Pizza Hut" has capacity 5
+    Given timeslot "15:20" of the restaurant "Pizza Hut" has capacity 5
     When "Brahim" chooses the restaurant "Pizza Hut"
     And "Brahim" chooses 2 x "Margherita Pizza"
     And "Brahim" chooses 1 x "Veggie Pizza"
-    And chooses timeslot "15:00" of the restaurant "Pizza Hut" and delivery location "Library"
+    And chooses delivery time "17:30" of the restaurant "Pizza Hut" and delivery location "Library"
     And "Brahim" confirms and pays for the cart
-    Then timeslot "15:00" should have capacity 2
+    Then timeslot "15:20" should have capacity 2
     And the price of the order is 32.00
     And the order status is "PREPARING"
     And "Brahim" checks his cart's contents
@@ -76,6 +76,6 @@ Feature: Place an order
     When "Brahim" chooses the restaurant "Pizza Hut"
     And "Brahim" chooses 11 x "Margherita Pizza"
     And "Brahim" chooses 1 x "Veggie Pizza"
-    And chooses timeslot "15:00" of the restaurant "Pizza Hut" and delivery location "LIBRARY"
+    And chooses delivery time "17:10" of the restaurant "Pizza Hut" and delivery location "LIBRARY"
     And "Brahim" confirms and pays for the cart
     Then the price of the order is 109.80

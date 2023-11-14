@@ -40,6 +40,18 @@ public class Schedule {
         }
     }
 
+    public Optional<TimeSlot> getTimeSlot(LocalTime time,int numberOfMenus) {
+        LocalTime preparationEndTime = time.minusHours(2);
+        for (int i = timeSlots.size() - 1; i >= 0; i--) {
+            TimeSlot slot = timeSlots.get(i);
+            if(slot.getStartTime().isBefore(preparationEndTime) && slot.getCapacity() >= numberOfMenus) {
+                return Optional.of(slot);
+            }
+        }
+        return Optional.empty();
+    }
+
+
     public LocalTime getOpeningTime() {
         return openingTime;
     }

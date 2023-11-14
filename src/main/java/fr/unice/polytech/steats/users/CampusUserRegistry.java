@@ -6,21 +6,24 @@ import java.util.Optional;
 import java.util.stream.StreamSupport;
 
 public class CampusUserRegistry {
-    CampusUserRepository campusUserRepository;
-    public CampusUserRegistry(CampusUserRepository campusUserRepository) {
-        this.campusUserRepository = campusUserRepository;
+    UserRepository userRepository;
+    public CampusUserRegistry(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
     public void register(String name) throws AlreadyExistingUserException {
         if (findByName(name).isPresent()){
             throw new AlreadyExistingUserException(name);
         }
         CampusUser campusUser = new CampusUser(name);
-        campusUserRepository.save(campusUser, campusUser.getId());
+        userRepository.save(campusUser, campusUser.getId());
     }
 
     public Optional<CampusUser> findByName(String name) {
-        return StreamSupport.stream(campusUserRepository.findAll().spliterator(), false)
-                .filter(campusUser -> name.equals(campusUser.getName())).findAny();
+        return StreamSupport.stream(userRepository.findAll().spliterator(), false)
+                .filter(campusUser -> name.equals(campusUser.getName()))
+                .map(campusUser -> (CampusUser) campusUser) // Cast to CampusUser
+                .findAny();
     }
+
 
 }

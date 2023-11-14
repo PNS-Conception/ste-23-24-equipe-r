@@ -20,7 +20,10 @@ public class TimeSlot {
     }
 
     public void subtractCapacity(int numberOfMenus) {
-        this.capacity-=numberOfMenus;
+        if(this.capacity>=numberOfMenus){
+            this.capacity-=numberOfMenus;
+        }
+        else throw new IllegalArgumentException("Not enough capacity");
     }
 
     public LocalTime getStartTime() {
