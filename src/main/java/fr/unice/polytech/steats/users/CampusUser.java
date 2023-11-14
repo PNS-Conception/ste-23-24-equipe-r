@@ -38,18 +38,6 @@ public class CampusUser extends User {
         return this.cart;
     }
 
-
-    public void rateDeliveryPersonByUser(RatingSystem ratingSystem, UUID deliveryID, int rating) {
-        if(rating< 0 || rating > 5){
-            throw new IllegalArgumentException("Rating must be between 0 and 5");
-        }
-        ratingSystem.rateDeliveryPerson(deliveryID,(double) rating);
-    }
-
-     public Map<UUID,List<Double>> getDeliveryPersonRatings(RatingSystem ratingSystem){
-        return ratingSystem.getDeliveryPersonRatings();
-     }
-
     public void setCart(Cart cart) {
         this.cart = cart;
     }

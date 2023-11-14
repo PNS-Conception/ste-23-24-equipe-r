@@ -7,7 +7,7 @@ import java.util.*;
 
 public class RatingSystem {
     private Map<Restaurant, List<RatingInfo>> restaurantRatings;
-    private Map<UUID, List<Double>> deliveryPersonRatings;
+    private Map<UUID, List<RatingInfo>> deliveryPersonRatings;
 
     public RatingSystem(){
         restaurantRatings= new HashMap<>();
@@ -18,7 +18,7 @@ public class RatingSystem {
     public Map<Restaurant, List<RatingInfo>> getRestaurantRatings() {
         return restaurantRatings;
     }
-    public Map<UUID, List<Double>> getDeliveryPersonRatings() {
+    public Map<UUID, List<RatingInfo>> getDeliveryPersonRatings() {
         return deliveryPersonRatings;
     }
 
@@ -44,7 +44,8 @@ public class RatingSystem {
     public Double averageRatingDeliveryPerson(UUID id) {
         double somme = 0.0;
         if(deliveryPersonRatings.containsKey(id)){
-            for (Double rating : deliveryPersonRatings.get(id)) {
+            for (RatingInfo ratingInfo : deliveryPersonRatings.get(id)) {
+                double rating = ratingInfo.getRateFromRatingInfo();
                 somme += rating;
             }
             double average = somme / deliveryPersonRatings.get(id).size();
@@ -53,14 +54,15 @@ public class RatingSystem {
             formattedResult = formattedResult.replace(',', '.');
             return Double.parseDouble(formattedResult);
         }
-        else {
-            return somme;
-        }
+        return somme;
 
     }
 
 
     public void rateRestaurant(Restaurant restaurant,User user, Double rate) {
+        if(rate< 0 || rate > 5){
+            throw new IllegalArgumentException("Rating must be between 0 and 5");
+        }
         if (restaurantRatings.containsKey(restaurant)) {
             RatingInfo ratingInfo = new RatingInfo(user, rate);
             restaurantRatings.get(restaurant).add(ratingInfo);
@@ -74,14 +76,19 @@ public class RatingSystem {
     }
 
 
-    public void rateDeliveryPerson(UUID deliveryId, Double rate) {
+    public void rateDeliveryPerson(UUID deliveryId,User user, Double rate) {
+        if(rate< 0 || rate > 5){
+            throw new IllegalArgumentException("Rating must be between 0 and 5");
+        }
         if (deliveryPersonRatings.containsKey(deliveryId)) {
-            deliveryPersonRatings.get(deliveryId).add(rate);
+            RatingInfo ratingInfo = new RatingInfo(user, rate);
+            deliveryPersonRatings.get(deliveryId).add(ratingInfo);
         }
         else {
-            List<Double> listOfRatingOfNewDeliveryPerson = new ArrayList<>();
-            listOfRatingOfNewDeliveryPerson.add(rate);
-            deliveryPersonRatings.put(deliveryId, listOfRatingOfNewDeliveryPerson);
+            List<RatingInfo> listOfRatingInfoOfNewDeliveryPerson = new ArrayList<>();
+            RatingInfo rateInfo = new RatingInfo(user, rate);
+            listOfRatingInfoOfNewDeliveryPerson.add(rateInfo);
+            deliveryPersonRatings.put(deliveryId, listOfRatingInfoOfNewDeliveryPerson);
         }
     }
 }
