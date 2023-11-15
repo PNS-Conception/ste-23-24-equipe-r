@@ -3,6 +3,7 @@ package fr.unice.polytech.steats.cucumber.ordering;
 import fr.unice.polytech.steats.delivery.DeliveryLocation;
 import fr.unice.polytech.steats.exceptions.order.EmptyCartException;
 import fr.unice.polytech.steats.exceptions.order.PaymentException;
+import fr.unice.polytech.steats.exceptions.restaurant.DeliveryDateNotAvailable;
 import fr.unice.polytech.steats.exceptions.restaurant.InsufficientTimeSlotCapacity;
 import fr.unice.polytech.steats.exceptions.restaurant.NonExistentTimeSlot;
 import fr.unice.polytech.steats.order.Order;
@@ -22,7 +23,7 @@ import static org.junit.Assert.assertEquals;
 public class OrderSteps {
     Order order;
     CampusUserRegistry campusUserRegistry;
-    TimeSlot timeSlot;
+    LocalTime deliveryTime;
     DeliveryLocation deliveryLocation;
     Restaurant restaurant;
     OrderRegistry orderRegistry;
@@ -34,21 +35,21 @@ public class OrderSteps {
         this.restaurantRegistry = container.restaurantRegistry;
     }
 
-    @And("chooses timeslot {string} of the restaurant {string} and delivery location {string}")
-    public void chooseAvailableTimeslotAndDeliveryLocation(String timeSlotString, String restaurantName,
+    @And("chooses delivery time {string} of the restaurant {string} and delivery location {string}")
+    public void chooseAvailableTimeslotAndDeliveryLocation(String deliveryTime, String restaurantName,
                                                            String delivLocation) {
         restaurant = restaurantRegistry.findByName(restaurantName).get();
-        LocalTime openingTime = LocalTime.parse(timeSlotString);
-        timeSlot = restaurant.getSchedule().findTimeSlotByStartTime(openingTime).get();
+        this.deliveryTime = LocalTime.parse(deliveryTime);
         deliveryLocation = DeliveryLocation.getByName(delivLocation);
     }
 
     @And("{string} confirms and pays for the cart")
     public void confirmsAndPaysForTheCart(String customerName) throws PaymentException,
-            NonExistentTimeSlot, InsufficientTimeSlotCapacity, EmptyCartException {
+            NonExistentTimeSlot, InsufficientTimeSlotCapacity, EmptyCartException, DeliveryDateNotAvailable {
+
         CampusUser campusUser = campusUserRegistry.findByName(customerName).get();
         order = orderRegistry.register(restaurant, campusUser, campusUser.getCart().getMenuMap(),
-                timeSlot, deliveryLocation);
+                deliveryTime, deliveryLocation);
     }
     @And("the price of the order is {double}")
     public void thePriceOfSOrderIs(double price) {

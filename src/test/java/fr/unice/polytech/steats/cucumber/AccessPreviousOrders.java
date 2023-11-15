@@ -1,8 +1,10 @@
 package fr.unice.polytech.steats.cucumber;
 
 import fr.unice.polytech.steats.cart.Cart;
+import fr.unice.polytech.steats.cucumber.ordering.FacadeContainer;
 import fr.unice.polytech.steats.exceptions.order.EmptyCartException;
 import fr.unice.polytech.steats.exceptions.order.PaymentException;
+import fr.unice.polytech.steats.exceptions.restaurant.DeliveryDateNotAvailable;
 import fr.unice.polytech.steats.exceptions.restaurant.InsufficientTimeSlotCapacity;
 import fr.unice.polytech.steats.exceptions.restaurant.NonExistentTimeSlot;
 import fr.unice.polytech.steats.order.Order;
@@ -30,21 +32,23 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 public class AccessPreviousOrders {
     CampusUser campusUser;
-    OrderRepository orderRepository = new OrderRepository();
-    OrderRegistry orderRegistry = new OrderRegistry(orderRepository,new PaymentManager(new ExternalPaymentMock()));
+    OrderRegistry orderRegistry;
 
     List<Order> previousOrders = new ArrayList<>();
 
+    public AccessPreviousOrders(FacadeContainer container) {
+        orderRegistry = container.orderRegistry;
+    }
+
     @Given("a logged-in Campus user {string} and a list of previous orders")
-    public void a_logged_in_Campus_user_and_a_list_of_previous_orders (String name) throws EmptyCartException, PaymentException, NonExistentTimeSlot, InsufficientTimeSlotCapacity {
+    public void a_logged_in_Campus_user_and_a_list_of_previous_orders (String name) throws EmptyCartException, PaymentException, NonExistentTimeSlot, InsufficientTimeSlotCapacity, DeliveryDateNotAvailable {
         campusUser = new CampusUser(name);
-        TimeSlot timeSlot = new TimeSlot(LocalTime.of(12, 0), 6);
         Cart cart = new Cart();
         cart.addMenu(new Menu("MaxBurger",12));
         cart.addMenu(new Menu("CheeseBurger",13));
-        orderRegistry.register(new Restaurant("R1"), campusUser, cart.getMenuMap(), timeSlot, LIBRARY);
+        orderRegistry.register(new Restaurant("R1"), campusUser, cart.getMenuMap(), LocalTime.now(), LIBRARY);
         cart.addMenu(new Menu("DoubleBurger",17));;
-        orderRegistry.register(new Restaurant("R1"), campusUser, cart.getMenuMap(), timeSlot, LIBRARY);
+        orderRegistry.register(new Restaurant("R1"), campusUser, cart.getMenuMap(), LocalTime.now(), LIBRARY);
     }
     @Given("a logged-in Campus user {string}")
     public void a_logged_in_campus_user(String name) {

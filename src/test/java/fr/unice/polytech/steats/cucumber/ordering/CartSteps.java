@@ -73,7 +73,7 @@ public class CartSteps {
     public void timeslotShouldHaveCapacity(String timeslotString, int capacity) {
         LocalTime openingTime = LocalTime.parse(timeslotString);
         timeSlot = restaurant.getSchedule().findTimeSlotByStartTime(openingTime).get();
-        assertEquals(timeSlot.getCapacity(), capacity);
+        assertEquals(capacity, timeSlot.getCapacity());
     }
 
     @When("{string} chooses the restaurant {string}")

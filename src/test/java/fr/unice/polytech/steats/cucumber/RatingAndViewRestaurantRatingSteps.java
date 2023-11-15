@@ -1,8 +1,10 @@
 package fr.unice.polytech.steats.cucumber;
 
+import fr.unice.polytech.steats.rating.RatingInfo;
 import fr.unice.polytech.steats.rating.RatingSystem;
 import fr.unice.polytech.steats.restaurant.Restaurant;
 import fr.unice.polytech.steats.users.CampusUser;
+import fr.unice.polytech.steats.users.User;
 import io.cucumber.java.en.*;
 
 import java.util.ArrayList;
@@ -21,34 +23,30 @@ public class RatingAndViewRestaurantRatingSteps {
 
     @Given("Restaurant A has a {string} of rating")
     public void restaurant_a_has_a_of_rating(String list) {
-        List<Double> listOfRating = new ArrayList<>();
+        List<RatingInfo> listOfRatingInfo = new ArrayList<>();
         String[] valueArray = list.split(", ");
         for (String value : valueArray) {
-            listOfRating.add(Double.parseDouble(value));
+            listOfRatingInfo.add(new RatingInfo(new User(),Double.parseDouble(value)));
         }
-        ratingSystem.getRestaurantRatings().put(restaurant.getId(), listOfRating);
-        System.out.println(restaurant.getRestaurantName()+" rating = " + ratingSystem.getRestaurantRatings().get(restaurant.getId()));
+        ratingSystem.getRestaurantRatings().put(restaurant, listOfRatingInfo);
     }
 
     @When("the CampusUser1 rates the restaurant {int} out of 5")
     public void the_campus_user_rates_the_restaurant_stars(int rating) {
-        System.out.println("User's rating = " + rating);
-        campusUser1.rateRestaurantByUser(ratingSystem, restaurant.getId(), rating);
+        ratingSystem.rateRestaurant(restaurant,campusUser1,(double) rating);
     }
 
     @Then("the rating of this restaurant should be {double} out of 5")
     public void the_rating_of_this_restaurant_should_be_star(double expectedRating) {
-        Double actualRating = ratingSystem.averageRating(restaurant.getId());
+        Double actualRating = ratingSystem.averageRatingRestaurant(restaurant);
         assertEquals(actualRating, expectedRating);
-        System.out.println("List of rating of this restaurant = " + ratingSystem.getRestaurantRatings().get(restaurant.getId()));
-        System.out.println("Actual "+ restaurant.getRestaurantName()+ " rating = " + actualRating);
     }
 
     /////////////////////////////////////////// Scenario 2 ///////////////////////////////////////////
     @When("the CampusUser2 checks the rating of the restaurant")
     public void the_campus_user_checks_the_rating_of_the_restaurant() {
-        assertFalse(campusUser2.getRestaurantRatings(ratingSystem).isEmpty());
-        assertTrue(campusUser2.getRestaurantRatings(ratingSystem).containsKey(restaurant.getId()));
+        assertFalse(ratingSystem.getRestaurantRatings().isEmpty());
+        assertTrue(ratingSystem.getRestaurantRatings().containsKey(restaurant));
 
     }
 
