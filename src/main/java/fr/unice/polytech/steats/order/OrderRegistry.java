@@ -62,9 +62,7 @@ public class OrderRegistry {
 
 
 
-    public void isValidOrder(Restaurant restaurant, TimeSlot timeslot, Map<Menu, Integer> menus)
-            throws InsufficientTimeSlotCapacity, NonExistentTimeSlot, EmptyCartException {
-        if (menus.isEmpty()){
+
 
     public TimeSlot getTimeSlot(Restaurant restaurant, LocalTime deliveryDate, int menusNumber)
             throws EmptyCartException, DeliveryDateNotAvailable {

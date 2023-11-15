@@ -1,8 +1,11 @@
 package fr.unice.polytech.steats.cucumber;
 import fr.unice.polytech.steats.cart.Cart;
 
+import fr.unice.polytech.steats.delivery.DeliveryRegistry;
+import fr.unice.polytech.steats.delivery.DeliveryRepository;
 import fr.unice.polytech.steats.exceptions.order.EmptyCartException;
 import fr.unice.polytech.steats.exceptions.order.PaymentException;
+import fr.unice.polytech.steats.exceptions.restaurant.DeliveryDateNotAvailable;
 import fr.unice.polytech.steats.exceptions.restaurant.InsufficientTimeSlotCapacity;
 import fr.unice.polytech.steats.exceptions.restaurant.NonExistentTimeSlot;
 import fr.unice.polytech.steats.order.Order;
@@ -28,7 +31,7 @@ public class ReceiveNotification {
     CampusUser CU ;
     Order order ;
     OrderRepository orderRepository = new OrderRepository();
-    OrderRegistry orderRegistry = new OrderRegistry(orderRepository,new PaymentManager(new ExternalPaymentMock()));
+    OrderRegistry orderRegistry = new OrderRegistry(orderRepository,new PaymentManager(new ExternalPaymentMock()),new DeliveryRegistry(new DeliveryRepository()));
 
 
     @Given("a logged-in Campus user as the order owner")
@@ -36,13 +39,12 @@ public class ReceiveNotification {
         CU = new CampusUser("john");
     }
     @Given("an order with the status PREPARING")
-    public void an_order_with_the_status()throws EmptyCartException, PaymentException, NonExistentTimeSlot, InsufficientTimeSlotCapacity {
+    public void an_order_with_the_status() throws EmptyCartException, PaymentException, NonExistentTimeSlot, InsufficientTimeSlotCapacity, DeliveryDateNotAvailable {
 
-        TimeSlot timeSlot = new TimeSlot(LocalTime.of(12, 0), 6);
         Cart cart = new Cart();
         cart.addMenu(new Menu("MaxBurger",12));
         cart.addMenu(new Menu("CheeseBurger",13));
-        order = orderRegistry.register(new Restaurant("R1"), CU, cart.getMenuMap(), timeSlot, LIBRARY);
+        order = orderRegistry.register(new Restaurant("R1"), CU, cart.getMenuMap(), LocalTime.of(12, 0), LIBRARY);
     }
 
 
