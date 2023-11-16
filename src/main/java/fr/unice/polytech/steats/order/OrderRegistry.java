@@ -104,4 +104,8 @@ public class OrderRegistry {
             orderRepository.save(order,order.getId());
         }
     }
+
+    public DeliveryRegistry getDeliveryRegistry() {
+        return deliveryRegistry;
+    }
 }

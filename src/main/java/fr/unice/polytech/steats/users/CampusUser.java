@@ -2,6 +2,7 @@ package fr.unice.polytech.steats.users;
 
 import fr.unice.polytech.steats.cart.Cart;
 import fr.unice.polytech.steats.delivery.DeliveryLocation;
+import fr.unice.polytech.steats.delivery.DeliverySubscriber;
 import fr.unice.polytech.steats.order.Order;
 import fr.unice.polytech.steats.order.OrderSubscriber;
 import fr.unice.polytech.steats.rating.RatingSystem;
@@ -10,13 +11,15 @@ import fr.unice.polytech.steats.restaurant.TimeSlot;
 
 import java.util.*;
 
-public class CampusUser extends User implements OrderSubscriber {
+public class CampusUser extends User implements OrderSubscriber, DeliverySubscriber {
     private Cart cart;
     private double balance;
 
     private CampusUserStatus status;
 
     private List<Order> PreviousOrders ;
+
+
 
     public CampusUser() {
         super();
@@ -67,5 +70,21 @@ public class CampusUser extends User implements OrderSubscriber {
         System.out.println("The order : " + orderID);
         System.out.println("delivery location : "+deliveryLocation);
         System.out.println("delivery date : "+timeSlot);
+    }
+
+    @Override
+    public void updateDelivery(Map<String, Object> event) {
+        System.out.println("updating the Campus user about the delivery : ");
+        System.out.println(event);
+    }
+
+    @Override
+    public String toString() {
+        return "CampusUser{" +
+                "cart=" + cart +
+                ", balance=" + balance +
+                ", status=" + status +
+                ", PreviousOrders=" + PreviousOrders +
+                '}';
     }
 }

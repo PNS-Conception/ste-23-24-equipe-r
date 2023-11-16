@@ -7,6 +7,7 @@ import fr.unice.polytech.steats.order.Order;
 import fr.unice.polytech.steats.order.OrderRegistry;
 import fr.unice.polytech.steats.order.OrderRepository;
 import fr.unice.polytech.steats.order.OrderStatus;
+import fr.unice.polytech.steats.users.DeliveryPerson;
 import fr.unice.polytech.steats.users.User;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -34,9 +35,9 @@ public class DeliverySteps {
     @When("a delivery person {string} want to deliver the order")
     public void a_delivery_person_want_to_deliver_the_order(String deliveryPersonName) {
         delivery = new Delivery(order);
-        deliveryPerson = new User(deliveryPersonName, DELIVERY_PERSON);
+        deliveryPerson = new DeliveryPerson(deliveryPersonName, DELIVERY_PERSON);
         assertSame(DELIVERY_PERSON, deliveryPerson.getRole());
-        delivery.setDeliveryPerson(deliveryPerson);
+        delivery.setDeliveryPerson((DeliveryPerson) deliveryPerson);
     }
     @Then("{string} should be assigned to deliver the order")
     public void should_be_assigned_to_deliver_the_order(String deliveryPersonName) {

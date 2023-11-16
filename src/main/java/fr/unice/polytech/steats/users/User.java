@@ -48,4 +48,5 @@ public class User {
     public UserRole getRole() {
         return userRole;
     }
+
 }

@@ -19,6 +19,8 @@ public class Order {
     private GroupOrder groupOrder;
     private double discount = 0.1;
 
+    private UUID DeliveryId;
+
 
     private final List<OrderSubscriber> subscribers = new ArrayList<>();
 
@@ -130,6 +132,13 @@ public class Order {
         return menusOrdered.keySet().iterator().next();
     }
 
+    public UUID getDeliveryId() {
+        return DeliveryId;
+    }
+
+    public void setDeliveryId(UUID deliveryId) {
+        DeliveryId = deliveryId;
+    }
 
     public void subscribe(OrderSubscriber subscriber) {
         subscribers.add(subscriber);

@@ -110,7 +110,15 @@ public class Restaurant {
         this.restaurantStatus=restaurantStatus;
     }
 
-
-
-
+    @Override
+    public String toString() {
+        return "Restaurant{" +
+                "id=" + id +
+                ", restaurantName='" + restaurantName + '\'' +
+                ", menus=" + menus +
+                ", schedule=" + schedule +
+                ", dailyResetScheduler=" + dailyResetScheduler +
+                ", restaurantStatus=" + restaurantStatus +
+                '}';
+    }
 }
