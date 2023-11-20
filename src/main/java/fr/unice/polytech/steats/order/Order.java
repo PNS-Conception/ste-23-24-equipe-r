@@ -30,6 +30,7 @@ public class Order {
     public Order(){
         this.orderID = UUID.randomUUID();
         this.customer = new CampusUser();
+        this.restaurant = new Restaurant("A");
         this.menusOrdered = new HashMap<>();
         this.deliveryLocation =DeliveryLocation.LIBRARY;
         this.timeSlot = null;
