@@ -133,14 +133,6 @@ public class Order {
         return menusOrdered.keySet().iterator().next();
     }
 
-    public UUID getDeliveryId() {
-        return DeliveryId;
-    }
-
-    public void setDeliveryId(UUID deliveryId) {
-        DeliveryId = deliveryId;
-    }
-
     public void subscribe(OrderSubscriber subscriber) {
         subscribers.add(subscriber);
     }

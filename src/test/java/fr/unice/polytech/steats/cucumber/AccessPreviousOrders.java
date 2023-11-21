@@ -36,6 +36,7 @@ public class AccessPreviousOrders {
 
     List<Order> previousOrders = new ArrayList<>();
 
+
     public AccessPreviousOrders(FacadeContainer container) {
         orderRegistry = container.orderRegistry;
     }
@@ -46,9 +47,9 @@ public class AccessPreviousOrders {
         Cart cart = new Cart();
         cart.addMenu(new Menu("MaxBurger",12));
         cart.addMenu(new Menu("CheeseBurger",13));
-        orderRegistry.register(new Restaurant("R1"), campusUser, cart.getMenuMap(), LocalTime.now(), LIBRARY);
+        orderRegistry.register(new Restaurant("R1"), campusUser, cart.getMenuMap(), LocalTime.NOON, LIBRARY);
         cart.addMenu(new Menu("DoubleBurger",17));;
-        orderRegistry.register(new Restaurant("R1"), campusUser, cart.getMenuMap(), LocalTime.now(), LIBRARY);
+        orderRegistry.register(new Restaurant("R1"), campusUser, cart.getMenuMap(), LocalTime.NOON, LIBRARY);
     }
     @Given("a logged-in Campus user {string}")
     public void a_logged_in_campus_user(String name) {

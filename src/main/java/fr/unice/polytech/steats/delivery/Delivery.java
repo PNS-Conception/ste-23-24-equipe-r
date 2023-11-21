@@ -25,8 +25,6 @@ public class Delivery {
         this.order = order;
         status = DeliveryStatus.WAITING;
         subscribe(order.getCustomer());
-
-
     }
 
     public UUID getId() {
@@ -38,7 +36,6 @@ public class Delivery {
         status = IN_PROGRESS;
         subscribe(deliveryPerson);
         notifySubscribers();
-
     }
 
     public User getDeliveryPerson() {
