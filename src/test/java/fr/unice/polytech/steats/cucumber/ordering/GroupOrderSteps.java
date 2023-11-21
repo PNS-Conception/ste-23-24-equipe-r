@@ -1,7 +1,7 @@
 package fr.unice.polytech.steats.cucumber.ordering;
 
 import fr.unice.polytech.steats.cart.Cart;
-import fr.unice.polytech.steats.cart.CartService;
+import fr.unice.polytech.steats.cart.CartHandler;
 import fr.unice.polytech.steats.delivery.DeliveryLocation;
 import fr.unice.polytech.steats.exceptions.order.ClosedGroupOrderException;
 import fr.unice.polytech.steats.exceptions.order.EmptyCartException;
@@ -10,7 +10,6 @@ import fr.unice.polytech.steats.exceptions.order.PaymentException;
 import fr.unice.polytech.steats.exceptions.restaurant.DeliveryDateNotAvailable;
 import fr.unice.polytech.steats.exceptions.restaurant.InsufficientTimeSlotCapacity;
 import fr.unice.polytech.steats.exceptions.restaurant.NonExistentTimeSlot;
-import fr.unice.polytech.steats.exceptions.user.AlreadyExistingUserException;
 import fr.unice.polytech.steats.order.Order;
 import fr.unice.polytech.steats.order.grouporder.GroupOrder;
 import fr.unice.polytech.steats.order.grouporder.GroupOrderRegistry;
@@ -102,8 +101,8 @@ public class GroupOrderSteps {
         campusUser = campusUserRegistry.findByName(userName).get();
         Cart cart = campusUser.getCart();
         Menu menu = restaurant.getMenufromName(menuName);
-        CartService cartService = new CartService(cart);
-        cartService.addItem(menu, quantity);
+        CartHandler cartHandler = new CartHandler(cart);
+        cartHandler.addItem(menu, quantity);
         groupOrderService.addSubOrder(groupOrderCode, restaurant, campusUser, campusUser.getCart().getMenuMap());
     }
 

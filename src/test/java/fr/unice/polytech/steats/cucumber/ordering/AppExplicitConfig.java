@@ -2,7 +2,7 @@ package fr.unice.polytech.steats.cucumber.ordering;
 
 import fr.unice.polytech.steats.delivery.DeliveryRegistry;
 import fr.unice.polytech.steats.delivery.DeliveryRepository;
-import fr.unice.polytech.steats.order.OrderRegistry;
+import fr.unice.polytech.steats.order.OrderManager;
 import fr.unice.polytech.steats.order.OrderRepository;
 import fr.unice.polytech.steats.order.grouporder.GroupOrderRegistry;
 import fr.unice.polytech.steats.order.grouporder.GroupOrderRepository;
@@ -29,7 +29,7 @@ public class AppExplicitConfig {
             container.addComponent(UserRepository.class);
             container.addComponent(CampusUserRegistry.class);
             container.addComponent(OrderRepository.class);
-            container.addComponent(OrderRegistry.class);
+            container.addComponent(OrderManager.class);
             container.addComponent(PaymentManager.class);
             container.addComponent(ExternalPaymentMock.class);
             container.addComponent(GroupOrderRepository.class);

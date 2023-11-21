@@ -4,9 +4,7 @@ import fr.unice.polytech.steats.delivery.Delivery;
 import fr.unice.polytech.steats.delivery.DeliveryRegistry;
 import fr.unice.polytech.steats.delivery.DeliveryStatus;
 import fr.unice.polytech.steats.order.Order;
-import fr.unice.polytech.steats.order.OrderRegistry;
-import fr.unice.polytech.steats.order.OrderRepository;
-import fr.unice.polytech.steats.order.OrderStatus;
+import fr.unice.polytech.steats.order.OrderManager;
 import fr.unice.polytech.steats.restaurant.Restaurant;
 import fr.unice.polytech.steats.users.CampusUser;
 import fr.unice.polytech.steats.users.DeliveryPerson;
@@ -25,11 +23,11 @@ public class DeliverySteps {
     Order order;
     Delivery delivery;
 
-    OrderRegistry orderRegistry;
+    OrderManager orderManager;
 
     public DeliverySteps(FacadeContainer container){
         deliveryRegistry = container.deliveryRegistry;
-        orderRegistry = container.orderRegistry;
+        orderManager = container.orderManager;
     }
     @Given("an order is ready to be delivered")
     public void an_order_is_ready_to_be_delivered() {

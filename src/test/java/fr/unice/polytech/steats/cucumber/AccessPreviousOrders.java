@@ -8,20 +8,14 @@ import fr.unice.polytech.steats.exceptions.restaurant.DeliveryDateNotAvailable;
 import fr.unice.polytech.steats.exceptions.restaurant.InsufficientTimeSlotCapacity;
 import fr.unice.polytech.steats.exceptions.restaurant.NonExistentTimeSlot;
 import fr.unice.polytech.steats.order.Order;
-import fr.unice.polytech.steats.order.OrderRegistry;
-import fr.unice.polytech.steats.order.OrderRepository;
-import fr.unice.polytech.steats.payment.ExternalPaymentMock;
-import fr.unice.polytech.steats.payment.PaymentManager;
+import fr.unice.polytech.steats.order.OrderManager;
 import fr.unice.polytech.steats.restaurant.Menu;
 import fr.unice.polytech.steats.restaurant.Restaurant;
-import fr.unice.polytech.steats.restaurant.TimeSlot;
 import fr.unice.polytech.steats.users.CampusUser;
 
 import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -32,13 +26,13 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 public class AccessPreviousOrders {
     CampusUser campusUser;
-    OrderRegistry orderRegistry;
+    OrderManager orderManager;
 
     List<Order> previousOrders = new ArrayList<>();
 
 
     public AccessPreviousOrders(FacadeContainer container) {
-        orderRegistry = container.orderRegistry;
+        orderManager = container.orderManager;
     }
 
     @Given("a logged-in Campus user {string} and a list of previous orders")
@@ -47,9 +41,9 @@ public class AccessPreviousOrders {
         Cart cart = new Cart();
         cart.addMenu(new Menu("MaxBurger",12));
         cart.addMenu(new Menu("CheeseBurger",13));
-        orderRegistry.register(new Restaurant("R1"), campusUser, cart.getMenuMap(), LocalTime.NOON, LIBRARY);
+        orderManager.register(new Restaurant("R1"), campusUser, cart.getMenuMap(), LocalTime.NOON, LIBRARY);
         cart.addMenu(new Menu("DoubleBurger",17));;
-        orderRegistry.register(new Restaurant("R1"), campusUser, cart.getMenuMap(), LocalTime.NOON, LIBRARY);
+        orderManager.register(new Restaurant("R1"), campusUser, cart.getMenuMap(), LocalTime.NOON, LIBRARY);
     }
     @Given("a logged-in Campus user {string}")
     public void a_logged_in_campus_user(String name) {
@@ -58,7 +52,7 @@ public class AccessPreviousOrders {
 
     @When("the campus user Karim clicks on show previous orders")
     public void the_campus_user_karim_clicks_on_show_previous_orders() {
-        previousOrders = orderRegistry.getPreviousOrders(campusUser);
+        previousOrders = orderManager.getPreviousOrders(campusUser);
     }
 
     @Then("he should get a list of all his previous orders")

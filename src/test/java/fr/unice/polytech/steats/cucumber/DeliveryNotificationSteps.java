@@ -7,7 +7,7 @@ import fr.unice.polytech.steats.exceptions.order.EmptyCartException;
 import fr.unice.polytech.steats.exceptions.order.PaymentException;
 import fr.unice.polytech.steats.exceptions.restaurant.DeliveryDateNotAvailable;
 import fr.unice.polytech.steats.order.Order;
-import fr.unice.polytech.steats.order.OrderRegistry;
+import fr.unice.polytech.steats.order.OrderManager;
 import fr.unice.polytech.steats.restaurant.Menu;
 import fr.unice.polytech.steats.restaurant.Restaurant;
 import fr.unice.polytech.steats.users.CampusUser;
@@ -17,10 +17,8 @@ import io.cucumber.java.en.*;
 
 
 import java.time.LocalTime;
-import java.util.Optional;
 
 import static fr.unice.polytech.steats.delivery.DeliveryLocation.LIBRARY;
-import static fr.unice.polytech.steats.delivery.DeliveryStatus.WAITING;
 import static org.junit.jupiter.api.Assertions.*;
 public class DeliveryNotificationSteps {
 
@@ -28,15 +26,15 @@ public class DeliveryNotificationSteps {
     CampusUser campusUser;
     DeliveryPerson deliveryPerson;
 
-    OrderRegistry orderRegistry;
+    OrderManager orderManager;
 
     Order order;
 
     DeliveryRegistry deliveryRegistry;
 
     public DeliveryNotificationSteps(FacadeContainer container) {
-        orderRegistry = container.orderRegistry;
-        deliveryRegistry = orderRegistry.getDeliveryRegistry();
+        orderManager = container.orderManager;
+        deliveryRegistry = orderManager.getDeliveryRegistry();
     }
 
     @Given("a user named {string}")
@@ -53,7 +51,7 @@ public class DeliveryNotificationSteps {
     public void a_delivery_with_the_status_waiting() throws EmptyCartException, PaymentException, DeliveryDateNotAvailable {
         Cart cart = new Cart();
         cart.addMenu(new Menu("MaxBurger", 12));
-        order = orderRegistry.register(new Restaurant("R1"), campusUser, cart.getMenuMap(), LocalTime.of(12, 0), LIBRARY);
+        order = orderManager.register(new Restaurant("R1"), campusUser, cart.getMenuMap(), LocalTime.of(12, 0), LIBRARY);
         delivery = new Delivery(order);
         deliveryRegistry.getDeliveryRepository().save(delivery, delivery.getId());
     }

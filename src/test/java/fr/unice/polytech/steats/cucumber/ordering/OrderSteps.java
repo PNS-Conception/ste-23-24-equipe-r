@@ -7,11 +7,10 @@ import fr.unice.polytech.steats.exceptions.restaurant.DeliveryDateNotAvailable;
 import fr.unice.polytech.steats.exceptions.restaurant.InsufficientTimeSlotCapacity;
 import fr.unice.polytech.steats.exceptions.restaurant.NonExistentTimeSlot;
 import fr.unice.polytech.steats.order.Order;
-import fr.unice.polytech.steats.order.OrderRegistry;
+import fr.unice.polytech.steats.order.OrderManager;
 import fr.unice.polytech.steats.order.OrderStatus;
 import fr.unice.polytech.steats.restaurant.Restaurant;
 import fr.unice.polytech.steats.restaurant.RestaurantRegistry;
-import fr.unice.polytech.steats.restaurant.TimeSlot;
 import fr.unice.polytech.steats.users.CampusUser;
 import fr.unice.polytech.steats.users.CampusUserRegistry;
 import io.cucumber.java.en.And;
@@ -26,12 +25,12 @@ public class OrderSteps {
     LocalTime deliveryTime;
     DeliveryLocation deliveryLocation;
     Restaurant restaurant;
-    OrderRegistry orderRegistry;
+    OrderManager orderManager;
     RestaurantRegistry restaurantRegistry;
 
     public OrderSteps(FacadeContainer container){
         this.campusUserRegistry = container.campusUserRegistry;
-        this.orderRegistry = container.orderRegistry;
+        this.orderManager = container.orderManager;
         this.restaurantRegistry = container.restaurantRegistry;
     }
 
@@ -48,7 +47,7 @@ public class OrderSteps {
             NonExistentTimeSlot, InsufficientTimeSlotCapacity, EmptyCartException, DeliveryDateNotAvailable {
 
         CampusUser campusUser = campusUserRegistry.findByName(customerName).get();
-        order = orderRegistry.register(restaurant, campusUser, campusUser.getCart().getMenuMap(),
+        order = orderManager.register(restaurant, campusUser, campusUser.getCart().getMenuMap(),
                 deliveryTime, deliveryLocation);
     }
     @And("the price of the order is {double}")
