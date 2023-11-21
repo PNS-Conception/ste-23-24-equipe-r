@@ -27,16 +27,7 @@ public class Order {
 
     private LocalDate OrderDate;
 
-    public Order(){
-        this.orderID = UUID.randomUUID();
-        this.customer = new CampusUser();
-        this.restaurant = new Restaurant("A");
-        this.menusOrdered = new HashMap<>();
-        this.deliveryLocation =DeliveryLocation.LIBRARY;
-        this.timeSlot = null;
-        this.orderStatus = OrderStatus.WAITING_FOR_PREPARATION;
-        OrderVolume.getInstance().addOrder(this);
-    }
+
     public Order(Restaurant restaurant, CampusUser customer, Map<Menu, Integer> menusOrdered,
                  DeliveryLocation deliveryLocation, TimeSlot timeslot){
         this.orderID = UUID.randomUUID();
