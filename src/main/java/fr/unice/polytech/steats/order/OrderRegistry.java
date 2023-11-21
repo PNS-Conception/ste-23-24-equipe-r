@@ -67,7 +67,6 @@ public class OrderRegistry {
     public TimeSlot getTimeSlot(Restaurant restaurant, LocalTime deliveryDate, int menusNumber)
             throws EmptyCartException, DeliveryDateNotAvailable {
         if (menusNumber == 0){
-
             throw new EmptyCartException();
         }
         if(restaurant.getSchedule().getTimeSlot(deliveryDate,menusNumber).isEmpty()){

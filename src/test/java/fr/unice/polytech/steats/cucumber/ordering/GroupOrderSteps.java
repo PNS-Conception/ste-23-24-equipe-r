@@ -10,7 +10,6 @@ import fr.unice.polytech.steats.exceptions.order.PaymentException;
 import fr.unice.polytech.steats.exceptions.restaurant.DeliveryDateNotAvailable;
 import fr.unice.polytech.steats.exceptions.restaurant.InsufficientTimeSlotCapacity;
 import fr.unice.polytech.steats.exceptions.restaurant.NonExistentTimeSlot;
-import fr.unice.polytech.steats.exceptions.user.AlreadyExistingUserException;
 import fr.unice.polytech.steats.order.Order;
 import fr.unice.polytech.steats.order.grouporder.GroupOrder;
 import fr.unice.polytech.steats.order.grouporder.GroupOrderRegistry;
@@ -50,21 +49,16 @@ public class GroupOrderSteps {
     }
 
 
-    @And("a group order exists with the code {string} of user {string} with restaurant {string}")
-    public void aGroupOrderExistsWithTheCodeOfUser(String groupOrderString, String campusUserName, String restaurantName) {
-        groupOrderCode = groupOrderString;
+    @And("a group order exists of user {string} with restaurant {string} and delivery time {string} and location {string}")
+    public void aGroupOrderExistsWithTheCodeOfUser(String campusUserName, String restaurantName,String deliveryTimeString, String deliveryLocationString) {
+        deliveryTime = LocalTime.parse(deliveryTimeString);
+        deliveryLocation = DeliveryLocation.getByName(deliveryLocationString);
+        groupOrder = groupOrderRegistry.register(campusUser,deliveryTime,deliveryLocation);
+        groupOrderCode = groupOrder.getGroupOrderCode();
         campusUser = campusUserRegistry.findByName(campusUserName).get();
         restaurant = restaurantRegistry.findByName(restaurantName).get();
     }
 
-    @And("group order {string} is set with delivery time {string} and location {string}")
-    public void groupOrderIsSetWithTimeslotAndLocation(String groupOrderCode,
-                                                       String timeSlotString, String locationString) {
-        deliveryTime = LocalTime.parse(timeSlotString);
-        DeliveryLocation deliveryLocation = DeliveryLocation.getByName(locationString);
-        groupOrder = groupOrderRegistry.register(campusUser, deliveryTime, deliveryLocation);
-        groupOrder.setGroupOrderCode(groupOrderCode);
-    }
     @And("chooses timeslot {string} of the restaurant {string} and delivery location {string} for group order")
     public void chooseAvailableTimeslotAndDeliveryLocation(String timeSlotString, String restaurantName,
                                                            String delivLocation) {
@@ -91,8 +85,8 @@ public class GroupOrderSteps {
         assertEquals(isOpen, groupOrder.isOpen());
     }
 
-    @When("{string} joins the group order {string}")
-    public void joinsTheGroupOrder(String userName, String groupOrderCode) {
+    @When("{string} joins the group order using the code")
+    public void joinsTheGroupOrder(String userName) {
         groupOrder = groupOrderRegistry.findByCode(groupOrderCode).get();
         campusUser = campusUserRegistry.findByName(userName).get();
     }
@@ -118,8 +112,8 @@ public class GroupOrderSteps {
         assertEquals(order.getDeliveryLocation(),deliveryLocation);
     }
 
-    @And("group order {string} should have {int} order")
-    public void groupOrderShouldHaveOneOrder(String groupOrderCode, int groupOrderSize) {
+    @And("the group order should have {int} order")
+    public void groupOrderShouldHaveOneOrder(int groupOrderSize) {
         groupOrder = groupOrderRegistry.findByCode(groupOrderCode).get();
         assertEquals(groupOrderSize, groupOrder.getSize());
     }

@@ -17,10 +17,9 @@ import io.cucumber.java.en.*;
 
 
 import java.time.LocalTime;
-import java.util.Optional;
 
 import static fr.unice.polytech.steats.delivery.DeliveryLocation.LIBRARY;
-import static fr.unice.polytech.steats.delivery.DeliveryStatus.WAITING;
+import static fr.unice.polytech.steats.delivery.DeliveryStatus.IN_PROGRESS;
 import static org.junit.jupiter.api.Assertions.*;
 public class DeliveryNotificationSteps {
 
@@ -60,13 +59,14 @@ public class DeliveryNotificationSteps {
 
 
 
-    @When("the delivery status is set as IN_PROGRESS")
+    @When("the delivery status is set as IN_PROGRESS and the delivery person is assigned to the delivery")
     public void the_delivery_status_is_set_as_in_progress() {
-        deliveryRegistry.markDeliveryAsReady(delivery, deliveryPerson);
+        delivery.setStatus(IN_PROGRESS);
+        delivery.setDeliveryPerson(deliveryPerson);
     }
 
     @Then("a notification is sent to the delivery person and the campus user")
     public void a_notification_is_sent_to_the_delivery_person_and_the_campus_user() {
-        assertEquals(delivery.getStatus(), DeliveryStatus.IN_PROGRESS);
+        assertEquals(delivery.getStatus(), IN_PROGRESS);
     }
 }

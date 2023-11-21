@@ -8,6 +8,7 @@ import java.time.Duration;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.UUID;
 
 public class GroupOrder {
@@ -25,6 +26,7 @@ public class GroupOrder {
         this.groupOrderCode = GroupOrderCodeGenerator.generate();
         this.deliveryTime = deliveryTime;
         this.deliveryLocation = deliveryLocation;
+        generateGroupOrderCode();
         subOrders = new ArrayList<>();
     }
 
@@ -53,8 +55,12 @@ public class GroupOrder {
         }
         return subOrders.size();
     }
-    public void setGroupOrderCode(String code){
-        this.groupOrderCode = code;
+    public void generateGroupOrderCode(){
+        // Generate a random 6-digit number
+        int randomNumber = new Random().nextInt(900000) + 100000; // Ensures exactly 6 digits
+
+        // Set the generated code
+        this.groupOrderCode = String.valueOf(randomNumber);
     }
     public void closeGroupOrder(){this.isOpen=false;}
 }

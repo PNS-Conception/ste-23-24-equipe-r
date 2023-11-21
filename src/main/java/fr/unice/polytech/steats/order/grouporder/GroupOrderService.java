@@ -28,7 +28,7 @@ public class GroupOrderService {
 
     public void addSubOrder(String groupOrderCode, Restaurant restaurant,
                             CampusUser customer, Map<Menu, Integer> menusOrdered)
-            throws NonExistentGroupOrder, ClosedGroupOrderException, EmptyCartException, PaymentException, NonExistentTimeSlot, InsufficientTimeSlotCapacity, DeliveryDateNotAvailable {
+            throws NonExistentGroupOrder, ClosedGroupOrderException, EmptyCartException, PaymentException, DeliveryDateNotAvailable {
         GroupOrder groupOrder = validateAndGetGroupOrder(groupOrderCode);
         Order order = orderRegistry.register(restaurant, customer, menusOrdered,groupOrder.getDeliveryTime(), groupOrder.getDeliveryLocation());
         groupOrder.getSubOrders().add(order);

@@ -16,15 +16,8 @@ public class Order {
     private Map<Menu, Integer> menusOrdered;
     private DeliveryLocation deliveryLocation;
     private TimeSlot timeSlot;
-    private GroupOrder groupOrder;
     private double discount = 0.1;
-
-    private UUID DeliveryId;
-
-
     private final List<OrderSubscriber> subscribers = new ArrayList<>();
-
-
     private LocalDate OrderDate;
 
     public Order(){
