@@ -1,7 +1,7 @@
 package fr.unice.polytech.steats.cucumber.ordering;
 
 import fr.unice.polytech.steats.cart.Cart;
-import fr.unice.polytech.steats.cart.CartService;
+import fr.unice.polytech.steats.cart.CartHandler;
 import fr.unice.polytech.steats.delivery.DeliveryLocation;
 import fr.unice.polytech.steats.exceptions.order.ClosedGroupOrderException;
 import fr.unice.polytech.steats.exceptions.order.EmptyCartException;
@@ -96,8 +96,8 @@ public class GroupOrderSteps {
         campusUser = campusUserRegistry.findByName(userName).get();
         Cart cart = campusUser.getCart();
         Menu menu = restaurant.getMenufromName(menuName);
-        CartService cartService = new CartService(cart);
-        cartService.addItem(menu, quantity);
+        CartHandler cartHandler = new CartHandler(cart);
+        cartHandler.addItem(menu, quantity);
         groupOrderService.addSubOrder(groupOrderCode, restaurant, campusUser, campusUser.getCart().getMenuMap());
     }
 

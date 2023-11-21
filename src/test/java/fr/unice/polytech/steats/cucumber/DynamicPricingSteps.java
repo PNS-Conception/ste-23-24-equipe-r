@@ -1,5 +1,5 @@
 package fr.unice.polytech.steats.cucumber;
-import fr.unice.polytech.steats.cart.CartService;
+import fr.unice.polytech.steats.cart.CartHandler;
 import fr.unice.polytech.steats.restaurant.Menu;
 import fr.unice.polytech.steats.restaurant.Restaurant;
 import fr.unice.polytech.steats.restaurant.RestaurantStatus;
@@ -16,7 +16,7 @@ public class DynamicPricingSteps {
 
     Menu menu;
 
-    CartService cartService;
+    CartHandler cartHandler;
 
 
 
@@ -46,7 +46,7 @@ public class DynamicPricingSteps {
     }
     @Then("the system calculate the final price as {string}")
     public void the_system_calculate_the_final_price_as(String finalPrice) {
-        cartService = new CartService(campusUser.getCart());
-        assertEquals(cartService.getPriceForUser(campusUser), Double.parseDouble(finalPrice));
+        cartHandler = new CartHandler(campusUser.getCart());
+        assertEquals(cartHandler.getPriceForUser(campusUser), Double.parseDouble(finalPrice));
     }
 }

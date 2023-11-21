@@ -6,10 +6,10 @@ import fr.unice.polytech.steats.users.CampusUser;
 
 import java.util.Map;
 
-public class CartService {
+public class CartHandler {
     private Cart cart;
 
-    public CartService(Cart cart) {
+    public CartHandler(Cart cart) {
         this.cart = cart;
     }
 

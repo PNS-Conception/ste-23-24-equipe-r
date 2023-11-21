@@ -8,7 +8,7 @@ import fr.unice.polytech.steats.exceptions.restaurant.DeliveryDateNotAvailable;
 import fr.unice.polytech.steats.exceptions.restaurant.InsufficientTimeSlotCapacity;
 import fr.unice.polytech.steats.exceptions.restaurant.NonExistentTimeSlot;
 import fr.unice.polytech.steats.order.Order;
-import fr.unice.polytech.steats.order.OrderRegistry;
+import fr.unice.polytech.steats.order.OrderManager;
 import fr.unice.polytech.steats.order.OrderVolume;
 import fr.unice.polytech.steats.restaurant.Menu;
 import fr.unice.polytech.steats.restaurant.Restaurant;
@@ -20,17 +20,17 @@ import java.util.Optional;
 
 public class GroupOrderService {
     GroupOrderRegistry groupOrderRegistry;
-    OrderRegistry orderRegistry;
-    public GroupOrderService(GroupOrderRegistry groupOrderRegistry, OrderRegistry orderRegistry){
+    OrderManager orderManager;
+    public GroupOrderService(GroupOrderRegistry groupOrderRegistry, OrderManager orderManager){
         this.groupOrderRegistry = groupOrderRegistry;
-        this.orderRegistry = orderRegistry;
+        this.orderManager = orderManager;
     }
 
     public void addSubOrder(String groupOrderCode, Restaurant restaurant,
                             CampusUser customer, Map<Menu, Integer> menusOrdered)
             throws NonExistentGroupOrder, ClosedGroupOrderException, EmptyCartException, PaymentException, DeliveryDateNotAvailable {
         GroupOrder groupOrder = validateAndGetGroupOrder(groupOrderCode);
-        Order order = orderRegistry.register(restaurant, customer, menusOrdered,groupOrder.getDeliveryTime(), groupOrder.getDeliveryLocation());
+        Order order = orderManager.register(restaurant, customer, menusOrdered,groupOrder.getDeliveryTime(), groupOrder.getDeliveryLocation());
         groupOrder.getSubOrders().add(order);
         OrderVolume.getInstance().addOrder(order);
     }

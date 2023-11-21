@@ -1,7 +1,7 @@
 package fr.unice.polytech.steats.cucumber.ordering;
 
 import fr.unice.polytech.steats.cart.Cart;
-import fr.unice.polytech.steats.cart.CartService;
+import fr.unice.polytech.steats.cart.CartHandler;
 import fr.unice.polytech.steats.exceptions.cart.MenuRemovalFromCartException;
 import fr.unice.polytech.steats.restaurant.Menu;
 import fr.unice.polytech.steats.restaurant.Restaurant;
@@ -22,7 +22,7 @@ public class CartSteps {
     CampusUserRegistry campusUserRegistry;
     Cart cart;
     CampusUser campusUser;
-    CartService cartService;
+    CartHandler cartHandler;
     Restaurant restaurant;
     TimeSlot timeSlot;
     RestaurantRegistry restaurantRegistry;
@@ -44,8 +44,8 @@ public class CartSteps {
         campusUser = campusUserRegistry.findByName(customerName).get();
         cart = campusUser.getCart();
         Menu menu = restaurant.getMenufromName(menuName);
-        cartService = new CartService(cart);
-        cartService.addItem(menu, quantity);
+        cartHandler = new CartHandler(cart);
+        cartHandler.addItem(menu, quantity);
     }
 
     @And("{string} removes {int} x {string}")
@@ -54,8 +54,8 @@ public class CartSteps {
         campusUser = campusUserRegistry.findByName(customerName).get();
         cart = campusUser.getCart();
         Menu menu = restaurant.getMenufromName(menuName);
-        cartService = new CartService(cart);
-        cartService.removeItem(menu, quantity);
+        cartHandler = new CartHandler(cart);
+        cartHandler.removeItem(menu, quantity);
     }
     @And("the cart contains the menus : {int} x {string}")
     public void verifyMultipleMenusInCart(int quantity, String menuName) {
@@ -67,7 +67,7 @@ public class CartSteps {
     @Then("the price of {string}'s cart is {double}")
     public void verifyCartPrice(String customerName, double cartPrice) {
         campusUser = campusUserRegistry.findByName(customerName).get();
-        assertEquals(cartService.getPriceForUser(campusUser), cartPrice, 0.01);
+        assertEquals(cartHandler.getPriceForUser(campusUser), cartPrice, 0.01);
     }
     @Then("timeslot {string} should have capacity {int}")
     public void timeslotShouldHaveCapacity(String timeslotString, int capacity) {

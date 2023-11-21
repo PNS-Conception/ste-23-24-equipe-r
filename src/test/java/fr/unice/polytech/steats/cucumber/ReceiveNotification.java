@@ -9,7 +9,7 @@ import fr.unice.polytech.steats.exceptions.restaurant.DeliveryDateNotAvailable;
 import fr.unice.polytech.steats.exceptions.restaurant.InsufficientTimeSlotCapacity;
 import fr.unice.polytech.steats.exceptions.restaurant.NonExistentTimeSlot;
 import fr.unice.polytech.steats.order.Order;
-import fr.unice.polytech.steats.order.OrderRegistry;
+import fr.unice.polytech.steats.order.OrderManager;
 import fr.unice.polytech.steats.order.OrderRepository;
 import fr.unice.polytech.steats.order.OrderStatus;
 import fr.unice.polytech.steats.payment.ExternalPaymentMock;
@@ -17,7 +17,6 @@ import fr.unice.polytech.steats.payment.PaymentManager;
 import fr.unice.polytech.steats.restaurant.Menu;
 import fr.unice.polytech.steats.restaurant.Restaurant;
 
-import fr.unice.polytech.steats.restaurant.TimeSlot;
 import fr.unice.polytech.steats.users.CampusUser;
 import io.cucumber.java.en.*;
 
@@ -31,7 +30,7 @@ public class ReceiveNotification {
     CampusUser CU ;
     Order order ;
     OrderRepository orderRepository = new OrderRepository();
-    OrderRegistry orderRegistry = new OrderRegistry(orderRepository,new PaymentManager(new ExternalPaymentMock()),new DeliveryRegistry(new DeliveryRepository()));
+    OrderManager orderManager = new OrderManager(orderRepository,new PaymentManager(new ExternalPaymentMock()),new DeliveryRegistry(new DeliveryRepository()));
 
 
     @Given("a logged-in Campus user as the order owner")
@@ -44,14 +43,14 @@ public class ReceiveNotification {
         Cart cart = new Cart();
         cart.addMenu(new Menu("MaxBurger",12));
         cart.addMenu(new Menu("CheeseBurger",13));
-        order = orderRegistry.register(new Restaurant("R1"), CU, cart.getMenuMap(), LocalTime.of(12, 0), LIBRARY);
+        order = orderManager.register(new Restaurant("R1"), CU, cart.getMenuMap(), LocalTime.of(12, 0), LIBRARY);
     }
 
 
 
     @When("the order registry sets the order status to READY_FOR_DELIVERY")
     public void the_order_registry_sets_the_order_status_to() {
-        orderRegistry.MarkOrderAsReady(order.getId());
+        orderManager.MarkOrderAsReady(order.getId());
 
 
     }

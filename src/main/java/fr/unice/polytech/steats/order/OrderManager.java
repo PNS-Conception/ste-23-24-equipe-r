@@ -1,14 +1,10 @@
 package fr.unice.polytech.steats.order;
 
 import fr.unice.polytech.steats.delivery.DeliveryRegistry;
-import fr.unice.polytech.steats.delivery.DeliveryRepository;
 import fr.unice.polytech.steats.exceptions.order.EmptyCartException;
 import fr.unice.polytech.steats.exceptions.restaurant.DeliveryDateNotAvailable;
-import fr.unice.polytech.steats.payment.ExternalPaymentMock;
 import fr.unice.polytech.steats.payment.PaymentManager;
 import fr.unice.polytech.steats.delivery.DeliveryLocation;
-import fr.unice.polytech.steats.exceptions.restaurant.InsufficientTimeSlotCapacity;
-import fr.unice.polytech.steats.exceptions.restaurant.NonExistentTimeSlot;
 import fr.unice.polytech.steats.exceptions.order.PaymentException;
 import fr.unice.polytech.steats.restaurant.Menu;
 import fr.unice.polytech.steats.restaurant.Restaurant;
@@ -26,12 +22,12 @@ import java.util.Optional;
 
 import java.util.stream.Collectors;
 
-public class OrderRegistry {
+public class OrderManager {
     PaymentManager paymentManager;
     OrderRepository orderRepository;
     DeliveryRegistry deliveryRegistry;
 
-    public OrderRegistry(OrderRepository orderRepository,PaymentManager paymentManager, DeliveryRegistry deliveryRegistry) {
+    public OrderManager(OrderRepository orderRepository, PaymentManager paymentManager, DeliveryRegistry deliveryRegistry) {
         this.orderRepository = orderRepository;
         this.paymentManager = paymentManager;
         this.deliveryRegistry = deliveryRegistry;
