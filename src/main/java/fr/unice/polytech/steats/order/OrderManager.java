@@ -12,13 +12,10 @@ import fr.unice.polytech.steats.restaurant.TimeSlot;
 import fr.unice.polytech.steats.users.CampusUser;
 
 
-import java.util.*;
-
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 import java.util.stream.Collectors;
 
@@ -91,15 +88,7 @@ public class OrderManager {
         }
         return previousOrders;
     }
-    public void MarkOrderAsReady(UUID id){
-        Optional<Order> optionalOrder = orderRepository.findById(id);
 
-        if (optionalOrder.isPresent()) {
-            Order order = optionalOrder.get();
-            order.setStatus(OrderStatus.READY_FOR_DELIVERY);
-            orderRepository.save(order,order.getId());
-        }
-    }
 
     public DeliveryRegistry getDeliveryRegistry() {
         return deliveryRegistry;

@@ -2,6 +2,8 @@ package fr.unice.polytech.steats.cucumber.ordering;
 
 import fr.unice.polytech.steats.delivery.DeliveryRegistry;
 import fr.unice.polytech.steats.order.OrderManager;
+import fr.unice.polytech.steats.notification.NotificationRegistry;
+import fr.unice.polytech.steats.notification.NotificationRepository;
 import fr.unice.polytech.steats.order.OrderRepository;
 import fr.unice.polytech.steats.order.grouporder.GroupOrderRegistry;
 import fr.unice.polytech.steats.order.grouporder.GroupOrderService;
@@ -25,6 +27,9 @@ public class FacadeContainer {
     public GroupOrderService groupOrderService;
     public DeliveryRegistry deliveryRegistry;
 
+    public NotificationRegistry notificationRegistry;
+    public NotificationRepository notificationRepository;
+
 
     public FacadeContainer(AppExplicitConfig config){
         this.container = config.getContainer();
@@ -38,5 +43,7 @@ public class FacadeContainer {
         this.groupOrderService = container.getComponent(GroupOrderService.class);
         this.deliveryPersonRegistry = container.getComponent(DeliveryPersonRegistry.class);
         this.deliveryRegistry = container.getComponent(DeliveryRegistry.class);
+        this.notificationRepository=container.getComponent(NotificationRepository.class);
+        this.notificationRegistry=container.getComponent(NotificationRegistry.class);
     }
 }

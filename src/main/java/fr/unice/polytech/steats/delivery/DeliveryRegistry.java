@@ -24,9 +24,5 @@ public class DeliveryRegistry {
         return deliveryRepository;
     }
 
-    public void markDeliveryAsReady(Delivery delivery, DeliveryPerson deliveryPerson){
-            delivery.setDeliveryPerson(deliveryPerson);
-            delivery.setStatus(IN_PROGRESS);
-            deliveryRepository.save(delivery,delivery.getId());
-    }
+
 }

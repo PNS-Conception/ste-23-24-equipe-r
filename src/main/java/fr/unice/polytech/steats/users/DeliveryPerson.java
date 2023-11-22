@@ -1,26 +1,25 @@
 package fr.unice.polytech.steats.users;
 
-import fr.unice.polytech.steats.delivery.DeliverySubscriber;
+import fr.unice.polytech.steats.notification.Notification;
+import fr.unice.polytech.steats.order.Subscriber;
 
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
-public class DeliveryPerson extends User implements DeliverySubscriber {
-    int phoneNumber;
+public class DeliveryPerson extends User {
+    String phoneNumber;
+
+
     public DeliveryPerson(String deliveryPersonName, UserRole userRole) {
         super(deliveryPersonName,userRole);
     }
 
-    @Override
-    public void updateDelivery(Map<String, Object> event) {
-        System.out.println("updating the Delivery Person about the delivery : ");
-        System.out.println(event);
-    }
 
-    public int getPhoneNumber() {
+    public String getPhoneNumber() {
         return phoneNumber;
     }
 
-    public void setPhoneNumber(int phoneNumber) {
+    public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
 }
