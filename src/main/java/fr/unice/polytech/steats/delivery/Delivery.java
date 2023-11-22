@@ -1,10 +1,13 @@
 package fr.unice.polytech.steats.delivery;
 
+import fr.unice.polytech.steats.notification.DeliveryNotification;
+import fr.unice.polytech.steats.notification.Notification;
+import fr.unice.polytech.steats.notification.NotificationRegistry;
+import fr.unice.polytech.steats.notification.UserDeliveryNotification;
 import fr.unice.polytech.steats.order.Order;
-import fr.unice.polytech.steats.order.OrderSubscriber;
+import fr.unice.polytech.steats.order.Subscriber;
 import fr.unice.polytech.steats.users.CampusUser;
 import fr.unice.polytech.steats.users.DeliveryPerson;
-import fr.unice.polytech.steats.users.User;
 
 import java.util.*;
 
@@ -15,8 +18,7 @@ public class Delivery {
     DeliveryPerson deliveryPerson;
     UUID id;
     DeliveryStatus status;
-
-    private final List<DeliverySubscriber> subscribers = new ArrayList<>();
+    private Subscriber subscriber ;
 
 
 
@@ -24,7 +26,6 @@ public class Delivery {
         id = UUID.randomUUID();
         this.order = order;
         status = DeliveryStatus.WAITING;
-        subscribe(order.getCustomer());
     }
 
     public UUID getId() {
@@ -34,11 +35,10 @@ public class Delivery {
     public void setDeliveryPerson(DeliveryPerson deliveryPerson) {
         this.deliveryPerson = deliveryPerson;
         status = IN_PROGRESS;
-        subscribe(deliveryPerson);
         notifySubscribers();
     }
 
-    public User getDeliveryPerson() {
+    public DeliveryPerson getDeliveryPerson() {
         return deliveryPerson;
     }
 
@@ -48,32 +48,30 @@ public class Delivery {
 
     public void setStatus(DeliveryStatus status) {
         this.status = status;
-        //if(status.equals(DeliveryStatus.WAITING))
-    }
-    public void subscribe(DeliverySubscriber subscriber) {
-        subscribers.add(subscriber);
+        if(status.equals(IN_PROGRESS)){
+            notifySubscribers();
+        }
     }
 
-    public void unsubscribe(OrderSubscriber subscriber) {
-        subscribers.remove(subscriber);
+    public Order getOrder() {
+        return order;
     }
+
+
+
+    public void subscribe(Subscriber subscriber) {
+        this.subscriber=subscriber;
+    }
+
 
     public void notifySubscribers() {
-        for (DeliverySubscriber sb :
-                subscribers) {
-            Map<String, Object> event = new HashMap<>();
-            if(sb instanceof DeliveryPerson){
-                event.put("pickUpTime",order.getTimeSlot());
-                event.put("restaurant",order.getRestaurant().getRestaurantName());
-                event.put("deliveryLocation",order.getDeliveryLocation());
-                event.put("username",order.getCustomer().getName());
-            }
-            if(sb instanceof CampusUser){
-                event.put("deliveryPersonId",deliveryPerson.getId());
-                event.put("phoneNumber",deliveryPerson.getPhoneNumber());
-            }
-            sb.updateDelivery(event);
-        }
+
+        Notification deliveryNotification = new DeliveryNotification(this);
+        subscriber.update(deliveryNotification);
+        Notification userNotification = new UserDeliveryNotification(this);
+        subscriber.update(userNotification);
+
+
     }
 
 

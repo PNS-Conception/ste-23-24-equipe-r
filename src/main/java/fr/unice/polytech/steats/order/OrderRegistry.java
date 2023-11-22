@@ -1,14 +1,10 @@
 package fr.unice.polytech.steats.order;
 
 import fr.unice.polytech.steats.delivery.DeliveryRegistry;
-import fr.unice.polytech.steats.delivery.DeliveryRepository;
 import fr.unice.polytech.steats.exceptions.order.EmptyCartException;
 import fr.unice.polytech.steats.exceptions.restaurant.DeliveryDateNotAvailable;
-import fr.unice.polytech.steats.payment.ExternalPaymentMock;
 import fr.unice.polytech.steats.payment.PaymentManager;
 import fr.unice.polytech.steats.delivery.DeliveryLocation;
-import fr.unice.polytech.steats.exceptions.restaurant.InsufficientTimeSlotCapacity;
-import fr.unice.polytech.steats.exceptions.restaurant.NonExistentTimeSlot;
 import fr.unice.polytech.steats.exceptions.order.PaymentException;
 import fr.unice.polytech.steats.restaurant.Menu;
 import fr.unice.polytech.steats.restaurant.Restaurant;
@@ -16,13 +12,10 @@ import fr.unice.polytech.steats.restaurant.TimeSlot;
 import fr.unice.polytech.steats.users.CampusUser;
 
 
-import java.util.*;
-
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 import java.util.stream.Collectors;
 
@@ -95,15 +88,7 @@ public class OrderRegistry {
         }
         return previousOrders;
     }
-    public void MarkOrderAsReady(UUID id){
-        Optional<Order> optionalOrder = orderRepository.findById(id);
 
-        if (optionalOrder.isPresent()) {
-            Order order = optionalOrder.get();
-            order.setStatus(OrderStatus.READY_FOR_DELIVERY);
-            orderRepository.save(order,order.getId());
-        }
-    }
 
     public DeliveryRegistry getDeliveryRegistry() {
         return deliveryRegistry;

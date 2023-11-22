@@ -1,11 +1,14 @@
 package fr.unice.polytech.steats.order;
+import fr.unice.polytech.steats.notification.Notification;
+import fr.unice.polytech.steats.notification.OrderNotification;
 import fr.unice.polytech.steats.order.grouporder.GroupOrder;
 import fr.unice.polytech.steats.restaurant.Menu;
 import fr.unice.polytech.steats.restaurant.Restaurant;
 import fr.unice.polytech.steats.users.CampusUser;
 import fr.unice.polytech.steats.delivery.DeliveryLocation;
 import fr.unice.polytech.steats.restaurant.TimeSlot;
-import java.time.LocalDate;
+
+import java.time.LocalDateTime;
 import java.util.*;
 
 public class Order {
@@ -19,13 +22,14 @@ public class Order {
     private GroupOrder groupOrder;
     private double discount = 0.1;
 
-    private UUID DeliveryId;
+
+    LocalDateTime deliveryDate ;
 
 
-    private final List<OrderSubscriber> subscribers = new ArrayList<>();
+    private Subscriber subscriber;
 
 
-    private LocalDate OrderDate;
+
 
 
     public Order(Restaurant restaurant, CampusUser customer, Map<Menu, Integer> menusOrdered,
@@ -37,22 +41,18 @@ public class Order {
         this.deliveryLocation = deliveryLocation;
         this.timeSlot = timeslot;
         this.orderStatus = OrderStatus.WAITING_FOR_PREPARATION;
-
-        this.subscribe(customer);
-
         OrderVolume.getInstance().addOrder(this);
-
     }
 
-    public Order(Restaurant restaurant,Menu mn, LocalDate orderDate) {
+    public Order(Restaurant restaurant,Menu mn) {
         this.orderID = UUID.randomUUID();
         this.restaurant = restaurant;
-        OrderDate = orderDate;
         menusOrdered = new HashMap<>();
         menusOrdered.put(mn,1);
         this.orderStatus = OrderStatus.WAITING_FOR_PREPARATION;
         OrderVolume.getInstance().addOrder(this);
     }
+
 
     public OrderStatus getStatus() {
         return orderStatus;
@@ -117,29 +117,20 @@ public class Order {
         this.restaurant = restaurant;
     }
 
-    public LocalDate getOrderDate() {
-        return OrderDate;
-    }
+
     public Menu getMenu(){
         return menusOrdered.keySet().iterator().next();
     }
 
-    public void subscribe(OrderSubscriber subscriber) {
-        subscribers.add(subscriber);
+    public void subscribe(Subscriber subscriber) {
+        this.subscriber=subscriber;
     }
 
-    public void unsubscribe(OrderSubscriber subscriber) {
-        subscribers.remove(subscriber);
-    }
 
     public void notifySubscribers() {
-        Map<String, Object> event = new HashMap<>();
-        event.put("orderId", orderID);
-        event.put("deliveryDate", deliveryLocation);
-        event.put("location", timeSlot);
+        Notification notification = new OrderNotification(this);
 
-        for (OrderSubscriber subscriber : subscribers) {
-            subscriber.update(event);
-        }
+        subscriber.update(notification);
+
     }
 }
