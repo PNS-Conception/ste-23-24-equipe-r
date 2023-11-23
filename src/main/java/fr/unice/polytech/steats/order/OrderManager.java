@@ -2,6 +2,7 @@ package fr.unice.polytech.steats.order;
 
 import fr.unice.polytech.steats.delivery.DeliveryRegistry;
 import fr.unice.polytech.steats.exceptions.order.EmptyCartException;
+import fr.unice.polytech.steats.exceptions.order.SubscriberNotExistent;
 import fr.unice.polytech.steats.exceptions.restaurant.DeliveryDateNotAvailable;
 import fr.unice.polytech.steats.payment.PaymentManager;
 import fr.unice.polytech.steats.delivery.DeliveryLocation;
@@ -82,7 +83,7 @@ public class OrderManager {
     public List<Order> getOrdersWaitingForPreparation(Restaurant restaurant) {
         List<Order> previousOrders = new ArrayList<>();
         for (Order order : orderRepository.findAll()) {
-            if (order.getRestaurant().equals(restaurant) && order.getStatus().equals(OrderStatus.WAITING_FOR_PREPARATION)) {
+            if (order.getStatus()!=null && order.getRestaurant().equals(restaurant) && order.getStatus().equals(OrderStatus.WAITING_FOR_PREPARATION)) {
                 previousOrders.add(order);
             }
         }

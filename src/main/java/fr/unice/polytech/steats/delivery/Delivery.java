@@ -34,8 +34,6 @@ public class Delivery {
 
     public void setDeliveryPerson(DeliveryPerson deliveryPerson) {
         this.deliveryPerson = deliveryPerson;
-        status = IN_PROGRESS;
-        notifySubscribers();
     }
 
     public DeliveryPerson getDeliveryPerson() {

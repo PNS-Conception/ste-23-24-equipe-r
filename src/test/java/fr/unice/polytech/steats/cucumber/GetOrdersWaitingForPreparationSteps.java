@@ -36,7 +36,7 @@ public class GetOrdersWaitingForPreparationSteps {
         staff = new CampusUser(staffName,STAFF);
     }
     @Given("the restaurant has {int} orders waiting for preparation")
-    public void a_restaurant_with_orders_waiting_for_preparation(int ordersNumber){
+    public void a_restaurant_with_orders_waiting_for_preparation(int ordersNumber) throws Exception {
         for(int i = 0; i < ordersNumber; i++){
             LocalDate orderDate = LocalDate.now();
             Order order = new Order(restaurant, new Menu("MaxBurger",12), orderDate);

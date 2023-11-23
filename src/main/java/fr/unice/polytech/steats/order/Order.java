@@ -1,4 +1,5 @@
 package fr.unice.polytech.steats.order;
+import fr.unice.polytech.steats.exceptions.order.SubscriberNotExistent;
 import fr.unice.polytech.steats.notification.Notification;
 import fr.unice.polytech.steats.notification.OrderNotification;
 import fr.unice.polytech.steats.order.grouporder.GroupOrder;
@@ -8,6 +9,7 @@ import fr.unice.polytech.steats.users.CampusUser;
 import fr.unice.polytech.steats.delivery.DeliveryLocation;
 import fr.unice.polytech.steats.restaurant.TimeSlot;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -53,10 +55,20 @@ public class Order {
         OrderVolume.getInstance().addOrder(this);
     }
 
+    public Order(Restaurant restaurant, Menu menu, LocalDate orderDate) {
+        this.orderID = UUID.randomUUID();
+        this.restaurant = restaurant;
+        menusOrdered = new HashMap<>();
+        menusOrdered.put(menu,1);
+        this.deliveryDate = orderDate.atStartOfDay();
+
+    }
+
 
     public OrderStatus getStatus() {
         return orderStatus;
     }
+
 
     public void setStatus(OrderStatus orderStatus) {
         this.orderStatus = orderStatus;
@@ -127,10 +139,9 @@ public class Order {
     }
 
 
-    public void notifySubscribers() {
+    public void notifySubscribers()  {
         Notification notification = new OrderNotification(this);
-
-        subscriber.update(notification);
+        if(subscriber!=null)subscriber.update(notification);
 
     }
 }

@@ -5,6 +5,7 @@ import fr.unice.polytech.steats.cucumber.ordering.FacadeContainer;
 import fr.unice.polytech.steats.delivery.*;
 import fr.unice.polytech.steats.exceptions.order.EmptyCartException;
 import fr.unice.polytech.steats.exceptions.order.PaymentException;
+import fr.unice.polytech.steats.exceptions.order.SubscriberNotExistent;
 import fr.unice.polytech.steats.exceptions.restaurant.DeliveryDateNotAvailable;
 import fr.unice.polytech.steats.notification.NotificationRegistry;
 import fr.unice.polytech.steats.order.Order;
@@ -21,7 +22,6 @@ import java.time.LocalTime;
 
 import static fr.unice.polytech.steats.delivery.DeliveryLocation.LIBRARY;
 import static fr.unice.polytech.steats.delivery.DeliveryStatus.IN_PROGRESS;
-import static fr.unice.polytech.steats.delivery.DeliveryStatus.WAITING;
 import static org.junit.jupiter.api.Assertions.*;
 public class DeliveryNotificationSteps {
 

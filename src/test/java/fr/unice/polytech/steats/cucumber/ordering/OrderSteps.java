@@ -3,6 +3,7 @@ package fr.unice.polytech.steats.cucumber.ordering;
 import fr.unice.polytech.steats.delivery.DeliveryLocation;
 import fr.unice.polytech.steats.exceptions.order.EmptyCartException;
 import fr.unice.polytech.steats.exceptions.order.PaymentException;
+import fr.unice.polytech.steats.exceptions.order.SubscriberNotExistent;
 import fr.unice.polytech.steats.exceptions.restaurant.DeliveryDateNotAvailable;
 import fr.unice.polytech.steats.exceptions.restaurant.InsufficientTimeSlotCapacity;
 import fr.unice.polytech.steats.exceptions.restaurant.NonExistentTimeSlot;

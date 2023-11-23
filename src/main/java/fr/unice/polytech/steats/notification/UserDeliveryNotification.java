@@ -17,6 +17,7 @@ public class UserDeliveryNotification extends Notification{
         super();
         this.deliveryPersonId = delivery.getDeliveryPerson().getId();
         this.deliveryPersonPhoneNumber = delivery.getDeliveryPerson().getPhoneNumber();
+        this.setUserId(delivery.getOrder().getCustomer().getId());
     }
 
     @Override
