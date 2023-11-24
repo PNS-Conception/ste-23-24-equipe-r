@@ -1,9 +1,6 @@
 package fr.unice.polytech.steats.delivery;
 
-import fr.unice.polytech.steats.notification.DeliveryNotification;
-import fr.unice.polytech.steats.notification.Notification;
-import fr.unice.polytech.steats.notification.NotificationRegistry;
-import fr.unice.polytech.steats.notification.UserDeliveryNotification;
+import fr.unice.polytech.steats.notification.*;
 import fr.unice.polytech.steats.order.Order;
 import fr.unice.polytech.steats.order.Subscriber;
 import fr.unice.polytech.steats.users.CampusUser;
@@ -61,8 +58,16 @@ public class Delivery {
         this.subscriber=subscriber;
     }
 
+    public Subscriber getSubscriber() {
+        return subscriber;
+    }
+
 
     public void notifySubscribers() {
+
+        if(this.getSubscriber()==null){
+            this.subscriber = new NotificationRegistry(new NotificationRepository());
+        }
 
         Notification deliveryNotification = new DeliveryNotification(this);
         subscriber.update(deliveryNotification);

@@ -44,6 +44,7 @@ public class DeliverySteps {
     }
     @Then("{string} should be assigned to deliver the order")
     public void should_be_assigned_to_deliver_the_order(String deliveryPersonName) {
+        deliveryRegistry.assign(delivery, delivery.getDeliveryPerson());
         assertEquals(deliveryPersonName, delivery.getDeliveryPerson().getName());
     }
     @Then("the delivery status should be {string}")
