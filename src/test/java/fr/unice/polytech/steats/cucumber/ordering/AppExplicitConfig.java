@@ -3,6 +3,8 @@ package fr.unice.polytech.steats.cucumber.ordering;
 import fr.unice.polytech.steats.delivery.DeliveryRegistry;
 import fr.unice.polytech.steats.delivery.DeliveryRepository;
 import fr.unice.polytech.steats.order.OrderManager;
+import fr.unice.polytech.steats.notification.NotificationRegistry;
+import fr.unice.polytech.steats.notification.NotificationRepository;
 import fr.unice.polytech.steats.order.OrderRepository;
 import fr.unice.polytech.steats.order.grouporder.GroupOrderRegistry;
 import fr.unice.polytech.steats.order.grouporder.GroupOrderRepository;
@@ -37,6 +39,9 @@ public class AppExplicitConfig {
             container.addComponent(GroupOrderService.class);
             container.addComponent(DeliveryRegistry.class);
             container.addComponent(DeliveryRepository.class);
+            container.addComponent(NotificationRepository.class);
+            container.addComponent(NotificationRegistry.class);
+
         }
         return container;
     }
