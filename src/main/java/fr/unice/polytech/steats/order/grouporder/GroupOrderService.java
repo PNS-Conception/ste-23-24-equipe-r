@@ -30,7 +30,7 @@ public class GroupOrderService {
                             CampusUser customer, Map<Menu, Integer> menusOrdered)
             throws NonExistentGroupOrder, ClosedGroupOrderException, EmptyCartException, PaymentException, NonExistentTimeSlot, InsufficientTimeSlotCapacity, DeliveryDateNotAvailable {
         GroupOrder groupOrder = validateAndGetGroupOrder(groupOrderCode);
-        Order order = orderManager.register(restaurant, customer, menusOrdered,groupOrder.getDeliveryTime(), groupOrder.getDeliveryLocation());
+        Order order = orderManager.process(restaurant, customer, menusOrdered,groupOrder.getDeliveryTime(), groupOrder.getDeliveryLocation());
         groupOrder.getSubOrders().add(order);
         OrderVolume.getInstance().addOrder(order);
     }

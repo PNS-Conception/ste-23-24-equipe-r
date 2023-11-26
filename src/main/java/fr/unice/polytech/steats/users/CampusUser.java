@@ -5,9 +5,8 @@ import fr.unice.polytech.steats.delivery.DeliveryLocation;
 import fr.unice.polytech.steats.delivery.DeliverySubscriber;
 import fr.unice.polytech.steats.order.Order;
 import fr.unice.polytech.steats.order.OrderSubscriber;
-import fr.unice.polytech.steats.rating.RatingSystem;
 import fr.unice.polytech.steats.restaurant.Menu;
-import fr.unice.polytech.steats.restaurant.TimeSlot;
+import fr.unice.polytech.steats.restaurant.Timeslot;
 
 import java.util.*;
 
@@ -66,7 +65,7 @@ public class CampusUser extends User implements OrderSubscriber, DeliverySubscri
         // Handle the event in a way that makes sense for this subscriber (user)
         UUID orderID = (UUID)event.get("orderId");
         DeliveryLocation deliveryLocation = (DeliveryLocation)event.get("deliveryDate");
-        TimeSlot timeSlot =(TimeSlot)event.get("location");
+        Timeslot timeSlot =(Timeslot)event.get("location");
         System.out.println("The order : " + orderID);
         System.out.println("delivery location : "+deliveryLocation);
         System.out.println("delivery date : "+timeSlot);

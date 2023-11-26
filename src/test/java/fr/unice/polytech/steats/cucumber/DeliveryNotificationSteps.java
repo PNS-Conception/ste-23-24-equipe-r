@@ -16,6 +16,8 @@ import fr.unice.polytech.steats.users.UserRole;
 import io.cucumber.java.en.*;
 
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 import static fr.unice.polytech.steats.delivery.DeliveryLocation.LIBRARY;
@@ -51,7 +53,10 @@ public class DeliveryNotificationSteps {
     public void a_delivery_with_the_status_waiting() throws EmptyCartException, PaymentException, DeliveryDateNotAvailable {
         Cart cart = new Cart();
         cart.addMenu(new Menu("MaxBurger", 12));
-        order = orderManager.register(new Restaurant("R1"), campusUser, cart.getMenuMap(), LocalTime.of(12, 0), LIBRARY);
+
+        LocalDateTime deliveryDateTime = LocalDateTime.of(LocalDate.now(), LocalTime.of(12, 0));
+        order = orderManager.process(new Restaurant("R1"), campusUser, cart.getMenuMap(), deliveryDateTime, LIBRARY);
+
         delivery = new Delivery(order);
         deliveryRegistry.getDeliveryRepository().save(delivery, delivery.getId());
     }

@@ -8,10 +8,12 @@ import fr.unice.polytech.steats.delivery.DeliveryLocation;
 import fr.unice.polytech.steats.exceptions.order.PaymentException;
 import fr.unice.polytech.steats.restaurant.Menu;
 import fr.unice.polytech.steats.restaurant.Restaurant;
-import fr.unice.polytech.steats.restaurant.TimeSlot;
+import fr.unice.polytech.steats.restaurant.Schedule;
+import fr.unice.polytech.steats.restaurant.Timeslot;
 import fr.unice.polytech.steats.users.CampusUser;
 
 
+import java.time.LocalDateTime;
 import java.util.*;
 
 import java.time.LocalTime;
@@ -33,13 +35,13 @@ public class OrderManager {
         this.deliveryRegistry = deliveryRegistry;
     }
 
-    public Order register(Restaurant restaurant, CampusUser customer, Map<Menu, Integer> menusOrdered,
-                          LocalTime localTime, DeliveryLocation deliveryLocation)
+    public Order process(Restaurant restaurant, CampusUser customer, Map<Menu, Integer> menusOrdered,
+                         LocalDateTime localDateTime, DeliveryLocation deliveryLocation)
             throws EmptyCartException, PaymentException, DeliveryDateNotAvailable {
 
 
         int menusNumber = menusOrdered.values().stream().mapToInt(Integer::intValue).sum();
-        TimeSlot timeSlot = getTimeSlot(restaurant, localTime, menusNumber);
+        Timeslot timeSlot = calculateTimeslot(restaurant.getSchedule(), localDateTime, menusNumber).get();
         Map<Menu, Integer> menusOrderedCopy = menusOrdered.entrySet().stream()
                 .collect(Collectors.toMap(
                         entry -> new Menu(entry.getKey()),  // Using the copy constructor
@@ -54,23 +56,31 @@ public class OrderManager {
         customer.getCart().emptyCart();
         return order;
     }
+    public Optional<Timeslot> calculateTimeslot(Schedule schedule, LocalDateTime deliveryTime, int numberOfMenus)
+            throws DeliveryDateNotAvailable, EmptyCartException {
 
-
-
-
-
-
-    public TimeSlot getTimeSlot(Restaurant restaurant, LocalTime deliveryDate, int menusNumber)
-            throws EmptyCartException, DeliveryDateNotAvailable {
-        if (menusNumber == 0){
-
+        if (numberOfMenus == 0){
             throw new EmptyCartException();
         }
-        if(restaurant.getSchedule().getTimeSlot(deliveryDate,menusNumber).isEmpty()){
-            throw new DeliveryDateNotAvailable(deliveryDate);
+
+        LocalDateTime currentTimeSlotStart = deliveryTime.minusHours(2);
+        while (currentTimeSlotStart.isAfter(LocalDateTime.of(deliveryTime.toLocalDate(), schedule.getOpeningTime()))) {
+            Optional<Timeslot> foundTimeslot = schedule.findTimeSlotByStartTime(currentTimeSlotStart);
+            if (foundTimeslot.isPresent()) {
+                Timeslot timeslot = foundTimeslot.get();
+                if (timeslot.getCapacity() >= numberOfMenus) {
+                    return Optional.of(timeslot);
+                }
+            } else {
+                Timeslot newTimeslot = new Timeslot(currentTimeSlotStart, schedule.getMaxCapacity() - numberOfMenus);
+                schedule.getTimeSlots().add(newTimeslot);
+                return Optional.of(newTimeslot);
+            }
+            currentTimeSlotStart = currentTimeSlotStart.minusMinutes(Schedule.SLOT_DURATION_IN_MINUTES);
         }
-        return restaurant.getSchedule().getTimeSlot(deliveryDate,menusNumber).get();
+        throw new DeliveryDateNotAvailable(deliveryTime);
     }
+
 
     public List<Order> getPreviousOrders(CampusUser user) {
         List<Order> previousOrders = new ArrayList<>();

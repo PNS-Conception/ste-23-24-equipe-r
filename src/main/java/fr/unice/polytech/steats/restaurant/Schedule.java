@@ -1,56 +1,26 @@
 package fr.unice.polytech.steats.restaurant;
 
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 public class Schedule {
-    private static final int SLOT_DURATION_IN_MINUTES = 10;
+    public static final int SLOT_DURATION_IN_MINUTES = 10;
     private LocalTime openingTime;
     private LocalTime closingTime;
-    private List<TimeSlot> timeSlots = new ArrayList<>();
+    private List<Timeslot> timeslots = new ArrayList<>();
     private int slotCapacity;
 
     public Schedule(LocalTime openingTime, LocalTime closingTime, int slotCapacity) {
         this.openingTime = openingTime;
         this.closingTime = closingTime;
         this.slotCapacity = slotCapacity;
-        initializeTimeSlots(this.slotCapacity);
     }
-
-    public Schedule(LocalTime openingTime, LocalTime closingTime) {
-        this.openingTime = openingTime;
-        this.closingTime = closingTime;
-        initializeTimeSlots(0);
-    }
-
     public void setCapacity(int slotCapacity) {
-        if(timeSlots.size() > 0) {
-            timeSlots.clear();
-        }
-        initializeTimeSlots(slotCapacity);
+        this.slotCapacity = slotCapacity;
     }
-
-    private void initializeTimeSlots(int slotCapacity) {
-        timeSlots.clear(); // Clear existing slots before initializing
-        for (LocalTime time = openingTime; time.isBefore(closingTime);
-             time = time.plusMinutes(SLOT_DURATION_IN_MINUTES)) {
-            timeSlots.add(new TimeSlot(time, slotCapacity));
-        }
-    }
-
-    public Optional<TimeSlot> getTimeSlot(LocalTime time,int numberOfMenus) {
-        LocalTime preparationEndTime = time.minusHours(2);
-        for (int i = timeSlots.size() - 1; i >= 0; i--) {
-            TimeSlot slot = timeSlots.get(i);
-            if(slot.getStartTime().isBefore(preparationEndTime) && slot.getCapacity() >= numberOfMenus) {
-                return Optional.of(slot);
-            }
-        }
-        return Optional.empty();
-    }
-
 
     public LocalTime getOpeningTime() {
         return openingTime;
@@ -60,24 +30,24 @@ public class Schedule {
         return LocalTime.parse(time);
     }
 
-    public List<TimeSlot> getTimeSlots() {
-        return timeSlots;
+    public List<Timeslot> getTimeSlots() {
+        return timeslots;
     }
 
-    public Optional<TimeSlot> findTimeSlotByStartTime(LocalTime startTime) {
-        return timeSlots.stream()
+    public Optional<Timeslot> findTimeSlotByStartTime(LocalDateTime startTime) {
+        return timeslots.stream()
                 .filter(slot -> slot.getStartTime().equals(startTime))
                 .findFirst();
+    }
+    public void addTimeslot(Timeslot timeslot) {
+        timeslots.add(timeslot);
+    }
+
+    public int getMaxCapacity() {
+        return slotCapacity;
     }
 
     public LocalTime getClosingTime() {
         return this.closingTime;
-    }
-
-    // Reset all time slots to initial capacity for a new day
-    public void resetTimeSlotsForNewDay() {
-        for (TimeSlot slot : timeSlots) {
-            slot.setCapacity(slotCapacity);
-        }
     }
 }

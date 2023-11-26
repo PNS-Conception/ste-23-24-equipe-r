@@ -17,14 +17,16 @@ import fr.unice.polytech.steats.order.grouporder.GroupOrderService;
 import fr.unice.polytech.steats.restaurant.Menu;
 import fr.unice.polytech.steats.restaurant.Restaurant;
 import fr.unice.polytech.steats.restaurant.RestaurantRegistry;
-import fr.unice.polytech.steats.restaurant.TimeSlot;
+import fr.unice.polytech.steats.restaurant.Timeslot;
 import fr.unice.polytech.steats.users.CampusUser;
 import fr.unice.polytech.steats.users.CampusUserRegistry;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 
+import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 
 import static org.junit.Assert.*;
 
@@ -37,7 +39,7 @@ public class GroupOrderSteps {
     RestaurantRegistry restaurantRegistry;
     GroupOrderRegistry groupOrderRegistry;
     GroupOrderService groupOrderService;
-    TimeSlot timeSlot;
+    Timeslot timeSlot;
     LocalTime deliveryTime;
     DeliveryLocation deliveryLocation;
 
@@ -57,20 +59,12 @@ public class GroupOrderSteps {
     }
 
     @And("group order {string} is set with delivery time {string} and location {string}")
-    public void groupOrderIsSetWithTimeslotAndLocation(String groupOrderCode,
-                                                       String timeSlotString, String locationString) {
-        deliveryTime = LocalTime.parse(timeSlotString);
+    public void groupOrderIsSetWithTimeslotAndLocation(String groupOrderCode, String dateTimeString, String locationString) {
+        LocalDateTime deliveryDateTime = LocalDateTime.parse(dateTimeString, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
         DeliveryLocation deliveryLocation = DeliveryLocation.getByName(locationString);
-        groupOrder = groupOrderRegistry.register(campusUser, deliveryTime, deliveryLocation);
+
+        groupOrder = groupOrderRegistry.register(campusUser, deliveryDateTime, deliveryLocation);
         groupOrder.setGroupOrderCode(groupOrderCode);
-    }
-    @And("chooses timeslot {string} of the restaurant {string} and delivery location {string} for group order")
-    public void chooseAvailableTimeslotAndDeliveryLocation(String timeSlotString, String restaurantName,
-                                                           String delivLocation) {
-        restaurant = restaurantRegistry.findByName(restaurantName).get();
-        LocalTime openingTime = LocalTime.parse(timeSlotString);
-        timeSlot = restaurant.getSchedule().findTimeSlotByStartTime(openingTime).get();
-        deliveryLocation = DeliveryLocation.getByName(delivLocation);
     }
 
 
@@ -81,7 +75,7 @@ public class GroupOrderSteps {
 
     @Then("a group order is created with a unique code")
     public void aGroupOrderIsCreatedWithAUniqueCode() {
-        groupOrderRegistry.register(campusUser,LocalTime.now(),deliveryLocation);
+        groupOrderRegistry.register(campusUser,LocalDateTime.now(),deliveryLocation);
     }
 
     @And("the group order is in {string} status")
@@ -107,15 +101,16 @@ public class GroupOrderSteps {
     }
 
     @And("{string}'s order should be set with timeslot {string} and location {string}")
-    public void sOrderShouldBeSetWithTimeslotAndLocation(String username, String timeslotString, String delivLocation) {
+    public void sOrderShouldBeSetWithTimeslotAndLocation(String username, String dateTimeString, String delivLocation) {
         campusUser = campusUserRegistry.findByName(username).get();
-        LocalTime openingTime = LocalTime.parse(timeslotString);
-        TimeSlot timeSlot = restaurant.getSchedule().findTimeSlotByStartTime(openingTime).get();
+        LocalDateTime timeslotDateTime = LocalDateTime.parse(dateTimeString, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+        Timeslot timeSlot = restaurant.getSchedule().findTimeSlotByStartTime(timeslotDateTime).get();
         DeliveryLocation deliveryLocation = DeliveryLocation.getByName(delivLocation);
         Order order = groupOrder.getSubOrders().get(0);
         assertEquals(order.getTimeSlot(), timeSlot);
-        assertEquals(order.getDeliveryLocation(),deliveryLocation);
+        assertEquals(order.getDeliveryLocation(), deliveryLocation);
     }
+
 
     @And("group order {string} should have {int} order")
     public void groupOrderShouldHaveOneOrder(String groupOrderCode, int groupOrderSize) {

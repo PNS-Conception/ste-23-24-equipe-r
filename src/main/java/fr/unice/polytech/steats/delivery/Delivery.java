@@ -48,7 +48,6 @@ public class Delivery {
 
     public void setStatus(DeliveryStatus status) {
         this.status = status;
-        //if(status.equals(DeliveryStatus.WAITING))
     }
     public void subscribe(DeliverySubscriber subscriber) {
         subscribers.add(subscriber);

@@ -1,10 +1,7 @@
 package fr.unice.polytech.steats.delivery;
 
-import fr.unice.polytech.steats.restaurant.TimeSlot;
-
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 public class DeliveryLocation {
 

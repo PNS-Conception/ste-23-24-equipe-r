@@ -58,24 +58,24 @@ Feature: Place an order
     Then there is 6 menus in his cart
     And the price of "Brahim"'s cart is 71.00
 
-  Scenario: placing an order in an available timeslot
-    Given timeslot "15:20" of the restaurant "Pizza Hut" has capacity 5
+  Scenario: placing an order in an available timeslot with date and time
+    Given timeslot "2024-01-15 15:30" of the restaurant "Pizza Hut" has capacity 5
     When "Brahim" chooses the restaurant "Pizza Hut"
     And "Brahim" chooses 2 x "Margherita Pizza"
     And "Brahim" chooses 1 x "Veggie Pizza"
-    And chooses delivery time "17:30" of the restaurant "Pizza Hut" and delivery location "Library"
+    And chooses delivery time "2024-01-15 17:30" of the restaurant "Pizza Hut" and delivery location "Library"
     And "Brahim" confirms and pays for the cart
-    Then timeslot "15:20" should have capacity 2
+    Then timeslot "2024-01-15 15:30" should have capacity 2
     And the price of the order is 32.00
     And the order status is "PREPARING"
     And "Brahim" checks his cart's contents
     And there is 0 menus in his cart
 
-  Scenario: getting discount for order with more than 10 menus
-    Given timeslot "15:00" of the restaurant "Pizza Hut" has capacity 15
+  Scenario: getting discount for order with more than 10 menus with date and time
+    Given timeslot "2024-01-15 15:00" of the restaurant "Pizza Hut" has capacity 15
     When "Brahim" chooses the restaurant "Pizza Hut"
     And "Brahim" chooses 11 x "Margherita Pizza"
     And "Brahim" chooses 1 x "Veggie Pizza"
-    And chooses delivery time "17:10" of the restaurant "Pizza Hut" and delivery location "LIBRARY"
+    And chooses delivery time "2024-01-15 17:00" of the restaurant "Pizza Hut" and delivery location "LIBRARY"
     And "Brahim" confirms and pays for the cart
     Then the price of the order is 109.80

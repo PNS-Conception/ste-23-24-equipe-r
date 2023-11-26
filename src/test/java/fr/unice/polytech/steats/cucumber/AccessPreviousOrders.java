@@ -13,6 +13,8 @@ import fr.unice.polytech.steats.restaurant.Menu;
 import fr.unice.polytech.steats.restaurant.Restaurant;
 import fr.unice.polytech.steats.users.CampusUser;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,15 +38,18 @@ public class AccessPreviousOrders {
     }
 
     @Given("a logged-in Campus user {string} and a list of previous orders")
-    public void a_logged_in_Campus_user_and_a_list_of_previous_orders (String name) throws EmptyCartException, PaymentException, NonExistentTimeSlot, InsufficientTimeSlotCapacity, DeliveryDateNotAvailable {
+    public void a_logged_in_Campus_user_and_a_list_of_previous_orders(String name) throws EmptyCartException, PaymentException, NonExistentTimeSlot, InsufficientTimeSlotCapacity, DeliveryDateNotAvailable {
         campusUser = new CampusUser(name);
         Cart cart = new Cart();
-        cart.addMenu(new Menu("MaxBurger",12));
-        cart.addMenu(new Menu("CheeseBurger",13));
-        orderManager.register(new Restaurant("R1"), campusUser, cart.getMenuMap(), LocalTime.NOON, LIBRARY);
-        cart.addMenu(new Menu("DoubleBurger",17));;
-        orderManager.register(new Restaurant("R1"), campusUser, cart.getMenuMap(), LocalTime.NOON, LIBRARY);
+        LocalDateTime dateTime = LocalDateTime.of(LocalDate.now(), LocalTime.NOON);
+
+        cart.addMenu(new Menu("MaxBurger", 12));
+        orderManager.process(new Restaurant("R1"), campusUser, cart.getMenuMap(), dateTime, LIBRARY);
+        cart.emptyCart();
+        cart.addMenu(new Menu("CheeseBurger", 13));
+        orderManager.process(new Restaurant("R1"), campusUser, cart.getMenuMap(), dateTime.plusDays(1), LIBRARY); // Different day for the second order
     }
+
     @Given("a logged-in Campus user {string}")
     public void a_logged_in_campus_user(String name) {
         campusUser = new CampusUser(name);

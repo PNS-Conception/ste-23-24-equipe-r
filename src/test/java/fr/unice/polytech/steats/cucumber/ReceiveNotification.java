@@ -20,6 +20,8 @@ import fr.unice.polytech.steats.restaurant.Restaurant;
 import fr.unice.polytech.steats.users.CampusUser;
 import io.cucumber.java.en.*;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 import java.util.Optional;
@@ -27,7 +29,7 @@ import java.util.Optional;
 import static fr.unice.polytech.steats.delivery.DeliveryLocation.LIBRARY;
 import static org.junit.jupiter.api.Assertions.*;
 public class ReceiveNotification {
-    CampusUser CU ;
+    CampusUser campusUser;
     Order order ;
     OrderRepository orderRepository = new OrderRepository();
     OrderManager orderManager = new OrderManager(orderRepository,new PaymentManager(new ExternalPaymentMock()),new DeliveryRegistry(new DeliveryRepository()));
@@ -35,15 +37,18 @@ public class ReceiveNotification {
 
     @Given("a logged-in Campus user as the order owner")
     public void a_logged_in_campus_user_as_the_order_owner() {
-        CU = new CampusUser("john");
+        campusUser = new CampusUser("john");
     }
-    @Given("an order with the status PREPARING")
-    public void an_order_with_the_status() throws EmptyCartException, PaymentException, NonExistentTimeSlot, InsufficientTimeSlotCapacity, DeliveryDateNotAvailable {
 
+    @Given("an order with the status PREPARING")
+    public void an_order_with_the_status_PREPARING() throws EmptyCartException, PaymentException, NonExistentTimeSlot, InsufficientTimeSlotCapacity, DeliveryDateNotAvailable {
         Cart cart = new Cart();
-        cart.addMenu(new Menu("MaxBurger",12));
-        cart.addMenu(new Menu("CheeseBurger",13));
-        order = orderManager.register(new Restaurant("R1"), CU, cart.getMenuMap(), LocalTime.of(12, 0), LIBRARY);
+        cart.addMenu(new Menu("MaxBurger", 12));
+        cart.addMenu(new Menu("CheeseBurger", 13));
+
+        LocalDateTime orderDateTime = LocalDateTime.of(LocalDate.now(), LocalTime.of(12, 0));
+        order = orderManager.process(new Restaurant("R1"), campusUser, cart.getMenuMap(), orderDateTime, LIBRARY);
+        order.setStatus(OrderStatus.PREPARING);
     }
 
 

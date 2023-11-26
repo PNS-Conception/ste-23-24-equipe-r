@@ -4,7 +4,7 @@ import fr.unice.polytech.steats.restaurant.Menu;
 import fr.unice.polytech.steats.restaurant.Restaurant;
 import fr.unice.polytech.steats.users.CampusUser;
 import fr.unice.polytech.steats.delivery.DeliveryLocation;
-import fr.unice.polytech.steats.restaurant.TimeSlot;
+import fr.unice.polytech.steats.restaurant.Timeslot;
 import java.time.LocalDate;
 import java.util.*;
 
@@ -15,7 +15,7 @@ public class Order {
     private CampusUser customer;
     private Map<Menu, Integer> menusOrdered;
     private DeliveryLocation deliveryLocation;
-    private TimeSlot timeSlot;
+    private Timeslot timeSlot;
     private GroupOrder groupOrder;
     private double discount = 0.1;
 
@@ -29,7 +29,7 @@ public class Order {
 
 
     public Order(Restaurant restaurant, CampusUser customer, Map<Menu, Integer> menusOrdered,
-                 DeliveryLocation deliveryLocation, TimeSlot timeslot){
+                 DeliveryLocation deliveryLocation, Timeslot timeslot){
         this.orderID = UUID.randomUUID();
         this.restaurant = restaurant;
         this.customer = customer;
@@ -78,10 +78,10 @@ public class Order {
     public DeliveryLocation getDeliveryLocation(){
         return this.deliveryLocation;
     }
-    public void setTimeSlot(TimeSlot timeSlot) {
+    public void setTimeSlot(Timeslot timeSlot) {
         this.timeSlot = timeSlot;
     }
-    public TimeSlot getTimeSlot() {
+    public Timeslot getTimeSlot() {
         return this.timeSlot;
     }
     public int getTotalMenus(){

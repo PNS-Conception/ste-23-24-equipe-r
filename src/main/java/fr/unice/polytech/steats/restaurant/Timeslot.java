@@ -1,22 +1,18 @@
 package fr.unice.polytech.steats.restaurant;
-import java.time.LocalTime;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
-public class TimeSlot {
-    private LocalTime startTime;
+public class Timeslot {
+    private LocalDateTime startTime;
     private int capacity;
 
-    public TimeSlot(LocalTime startTime, int capacity) {
+    public Timeslot(LocalDateTime startTime, int capacity) {
         this.startTime = startTime;
         this.capacity = capacity;
     }
 
     public int getCapacity() {
         return capacity;
-    }
-
-    public void subtractCapacity() {
-        this.capacity--;
     }
 
     public void subtractCapacity(int numberOfMenus) {
@@ -26,7 +22,7 @@ public class TimeSlot {
         else throw new IllegalArgumentException("Not enough capacity");
     }
 
-    public LocalTime getStartTime() {
+    public LocalDateTime getStartTime() {
         return this.startTime;
     }
     public void setCapacity(int capacity) {
@@ -37,7 +33,7 @@ public class TimeSlot {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        TimeSlot timeSlot = (TimeSlot) o;
+        Timeslot timeSlot = (Timeslot) o;
         return Objects.equals(startTime, timeSlot.startTime);
     }
 

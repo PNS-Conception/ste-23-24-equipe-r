@@ -11,18 +11,23 @@ import fr.unice.polytech.steats.order.OrderManager;
 import fr.unice.polytech.steats.order.OrderStatus;
 import fr.unice.polytech.steats.restaurant.Restaurant;
 import fr.unice.polytech.steats.restaurant.RestaurantRegistry;
+import fr.unice.polytech.steats.restaurant.Timeslot;
 import fr.unice.polytech.steats.users.CampusUser;
 import fr.unice.polytech.steats.users.CampusUserRegistry;
 import io.cucumber.java.en.And;
+import io.cucumber.java.en.Then;
 
+import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
 
 public class OrderSteps {
     Order order;
     CampusUserRegistry campusUserRegistry;
-    LocalTime deliveryTime;
+    LocalDateTime deliveryTime;
     DeliveryLocation deliveryLocation;
     Restaurant restaurant;
     OrderManager orderManager;
@@ -35,10 +40,10 @@ public class OrderSteps {
     }
 
     @And("chooses delivery time {string} of the restaurant {string} and delivery location {string}")
-    public void chooseAvailableTimeslotAndDeliveryLocation(String deliveryTime, String restaurantName,
-                                                           String delivLocation) {
+    public void chooseAvailableTimeslotAndDeliveryLocation(String dateTimeString, String restaurantName, String delivLocation) {
         restaurant = restaurantRegistry.findByName(restaurantName).get();
-        this.deliveryTime = LocalTime.parse(deliveryTime);
+        LocalDateTime deliveryDateTime = LocalDateTime.parse(dateTimeString, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+        this.deliveryTime = deliveryDateTime;
         deliveryLocation = DeliveryLocation.getByName(delivLocation);
     }
 
@@ -47,7 +52,7 @@ public class OrderSteps {
             NonExistentTimeSlot, InsufficientTimeSlotCapacity, EmptyCartException, DeliveryDateNotAvailable {
 
         CampusUser campusUser = campusUserRegistry.findByName(customerName).get();
-        order = orderManager.register(restaurant, campusUser, campusUser.getCart().getMenuMap(),
+        order = orderManager.process(restaurant, campusUser, campusUser.getCart().getMenuMap(),
                 deliveryTime, deliveryLocation);
     }
     @And("the price of the order is {double}")
@@ -62,5 +67,6 @@ public class OrderSteps {
         OrderStatus orderStatus = OrderStatus.valueOf(status.toUpperCase());
         assertEquals(order.getStatus(), orderStatus);
     }
+
 
 }

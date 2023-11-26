@@ -6,14 +6,17 @@ import fr.unice.polytech.steats.exceptions.cart.MenuRemovalFromCartException;
 import fr.unice.polytech.steats.restaurant.Menu;
 import fr.unice.polytech.steats.restaurant.Restaurant;
 import fr.unice.polytech.steats.restaurant.RestaurantRegistry;
-import fr.unice.polytech.steats.restaurant.TimeSlot;
+import fr.unice.polytech.steats.restaurant.Timeslot;
 import fr.unice.polytech.steats.users.CampusUser;
 import fr.unice.polytech.steats.users.CampusUserRegistry;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 
+import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -24,7 +27,7 @@ public class CartSteps {
     CampusUser campusUser;
     CartHandler cartHandler;
     Restaurant restaurant;
-    TimeSlot timeSlot;
+    Timeslot timeSlot;
     RestaurantRegistry restaurantRegistry;
     public CartSteps(FacadeContainer container){
         this.campusUserRegistry = container.campusUserRegistry;
@@ -69,11 +72,14 @@ public class CartSteps {
         campusUser = campusUserRegistry.findByName(customerName).get();
         assertEquals(cartHandler.getPriceForUser(campusUser), cartPrice, 0.01);
     }
+
     @Then("timeslot {string} should have capacity {int}")
-    public void timeslotShouldHaveCapacity(String timeslotString, int capacity) {
-        LocalTime openingTime = LocalTime.parse(timeslotString);
-        timeSlot = restaurant.getSchedule().findTimeSlotByStartTime(openingTime).get();
-        assertEquals(capacity, timeSlot.getCapacity());
+    public void timeslotShouldHaveCapacity(String dateTimeString, int expectedCapacity) {
+        LocalDateTime timeslotDateTime = LocalDateTime.parse(dateTimeString, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+        System.out.println(timeslotDateTime);
+        Optional<Timeslot> foundTimeslot = restaurant.getSchedule().findTimeSlotByStartTime(timeslotDateTime);
+        Timeslot timeSlot = foundTimeslot.get();
+        assertEquals(expectedCapacity, timeSlot.getCapacity());
     }
 
     @When("{string} chooses the restaurant {string}")
@@ -83,4 +89,5 @@ public class CartSteps {
         restaurant = restaurantRegistry.findByName(restaurantName).get();
         cart.setRestaurant(restaurant);
     }
+
 }
