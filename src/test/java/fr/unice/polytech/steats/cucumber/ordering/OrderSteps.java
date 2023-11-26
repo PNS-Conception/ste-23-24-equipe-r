@@ -9,12 +9,14 @@ import fr.unice.polytech.steats.exceptions.restaurant.NonExistentTimeSlot;
 import fr.unice.polytech.steats.order.SimpleOrder;
 import fr.unice.polytech.steats.order.OrderManager;
 import fr.unice.polytech.steats.order.OrderStatus;
+import fr.unice.polytech.steats.order.Subscriber;
 import fr.unice.polytech.steats.restaurant.Restaurant;
 import fr.unice.polytech.steats.restaurant.RestaurantRegistry;
 import fr.unice.polytech.steats.users.CampusUser;
 import fr.unice.polytech.steats.users.CampusUserRegistry;
 import io.cucumber.java.en.And;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
@@ -23,7 +25,7 @@ import static org.junit.Assert.assertEquals;
 public class OrderSteps {
     SimpleOrder simpleOrder;
     CampusUserRegistry campusUserRegistry;
-    LocalTime deliveryTime;
+    LocalDateTime deliveryTime;
     DeliveryLocation deliveryLocation;
     Restaurant restaurant;
     OrderManager orderManager;
@@ -39,7 +41,7 @@ public class OrderSteps {
     public void chooseAvailableTimeslotAndDeliveryLocation(String deliveryTime, String restaurantName,
                                                            String delivLocation) {
         restaurant = restaurantRegistry.findByName(restaurantName).get();
-        this.deliveryTime = LocalTime.parse(deliveryTime);
+        this.deliveryTime = LocalDate.now().atTime(LocalTime.parse(deliveryTime));
         deliveryLocation = DeliveryLocation.getByName(delivLocation);
     }
 

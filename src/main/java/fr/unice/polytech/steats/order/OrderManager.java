@@ -13,6 +13,7 @@ import fr.unice.polytech.steats.restaurant.TimeSlot;
 import fr.unice.polytech.steats.users.CampusUser;
 
 
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +33,7 @@ public class OrderManager {
     }
 
     public SimpleOrder register(Restaurant restaurant, CampusUser customer, Map<Menu, Integer> menusOrdered,
-                                LocalTime localTime, DeliveryLocation deliveryLocation)
+                                LocalDateTime localTime, DeliveryLocation deliveryLocation)
             throws EmptyCartException, PaymentException, DeliveryDateNotAvailable {
 
 
@@ -59,7 +60,7 @@ public class OrderManager {
 
 
 
-    public TimeSlot getTimeSlot(Restaurant restaurant, LocalTime deliveryDate, int menusNumber)
+    public TimeSlot getTimeSlot(Restaurant restaurant, LocalDateTime deliveryDate, int menusNumber)
             throws EmptyCartException, DeliveryDateNotAvailable {
         if (menusNumber == 0){
 

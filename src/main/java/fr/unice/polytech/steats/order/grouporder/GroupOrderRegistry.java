@@ -1,8 +1,10 @@
 package fr.unice.polytech.steats.order.grouporder;
 
 import fr.unice.polytech.steats.delivery.DeliveryLocation;
+import fr.unice.polytech.steats.order.Subscriber;
 import fr.unice.polytech.steats.users.CampusUser;
 
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Optional;
 import java.util.stream.StreamSupport;
@@ -13,7 +15,7 @@ public class GroupOrderRegistry {
         this.groupOrderRepository = groupOrderRepository;
     }
 
-    public GroupOrder register(CampusUser campusUser, LocalTime deliveryTime, DeliveryLocation deliveryLocation){
+    public GroupOrder register(CampusUser campusUser, LocalDateTime deliveryTime, DeliveryLocation deliveryLocation){
         GroupOrder groupOrder = new GroupOrder(campusUser, deliveryTime, deliveryLocation);
         groupOrderRepository.save(groupOrder, groupOrder.getId());
         return groupOrder;

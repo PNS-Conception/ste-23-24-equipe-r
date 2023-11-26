@@ -9,10 +9,12 @@ import fr.unice.polytech.steats.exceptions.restaurant.DeliveryDateNotAvailable;
 import fr.unice.polytech.steats.exceptions.restaurant.InsufficientTimeSlotCapacity;
 import fr.unice.polytech.steats.order.SimpleOrder;
 import fr.unice.polytech.steats.order.OrderManager;
+import fr.unice.polytech.steats.order.Subscriber;
 import fr.unice.polytech.steats.restaurant.Menu;
 import fr.unice.polytech.steats.restaurant.Restaurant;
 import fr.unice.polytech.steats.users.CampusUser;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -42,9 +44,9 @@ public class AccessPreviousOrders {
         Cart cart = new Cart();
         cart.addMenu(new Menu("MaxBurger",12));
         cart.addMenu(new Menu("CheeseBurger",13));
-        orderManager.register(new Restaurant("R1"), campusUser, cart.getMenuMap(), LocalTime.NOON, LIBRARY);
+        orderManager.register(new Restaurant("R1"), campusUser, cart.getMenuMap(), LocalDate.now().atTime(LocalTime.NOON), LIBRARY);
         cart.addMenu(new Menu("DoubleBurger",17));;
-        orderManager.register(new Restaurant("R1"), campusUser, cart.getMenuMap(), LocalTime.NOON, LIBRARY);
+        orderManager.register(new Restaurant("R1"), campusUser, cart.getMenuMap(), LocalDate.now().atTime(LocalTime.NOON), LIBRARY);
     }
     @Given("a logged-in Campus user {string}")
     public void a_logged_in_campus_user(String name) {

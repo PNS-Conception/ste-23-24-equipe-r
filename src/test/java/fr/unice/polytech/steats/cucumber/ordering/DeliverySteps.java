@@ -38,7 +38,7 @@ public class DeliverySteps {
     @When("a delivery person {string} want to deliver the order")
     public void a_delivery_person_want_to_deliver_the_order(String deliveryPersonName) {
         delivery = new Delivery(simpleOrder);
-        deliveryPerson = new DeliveryPerson(deliveryPersonName, DELIVERY_PERSON);
+        deliveryPerson = new DeliveryPerson(deliveryPersonName);
         assertSame(DELIVERY_PERSON, deliveryPerson.getRole());
         delivery.setDeliveryPerson((DeliveryPerson) deliveryPerson);
     }

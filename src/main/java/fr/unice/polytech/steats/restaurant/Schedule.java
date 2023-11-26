@@ -1,5 +1,6 @@
 package fr.unice.polytech.steats.restaurant;
 
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -40,11 +41,11 @@ public class Schedule {
         }
     }
 
-    public Optional<TimeSlot> getTimeSlot(LocalTime time,int numberOfMenus) {
-        LocalTime preparationEndTime = time.minusHours(2);
+    public Optional<TimeSlot> getTimeSlot(LocalDateTime time, int numberOfMenus) {
+        LocalDateTime preparationEndTime = time.minusHours(2);
         for (int i = timeSlots.size() - 1; i >= 0; i--) {
             TimeSlot slot = timeSlots.get(i);
-            if(slot.getStartTime().isBefore(preparationEndTime) && slot.getCapacity() >= numberOfMenus) {
+            if(slot.getStartTime().isBefore(preparationEndTime.toLocalTime()) && slot.getCapacity() >= numberOfMenus) {
                 return Optional.of(slot);
             }
         }

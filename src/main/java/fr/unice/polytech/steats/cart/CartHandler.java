@@ -1,6 +1,7 @@
 package fr.unice.polytech.steats.cart;
 
 import fr.unice.polytech.steats.exceptions.cart.MenuRemovalFromCartException;
+import fr.unice.polytech.steats.order.Subscriber;
 import fr.unice.polytech.steats.restaurant.Menu;
 import fr.unice.polytech.steats.users.CampusUser;
 

@@ -10,8 +10,8 @@ public class DeliveryPerson extends User {
     String phoneNumber;
 
 
-    public DeliveryPerson(String deliveryPersonName, UserRole userRole) {
-        super(deliveryPersonName,userRole);
+    public DeliveryPerson(String deliveryPersonName) {
+        super(deliveryPersonName,UserRole.DELIVERY_PERSON);
     }
 
 

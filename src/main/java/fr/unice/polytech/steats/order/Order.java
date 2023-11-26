@@ -2,6 +2,7 @@ package fr.unice.polytech.steats.order;
 
 import fr.unice.polytech.steats.delivery.DeliveryLocation;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 public interface Order {
@@ -13,4 +14,5 @@ public interface Order {
 
     void setDeliveryLocation(DeliveryLocation deliveryLocation);
     DeliveryLocation getDeliveryLocation();
+    LocalDateTime getDeliveryTime();
 }

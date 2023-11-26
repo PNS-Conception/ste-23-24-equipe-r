@@ -27,7 +27,7 @@ Feature: Place a group order
     When "Jotaro" joins the group order "5XSD15SS"
     And "Jotaro" orders and pays for 2 x "McChicken"
     Then the price of "Jotaro"'s order is 20.00
-    And "Jotaro"'s order should be set with timeslot "12:25" and location "Student Center"
+    And "Jotaro"'s order should be set with delivery time "14:30" and location "Student Center"
     And group order "5XSD15SS" should have 1 order
 
   Scenario: Add multiple sub orders to an existing group order

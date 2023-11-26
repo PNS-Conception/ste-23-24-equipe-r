@@ -5,9 +5,9 @@ import fr.unice.polytech.steats.restaurant.Restaurant;
 import fr.unice.polytech.steats.users.CampusUser;
 import fr.unice.polytech.steats.delivery.DeliveryLocation;
 import fr.unice.polytech.steats.restaurant.TimeSlot;
+import fr.unice.polytech.steats.users.User;
 
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.*;
 
 public class SimpleOrder implements Order {
@@ -19,11 +19,15 @@ public class SimpleOrder implements Order {
     private double discount = 0.1;
     Restaurant restaurant;
     CampusUser customer;
-    LocalTime deliveryDate;
-    private final List<Subscriber> subscribers = new ArrayList<>();
+    LocalDateTime deliveryDate;
+    private List<Subscriber> subscribers = new ArrayList<>();
+
+    public LocalDateTime getDeliveryTime(){
+        return deliveryDate;
+    }
 
 
-    public SimpleOrder(Restaurant restaurant, CampusUser customer, Map<Menu, Integer> menusOrdered, LocalTime deliveryDate,
+    public SimpleOrder(Restaurant restaurant, CampusUser customer, Map<Menu, Integer> menusOrdered, LocalDateTime deliveryDate,
                        DeliveryLocation deliveryLocation){
         this.orderID = UUID.randomUUID();
         this.menusOrdered = menusOrdered;
@@ -48,9 +52,6 @@ public class SimpleOrder implements Order {
 
     public void setStatus(OrderStatus orderStatus) {
         this.orderStatus = orderStatus;
-        if(orderStatus.equals(OrderStatus.READY_FOR_DELIVERY)){
-            notifySubscribers();
-        }
     }
 
     public UUID getId() {
@@ -98,6 +99,9 @@ public class SimpleOrder implements Order {
     }
 
     public void subscribe(Subscriber subscriber) {
+        if(subscribers==null){
+            subscribers = new ArrayList<>();
+        }
         subscribers.add(subscriber);
     }
 
@@ -105,14 +109,9 @@ public class SimpleOrder implements Order {
         subscribers.remove(subscriber);
     }
 
-    public void notifySubscribers() {
-        Map<String, Object> event = new HashMap<>();
-        event.put("orderId", orderID);
-        event.put("deliveryDate", deliveryDate);
-        event.put("location", deliveryLocation);
-
+    public void notifySubscribers(Map<String, Object> event, List<User> users) {
         for (Subscriber subscriber : subscribers) {
-            subscriber.update(new Notification());
+            subscriber.update(new Notification(event, users));
         }
     }
 

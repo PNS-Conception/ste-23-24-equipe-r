@@ -6,6 +6,7 @@ import fr.unice.polytech.steats.exceptions.restaurant.InsufficientTimeSlotCapaci
 import fr.unice.polytech.steats.order.SimpleOrder;
 import fr.unice.polytech.steats.order.OrderManager;
 import fr.unice.polytech.steats.order.OrderVolume;
+import fr.unice.polytech.steats.order.Subscriber;
 import fr.unice.polytech.steats.restaurant.Menu;
 import fr.unice.polytech.steats.restaurant.Restaurant;
 import fr.unice.polytech.steats.users.CampusUser;

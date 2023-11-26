@@ -2,6 +2,7 @@ package fr.unice.polytech.steats.order.factory;
 
 import fr.unice.polytech.steats.delivery.DeliveryLocation;
 import fr.unice.polytech.steats.order.SimpleOrder;
+import fr.unice.polytech.steats.order.Subscriber;
 import fr.unice.polytech.steats.restaurant.Menu;
 import fr.unice.polytech.steats.restaurant.Restaurant;
 import fr.unice.polytech.steats.users.CampusUser;
@@ -15,11 +16,11 @@ public class SimpleOrderFactory implements OrderFactory{
     CampusUser customer;
     Map<Menu, Integer> menusOrdered;
     DeliveryLocation deliveryLocation;
-    LocalTime deliveryDate;
+    LocalDateTime deliveryDate;
 
 
     public SimpleOrderFactory(Restaurant restaurant, CampusUser customer, Map<Menu, Integer> menusOrdered,
-                              DeliveryLocation deliveryLocation, LocalTime deliveryDate){
+                              DeliveryLocation deliveryLocation, LocalDateTime deliveryDate){
         this.restaurant = restaurant;
         this.customer= customer;
         this.menusOrdered = menusOrdered;

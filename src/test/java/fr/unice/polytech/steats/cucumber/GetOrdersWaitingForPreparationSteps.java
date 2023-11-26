@@ -43,13 +43,13 @@ public class GetOrdersWaitingForPreparationSteps {
     @Given("the restaurant has {int} orders waiting for preparation")
     public void a_restaurant_with_orders_waiting_for_preparation(int ordersNumber) throws Exception {
         for(int i = 0; i < ordersNumber; i++){
-            LocalTime orderDate = LocalTime.now();
+            LocalDateTime orderDate = LocalDateTime.now();
             SimpleOrder simpleOrder = new SimpleOrder(restaurant, new CampusUser("lambda"), new HashMap<Menu,Integer>(), orderDate, DeliveryLocation.LIBRARY);
             simpleOrder.setStatus(WAITING_FOR_PREPARATION);
             orderRepository.save(simpleOrder, simpleOrder.getId());
         }
         for(int i = 0; i < 6; i++){
-            LocalTime orderDate = LocalTime.now();
+            LocalDateTime orderDate = LocalDateTime.now();
             SimpleOrder simpleOrder = new SimpleOrder(restaurant, new CampusUser("other"), new HashMap<Menu,Integer>(), orderDate, DeliveryLocation.LIBRARY);
             simpleOrder.setStatus(PREPARING);
             orderRepository.save(simpleOrder, simpleOrder.getId());

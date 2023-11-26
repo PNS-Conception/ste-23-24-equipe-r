@@ -9,15 +9,17 @@ import fr.unice.polytech.steats.exceptions.restaurant.DeliveryDateNotAvailable;
 import fr.unice.polytech.steats.notification.NotificationRegistry;
 import fr.unice.polytech.steats.order.SimpleOrder;
 import fr.unice.polytech.steats.order.OrderManager;
+import fr.unice.polytech.steats.order.Subscriber;
 import fr.unice.polytech.steats.restaurant.Menu;
 import fr.unice.polytech.steats.restaurant.Restaurant;
 import fr.unice.polytech.steats.users.CampusUser;
 import fr.unice.polytech.steats.users.DeliveryPerson;
+import fr.unice.polytech.steats.users.User;
 import fr.unice.polytech.steats.users.UserRole;
 import io.cucumber.java.en.*;
 
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.time.LocalTime;
 
 import static fr.unice.polytech.steats.delivery.DeliveryLocation.LIBRARY;
@@ -57,7 +59,7 @@ public class DeliveryNotificationSteps {
 
     @Given("{string} a delivery person")
     public void a_delivery_person(String name) {
-        deliveryPerson = new DeliveryPerson(name, UserRole.DELIVERY_PERSON);
+        deliveryPerson = new DeliveryPerson(name);
         deliveryPerson.setPhoneNumber("789456123");
 
     }
@@ -65,7 +67,7 @@ public class DeliveryNotificationSteps {
     public void a_delivery_with_the_status_waiting() throws EmptyCartException, PaymentException, DeliveryDateNotAvailable {
         Cart cart = new Cart();
         cart.addMenu(new Menu("MaxBurger", 12));
-        simpleOrder = orderManager.register(new Restaurant("R1"), campusUser, cart.getMenuMap(), LocalTime.of(12, 0), LIBRARY);
+        simpleOrder = orderManager.register(new Restaurant("R1"), campusUser, cart.getMenuMap(), LocalDate.now().atTime(LocalTime.of(12, 0)), LIBRARY);
         delivery = new Delivery(simpleOrder);
         delivery.subscribe(notificationRegistry);
         deliveryRegistry.getDeliveryRepository().save(delivery, delivery.getId());
