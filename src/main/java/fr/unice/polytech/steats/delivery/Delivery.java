@@ -1,9 +1,8 @@
 package fr.unice.polytech.steats.delivery;
 
 import fr.unice.polytech.steats.notification.*;
-import fr.unice.polytech.steats.order.Order;
+import fr.unice.polytech.steats.order.SimpleOrder;
 import fr.unice.polytech.steats.order.Subscriber;
-import fr.unice.polytech.steats.users.CampusUser;
 import fr.unice.polytech.steats.users.DeliveryPerson;
 
 import java.util.*;
@@ -11,7 +10,7 @@ import java.util.*;
 import static fr.unice.polytech.steats.delivery.DeliveryStatus.IN_PROGRESS;
 
 public class Delivery {
-    Order order;
+    SimpleOrder simpleOrder;
     DeliveryPerson deliveryPerson;
     UUID id;
     DeliveryStatus status;
@@ -19,9 +18,9 @@ public class Delivery {
 
 
 
-    public Delivery(Order order) {
+    public Delivery(SimpleOrder simpleOrder) {
         id = UUID.randomUUID();
-        this.order = order;
+        this.simpleOrder = simpleOrder;
         status = DeliveryStatus.WAITING;
     }
 
@@ -48,8 +47,8 @@ public class Delivery {
         }
     }
 
-    public Order getOrder() {
-        return order;
+    public SimpleOrder getOrder() {
+        return simpleOrder;
     }
 
 

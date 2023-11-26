@@ -3,8 +3,7 @@ package fr.unice.polytech.steats.order.grouporder;
 import fr.unice.polytech.steats.exceptions.order.*;
 import fr.unice.polytech.steats.exceptions.restaurant.DeliveryDateNotAvailable;
 import fr.unice.polytech.steats.exceptions.restaurant.InsufficientTimeSlotCapacity;
-import fr.unice.polytech.steats.exceptions.restaurant.NonExistentTimeSlot;
-import fr.unice.polytech.steats.order.Order;
+import fr.unice.polytech.steats.order.SimpleOrder;
 import fr.unice.polytech.steats.order.OrderManager;
 import fr.unice.polytech.steats.order.OrderVolume;
 import fr.unice.polytech.steats.restaurant.Menu;
@@ -27,9 +26,9 @@ public class GroupOrderService {
                             CampusUser customer, Map<Menu, Integer> menusOrdered)
             throws NonExistentGroupOrder, ClosedGroupOrderException, EmptyCartException, PaymentException, InsufficientTimeSlotCapacity, DeliveryDateNotAvailable {
         GroupOrder groupOrder = validateAndGetGroupOrder(groupOrderCode);
-        Order order = orderManager.register(restaurant, customer, menusOrdered,groupOrder.getDeliveryTime(), groupOrder.getDeliveryLocation());
-        groupOrder.getSubOrders().add(order);
-        OrderVolume.getInstance().addOrder(order);
+        SimpleOrder simpleOrder = orderManager.register(restaurant, customer, menusOrdered,groupOrder.getDeliveryTime(), groupOrder.getDeliveryLocation());
+        groupOrder.getSubOrders().add(simpleOrder);
+        OrderVolume.getInstance().addOrder(simpleOrder);
     }
     private GroupOrder validateAndGetGroupOrder(String groupOrderCode)
             throws NonExistentGroupOrder, ClosedGroupOrderException {
@@ -43,8 +42,8 @@ public class GroupOrderService {
         }
         return groupOrder;
     }
-    public Optional<Order> locateOrder(GroupOrder groupOrder, CampusUser customer) {
-        List<Order> ordersByCustomer = groupOrder.getSubOrders().stream()
+    public Optional<SimpleOrder> locateOrder(GroupOrder groupOrder, CampusUser customer) {
+        List<SimpleOrder> ordersByCustomer = groupOrder.getSubOrders().stream()
                 .filter(order -> order.getCustomer().equals(customer))
                 .toList();
         if (!ordersByCustomer.isEmpty()) {

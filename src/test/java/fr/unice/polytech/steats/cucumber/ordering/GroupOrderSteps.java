@@ -7,7 +7,7 @@ import fr.unice.polytech.steats.exceptions.order.*;
 import fr.unice.polytech.steats.exceptions.restaurant.DeliveryDateNotAvailable;
 import fr.unice.polytech.steats.exceptions.restaurant.InsufficientTimeSlotCapacity;
 import fr.unice.polytech.steats.exceptions.restaurant.NonExistentTimeSlot;
-import fr.unice.polytech.steats.order.Order;
+import fr.unice.polytech.steats.order.SimpleOrder;
 import fr.unice.polytech.steats.order.grouporder.GroupOrder;
 import fr.unice.polytech.steats.order.grouporder.GroupOrderRegistry;
 import fr.unice.polytech.steats.order.grouporder.GroupOrderService;
@@ -21,6 +21,7 @@ import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 import static org.junit.Assert.*;
@@ -78,7 +79,7 @@ public class GroupOrderSteps {
 
     @Then("a group order is created with a unique code")
     public void aGroupOrderIsCreatedWithAUniqueCode() {
-        groupOrderRegistry.register(campusUser,LocalTime.now(),deliveryLocation);
+        groupOrderRegistry.register(campusUser, LocalTime.now(),deliveryLocation);
     }
 
     @And("the group order is in {string} status")
@@ -109,9 +110,9 @@ public class GroupOrderSteps {
         LocalTime openingTime = LocalTime.parse(timeslotString);
         TimeSlot timeSlot = restaurant.getSchedule().findTimeSlotByStartTime(openingTime).get();
         DeliveryLocation deliveryLocation = DeliveryLocation.getByName(delivLocation);
-        Order order = groupOrder.getSubOrders().get(0);
-        assertEquals(order.getTimeSlot(), timeSlot);
-        assertEquals(order.getDeliveryLocation(),deliveryLocation);
+        SimpleOrder simpleOrder = groupOrder.getSubOrders().get(0);
+        assertEquals(simpleOrder.getTimeSlot(), timeSlot);
+        assertEquals(simpleOrder.getDeliveryLocation(),deliveryLocation);
     }
 
     @And("group order {string} should have {int} order")
@@ -123,8 +124,8 @@ public class GroupOrderSteps {
     @Then("the price of {string}'s order is {double}")
     public void thePriceOfSOrderIs(String username, double price) {
         campusUser = campusUserRegistry.findByName(username).get();
-        Order order = groupOrderService.locateOrder(groupOrder, campusUser).get();
-        assertEquals(order.getPrice(), price, 0.1);
+        SimpleOrder simpleOrder = groupOrderService.locateOrder(groupOrder, campusUser).get();
+        assertEquals(simpleOrder.getPrice(), price, 0.1);
 
     }
     @When("{string} closes the group order")

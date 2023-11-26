@@ -1,7 +1,7 @@
 package fr.unice.polytech.steats.notification;
 
 import fr.unice.polytech.steats.delivery.DeliveryLocation;
-import fr.unice.polytech.steats.order.Order;
+import fr.unice.polytech.steats.order.SimpleOrder;
 import fr.unice.polytech.steats.restaurant.TimeSlot;
 
 import java.util.UUID;
@@ -16,10 +16,10 @@ public class OrderNotification extends Notification {
     DeliveryLocation deliveryLocation;
     TimeSlot timeSlot ;
 
-    public OrderNotification(Order order) {
-        this.setUserId(order.getCustomer().getId());
-        this.orderId = order.getId();
-        this.deliveryLocation = order.getDeliveryLocation();
+    public OrderNotification(SimpleOrder simpleOrder) {
+        this.setUserId(simpleOrder.getCustomer().getId());
+        this.orderId = simpleOrder.getId();
+        this.deliveryLocation = simpleOrder.getDeliveryLocation();
         //this.timeSlot = timeSlot;
     }
 

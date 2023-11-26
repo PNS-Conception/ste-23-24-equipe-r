@@ -3,7 +3,7 @@ package fr.unice.polytech.steats.cucumber.ordering;
 import fr.unice.polytech.steats.delivery.Delivery;
 import fr.unice.polytech.steats.delivery.DeliveryRegistry;
 import fr.unice.polytech.steats.delivery.DeliveryStatus;
-import fr.unice.polytech.steats.order.Order;
+import fr.unice.polytech.steats.order.SimpleOrder;
 import fr.unice.polytech.steats.order.OrderManager;
 import fr.unice.polytech.steats.restaurant.Restaurant;
 import fr.unice.polytech.steats.users.CampusUser;
@@ -20,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class DeliverySteps {
     DeliveryRegistry deliveryRegistry;
     User deliveryPerson;
-    Order order;
+    SimpleOrder simpleOrder;
     Delivery delivery;
 
     OrderManager orderManager;
@@ -31,13 +31,13 @@ public class DeliverySteps {
     }
     @Given("an order is ready to be delivered")
     public void an_order_is_ready_to_be_delivered() {
-        order = new Order(new Restaurant("restaurant"), new CampusUser("user"), null, null, null);
-        order.setStatus(READY_FOR_DELIVERY);
-        deliveryRegistry.register(order);
+        simpleOrder = new SimpleOrder(new Restaurant("restaurant"), new CampusUser("user"), null, null, null);
+        simpleOrder.setStatus(READY_FOR_DELIVERY);
+        deliveryRegistry.register(simpleOrder);
     }
     @When("a delivery person {string} want to deliver the order")
     public void a_delivery_person_want_to_deliver_the_order(String deliveryPersonName) {
-        delivery = new Delivery(order);
+        delivery = new Delivery(simpleOrder);
         deliveryPerson = new DeliveryPerson(deliveryPersonName, DELIVERY_PERSON);
         assertSame(DELIVERY_PERSON, deliveryPerson.getRole());
         delivery.setDeliveryPerson((DeliveryPerson) deliveryPerson);

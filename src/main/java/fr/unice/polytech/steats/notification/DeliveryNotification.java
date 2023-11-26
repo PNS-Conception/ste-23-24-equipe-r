@@ -2,11 +2,8 @@ package fr.unice.polytech.steats.notification;
 
 import fr.unice.polytech.steats.delivery.Delivery;
 import fr.unice.polytech.steats.delivery.DeliveryLocation;
-import fr.unice.polytech.steats.order.Order;
+import fr.unice.polytech.steats.order.SimpleOrder;
 import fr.unice.polytech.steats.restaurant.TimeSlot;
-
-import java.util.Map;
-import java.util.UUID;
 
 public class DeliveryNotification extends Notification{
 
@@ -17,11 +14,11 @@ public class DeliveryNotification extends Notification{
 
 
     public DeliveryNotification(Delivery delivery) {
-        Order order = delivery.getOrder();
+        SimpleOrder simpleOrder = delivery.getOrder();
         //this.timeSlot = order.getTimeSlot();
-        this.restaurantName = order.getRestaurant().getRestaurantName();
-        this.deliveryLocation = order.getDeliveryLocation() ;
-        this.customerName = order.getCustomer().getName();
+        this.restaurantName = simpleOrder.getRestaurant().getRestaurantName();
+        this.deliveryLocation = simpleOrder.getDeliveryLocation() ;
+        this.customerName = simpleOrder.getCustomer().getName();
         this.setUserId(delivery.getDeliveryPerson().getId());
     }
 

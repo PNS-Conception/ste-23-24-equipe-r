@@ -1,7 +1,6 @@
 package fr.unice.polytech.steats.order.grouporder;
 
 import fr.unice.polytech.steats.delivery.DeliveryLocation;
-import fr.unice.polytech.steats.restaurant.TimeSlot;
 import fr.unice.polytech.steats.users.CampusUser;
 
 import java.time.LocalTime;
