@@ -43,11 +43,6 @@ public class DeliveryNotificationSteps {
         orderManager = container.orderManager;
         deliveryRegistry = orderManager.getDeliveryRegistry();
         notificationRegistry =container.notificationRegistry;
-
-
-
-
-
     }
 
     @Given("a user named {string}")

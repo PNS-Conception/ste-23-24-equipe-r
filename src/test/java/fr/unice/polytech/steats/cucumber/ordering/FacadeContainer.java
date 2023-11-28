@@ -6,6 +6,7 @@ import fr.unice.polytech.steats.notification.NotificationRegistry;
 import fr.unice.polytech.steats.order.OrderRepository;
 import fr.unice.polytech.steats.order.grouporder.GroupOrderRegistry;
 import fr.unice.polytech.steats.order.grouporder.GroupOrderService;
+import fr.unice.polytech.steats.restaurant.MenuComments.CommentsRegistry;
 import fr.unice.polytech.steats.restaurant.RestaurantRegistry;
 import fr.unice.polytech.steats.restaurant.RestaurantRepository;
 import fr.unice.polytech.steats.users.CampusUserRegistry;
@@ -26,6 +27,8 @@ public class FacadeContainer {
 
     public final NotificationRegistry notificationRegistry;
 
+    public final CommentsRegistry commentsRegistry;
+
 
     public FacadeContainer(AppExplicitConfig config){
         this.container = config.getContainer();
@@ -39,5 +42,6 @@ public class FacadeContainer {
         this.groupOrderService = container.getComponent(GroupOrderService.class);
         this.deliveryRegistry = container.getComponent(DeliveryRegistry.class);
         this.notificationRegistry=container.getComponent(NotificationRegistry.class);
+        this.commentsRegistry=container.getComponent(CommentsRegistry.class);
     }
 }

@@ -15,12 +15,15 @@ public class Menu {
     private final UUID id;
     private final String menuName;
     private final double basePrice;
+    private double OptionsPrice=0;
+
 
     private Map<CampusUserStatus, Double> campusUserStatusPrice;
 
 
-    private Map<String, List<String>> options = new HashMap<>();
+    private Map<String, Map<String,Integer>> options = new HashMap<>();
     private Map<String, String> selectedOptions = new HashMap<>();
+
 
     public Menu(String menuName, double basePrice) {
         this.id = UUID.randomUUID();
@@ -64,11 +67,11 @@ public class Menu {
     public int hashCode() {
         return Objects.hash(menuName, basePrice);
     }
-    public Map<String, List<String>> getOptions() {
+    public Map<String, Map<String,Integer>> getOptions() {
         return options;
     }
 
-    public void setOptions(Map<String, List<String>> options) {
+    public void setOptions(Map<String, Map<String,Integer>> options) {
         this.options = options;
     }
 
@@ -78,9 +81,12 @@ public class Menu {
 //    }
 // --Commented out by Inspection STOP (28/11/2023 22:36)
 
-    public void setSelectedOptions(Map<String, String> selectedOptions) {
+    public void setSelectedOptions(Map<String, String>selectedOptions) {
         this.selectedOptions = selectedOptions;
+    }
 
+    public Map<String, String> getSelectedOptions() {
+        return selectedOptions;
     }
 
     public Map<CampusUserStatus, Double> getCampusUserStatusPrice() {
@@ -107,5 +113,24 @@ public class Menu {
                 "menuName='" + menuName + '\'' +
                 ", basePrice=" + basePrice +
                 '}';
+    }
+
+    public double getOptionsPrice() {
+        return OptionsPrice;
+    }
+
+    public void setOptionsPrice(double optionsPrice) {
+        OptionsPrice = optionsPrice;
+    }
+
+    public double CalculateNewPrice(){
+        double OptionsPrice=0;
+        for(String option : selectedOptions.keySet())
+            OptionsPrice+=options.get(option).get(selectedOptions.get(option));
+        return OptionsPrice;
+    }
+
+    public UUID getId() {
+        return id;
     }
 }
