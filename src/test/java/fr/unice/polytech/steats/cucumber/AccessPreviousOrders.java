@@ -46,7 +46,7 @@ public class AccessPreviousOrders {
         cart.addMenu(new Menu("CheeseBurger",13));
         orderManager.process(new Restaurant("R1"), campusUser, cart.getMenuMap(), LocalDate.now().atTime(LocalTime.NOON), LIBRARY);
         cart.addMenu(new Menu("DoubleBurger",17));;
-        orderManager.register(new Restaurant("R1"), campusUser, cart.getMenuMap(), LocalDate.now().atTime(LocalTime.NOON), LIBRARY);
+        orderManager.process(new Restaurant("R1"), campusUser, cart.getMenuMap(), LocalDate.now().atTime(LocalTime.NOON), LIBRARY);
     }
     @Given("a logged-in Campus user {string}")
     public void a_logged_in_campus_user(String name) {
