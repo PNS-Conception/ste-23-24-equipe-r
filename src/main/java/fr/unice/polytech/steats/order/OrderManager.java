@@ -2,8 +2,8 @@ package fr.unice.polytech.steats.order;
 
 import fr.unice.polytech.steats.delivery.DeliveryRegistry;
 import fr.unice.polytech.steats.exceptions.order.EmptyCartException;
-import fr.unice.polytech.steats.exceptions.order.SubscriberNotExistent;
 import fr.unice.polytech.steats.exceptions.restaurant.DeliveryDateNotAvailable;
+import fr.unice.polytech.steats.order.factory.SimpleOrderFactory;
 import fr.unice.polytech.steats.payment.PaymentManager;
 import fr.unice.polytech.steats.delivery.DeliveryLocation;
 import fr.unice.polytech.steats.exceptions.order.PaymentException;
@@ -13,6 +13,7 @@ import fr.unice.polytech.steats.restaurant.TimeSlot;
 import fr.unice.polytech.steats.users.CampusUser;
 
 
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,8 +32,8 @@ public class OrderManager {
         this.deliveryRegistry = deliveryRegistry;
     }
 
-    public Order register(Restaurant restaurant, CampusUser customer, Map<Menu, Integer> menusOrdered,
-                          LocalTime localTime, DeliveryLocation deliveryLocation)
+    public SimpleOrder register(Restaurant restaurant, CampusUser customer, Map<Menu, Integer> menusOrdered,
+                                LocalDateTime localTime, DeliveryLocation deliveryLocation)
             throws EmptyCartException, PaymentException, DeliveryDateNotAvailable {
 
 
@@ -43,14 +44,15 @@ public class OrderManager {
                         entry -> new Menu(entry.getKey()),  // Using the copy constructor
                         Map.Entry::getValue
                 ));
-        Order order = new Order(restaurant, customer, menusOrderedCopy, deliveryLocation, timeSlot);
-        order.setStatus(OrderStatus.PREPARING);
+        SimpleOrderFactory factory= new SimpleOrderFactory(restaurant, customer, menusOrderedCopy, deliveryLocation, localTime);
+        SimpleOrder simpleOrder = factory.createOrder();
+        simpleOrder.setStatus(OrderStatus.PREPARING);
         paymentManager.completePayment(customer);
         timeSlot.subtractCapacity(menusNumber);
-        orderRepository.save(order, order.getId());
-        deliveryRegistry.register(order);
+        orderRepository.save(simpleOrder, simpleOrder.getId());
+        deliveryRegistry.register(simpleOrder);
         customer.getCart().emptyCart();
-        return order;
+        return simpleOrder;
     }
 
 
@@ -58,7 +60,7 @@ public class OrderManager {
 
 
 
-    public TimeSlot getTimeSlot(Restaurant restaurant, LocalTime deliveryDate, int menusNumber)
+    public TimeSlot getTimeSlot(Restaurant restaurant, LocalDateTime deliveryDate, int menusNumber)
             throws EmptyCartException, DeliveryDateNotAvailable {
         if (menusNumber == 0){
             throw new EmptyCartException();
@@ -69,24 +71,24 @@ public class OrderManager {
         return restaurant.getSchedule().getTimeSlot(deliveryDate,menusNumber).get();
     }
 
-    public List<Order> getPreviousOrders(CampusUser user) {
-        List<Order> previousOrders = new ArrayList<>();
-        for (Order order : orderRepository.findAll()) {
-            if (order.getCustomer().equals(user)) {
-                previousOrders.add(order);
+    public List<SimpleOrder> getPreviousOrders(CampusUser user) {
+        List<SimpleOrder> previousSimpleOrders = new ArrayList<>();
+        for (SimpleOrder simpleOrder : orderRepository.findAll()) {
+            if (simpleOrder.getCustomer().equals(user)) {
+                previousSimpleOrders.add(simpleOrder);
             }
         }
-        return previousOrders;
+        return previousSimpleOrders;
     }
 
-    public List<Order> getOrdersWaitingForPreparation(Restaurant restaurant) {
-        List<Order> previousOrders = new ArrayList<>();
-        for (Order order : orderRepository.findAll()) {
-            if (order.getStatus()!=null && order.getRestaurant().equals(restaurant) && order.getStatus().equals(OrderStatus.WAITING_FOR_PREPARATION)) {
-                previousOrders.add(order);
+    public List<SimpleOrder> getOrdersWaitingForPreparation(Restaurant restaurant) {
+        List<SimpleOrder> previousSimpleOrders = new ArrayList<>();
+        for (SimpleOrder simpleOrder : orderRepository.findAll()) {
+            if (simpleOrder.getStatus()!=null && simpleOrder.getRestaurant().equals(restaurant) && simpleOrder.getStatus().equals(OrderStatus.WAITING_FOR_PREPARATION)) {
+                previousSimpleOrders.add(simpleOrder);
             }
         }
-        return previousOrders;
+        return previousSimpleOrders;
     }
 
 

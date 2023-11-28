@@ -1,7 +1,8 @@
 package fr.unice.polytech.steats.cucumber;
 
 import fr.unice.polytech.steats.cucumber.ordering.FacadeContainer;
-import fr.unice.polytech.steats.order.Order;
+import fr.unice.polytech.steats.delivery.DeliveryLocation;
+import fr.unice.polytech.steats.order.SimpleOrder;
 import fr.unice.polytech.steats.order.OrderManager;
 import fr.unice.polytech.steats.order.OrderRepository;
 import fr.unice.polytech.steats.restaurant.Menu;
@@ -12,6 +13,9 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.HashMap;
 import java.util.List;
 
 import static fr.unice.polytech.steats.order.OrderStatus.PREPARING;
@@ -24,7 +28,7 @@ public class GetOrdersWaitingForPreparationSteps {
     CampusUser staff;
     OrderRepository orderRepository;
     OrderManager orderManager;
-    List<Order> ordersWaitingForPreparation;
+    List<SimpleOrder> ordersWaitingForPreparation;
 
     public GetOrdersWaitingForPreparationSteps(FacadeContainer container) {
         orderManager = container.orderManager;
@@ -39,16 +43,16 @@ public class GetOrdersWaitingForPreparationSteps {
     @Given("the restaurant has {int} orders waiting for preparation")
     public void a_restaurant_with_orders_waiting_for_preparation(int ordersNumber) throws Exception {
         for(int i = 0; i < ordersNumber; i++){
-            LocalDate orderDate = LocalDate.now();
-            Order order = new Order(restaurant, new Menu("MaxBurger",12), orderDate);
-            order.setStatus(WAITING_FOR_PREPARATION);
-            orderRepository.save(order, order.getId());
+            LocalDateTime orderDate = LocalDateTime.now();
+            SimpleOrder simpleOrder = new SimpleOrder(restaurant, new CampusUser("lambda"), new HashMap<Menu,Integer>(), orderDate, DeliveryLocation.LIBRARY);
+            simpleOrder.setStatus(WAITING_FOR_PREPARATION);
+            orderRepository.save(simpleOrder, simpleOrder.getId());
         }
         for(int i = 0; i < 6; i++){
-            LocalDate orderDate = LocalDate.now();
-            Order order = new Order(restaurant, new Menu("MaxBurger",12), orderDate);
-            order.setStatus(PREPARING);
-            orderRepository.save(order, order.getId());
+            LocalDateTime orderDate = LocalDateTime.now();
+            SimpleOrder simpleOrder = new SimpleOrder(restaurant, new CampusUser("other"), new HashMap<Menu,Integer>(), orderDate, DeliveryLocation.LIBRARY);
+            simpleOrder.setStatus(PREPARING);
+            orderRepository.save(simpleOrder, simpleOrder.getId());
         }
     }
     @When("the restaurant staff Karim clicks on get orders waiting for preparation")

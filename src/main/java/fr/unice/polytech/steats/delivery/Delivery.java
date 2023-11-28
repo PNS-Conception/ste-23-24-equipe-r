@@ -1,28 +1,34 @@
 package fr.unice.polytech.steats.delivery;
 
 import fr.unice.polytech.steats.notification.*;
-import fr.unice.polytech.steats.order.Order;
+import fr.unice.polytech.steats.order.SimpleOrder;
 import fr.unice.polytech.steats.order.Subscriber;
-import fr.unice.polytech.steats.users.CampusUser;
 import fr.unice.polytech.steats.users.DeliveryPerson;
 
 import java.util.*;
 
-import static fr.unice.polytech.steats.delivery.DeliveryStatus.IN_PROGRESS;
+import static fr.unice.polytech.steats.delivery.DeliveryStatus.READY;
 
 public class Delivery {
-    Order order;
+    SimpleOrder simpleOrder;
     DeliveryPerson deliveryPerson;
     UUID id;
     DeliveryStatus status;
-    private Subscriber subscriber ;
+    private List<Subscriber> subscribers;
 
 
 
-    public Delivery(Order order) {
+    public Delivery(SimpleOrder simpleOrder) {
         id = UUID.randomUUID();
-        this.order = order;
+        this.simpleOrder = simpleOrder;
         status = DeliveryStatus.WAITING;
+        subscribers = new ArrayList<>();
+    }
+
+    public void setReady(DeliveryPerson deliveryPerson) {
+        this.deliveryPerson = deliveryPerson;
+        setStatus(READY);
+        notifySubscribers();
     }
 
     public UUID getId() {
@@ -43,38 +49,54 @@ public class Delivery {
 
     public void setStatus(DeliveryStatus status) {
         this.status = status;
-        if(status.equals(IN_PROGRESS)){
-            notifySubscribers();
-        }
     }
 
-    public Order getOrder() {
-        return order;
+    public SimpleOrder getOrder() {
+        return simpleOrder;
     }
 
 
 
     public void subscribe(Subscriber subscriber) {
-        this.subscriber=subscriber;
+        if(subscribers==null){
+            subscribers = new ArrayList<>();
+        }
+        this.subscribers.add(subscriber);
     }
 
-    public Subscriber getSubscriber() {
-        return subscriber;
+    public List<Subscriber> getSubscribers() {
+        return subscribers;
+    }
+
+    private Map<String,Object> getEventForDeliveryPerson(){
+        Map<String,Object> event = new HashMap<>();
+        event.put("pickup time",simpleOrder.getDeliveryTime());
+        event.put("restaurant name",simpleOrder.getRestaurant().getRestaurantName());
+        event.put("delivery location",simpleOrder.getDeliveryLocation());
+        event.put("customer name",simpleOrder.getCustomer().getName());
+        return event;
+    }
+
+    private Map<String,Object> getEventForCustomer(){
+        Map<String,Object> event = new HashMap<>();
+        event.put("order id",simpleOrder.getId());
+        event.put("delivery date",simpleOrder.getDeliveryTime());
+        event.put("delivery location",simpleOrder.getDeliveryLocation());
+        event.put("delivery person phone number",deliveryPerson.getPhoneNumber());
+        return event;
     }
 
 
     public void notifySubscribers() {
 
-        if(this.getSubscriber()==null){
-            this.subscriber = new NotificationRegistry(new NotificationRepository());
+        Notification deliveryNotification = new Notification(getEventForDeliveryPerson(), Collections.singletonList(deliveryPerson));
+        Notification userNotification = new Notification(getEventForCustomer(), Collections.singletonList(simpleOrder.getCustomer()));
+
+
+        for(Subscriber subscriber : subscribers){
+            subscriber.update(deliveryNotification);
+            subscriber.update(userNotification);
         }
-
-        Notification deliveryNotification = new DeliveryNotification(this);
-        subscriber.update(deliveryNotification);
-        Notification userNotification = new UserDeliveryNotification(this);
-        subscriber.update(userNotification);
-
-
     }
 
 

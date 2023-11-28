@@ -5,11 +5,11 @@ import java.util.List;
 
 public class OrderVolume {
     private static OrderVolume instance = null;
-    private List<Order> orderVolume;
+    private List<SimpleOrder> simpleOrderVolume;
 
     // Private constructor to prevent instantiation
     private OrderVolume() {
-        this.orderVolume = new ArrayList<>();
+        this.simpleOrderVolume = new ArrayList<>();
     }
 
     // Static method to get the singleton instance
@@ -20,11 +20,11 @@ public class OrderVolume {
         return instance;
     }
 
-    public List<Order> getOrderVolume() {
-        return orderVolume;
+    public List<SimpleOrder> getOrderVolume() {
+        return simpleOrderVolume;
     }
 
-    public void addOrder(Order order) {
-        orderVolume.add(order);
+    public void addOrder(SimpleOrder simpleOrder) {
+        simpleOrderVolume.add(simpleOrder);
     }
 }

@@ -29,15 +29,17 @@ Feature: Place a group order
     Then the price of "Jotaro"'s order is 20.00
     And "Jotaro"'s order should be set with timeslot "12:25" and location "Student Center"
     And the group order should have 1 order
+    And "Jotaro"'s order should be set with delivery time "14:30" and location "Student Center"
+    And group order "5XSD15SS" should have 1 order
 
   Scenario: Add multiple sub orders to an existing group order
-    When "Gojo" joins the group order using the code
-    And "Gojo" orders and pays for 1 x "Big Tasty"
-    And "Aizen" joins the group order using the code
+    When "Jotaro" joins the group order "5XSD15SS"
+    And "Jotaro" orders and pays for 1 x "Big Tasty"
+    And "Aizen" joins the group order "5XSD15SS"
     And "Aizen" orders and pays for 2 x "Chicken McNuggets"
-    Then the price of "Gojo"'s order is 12.00
+    Then the price of "Jotaro"'s order is 12.00
     And the price of "Aizen"'s order is 28.00
-    And the group order should have 2 order
+    And group order "5XSD15SS" should have 2 order
 
   Scenario: Close the group order
     When "Chris" closes the group order

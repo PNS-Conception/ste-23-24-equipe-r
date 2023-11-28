@@ -5,6 +5,7 @@ import fr.unice.polytech.steats.order.Order;
 import fr.unice.polytech.steats.users.CampusUser;
 import fr.unice.polytech.steats.util.GroupOrderCodeGenerator;
 import java.time.Duration;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,10 +18,10 @@ public class GroupOrder {
     private boolean isOpen = true;
     private UUID groupOrderID;
     private String groupOrderCode;
-    private List<Order> subOrders ;
-    private LocalTime deliveryTime;
+    private List<Order> subOrders;
+    private LocalDateTime deliveryTime;
     private DeliveryLocation deliveryLocation;
-    public GroupOrder(CampusUser campusUser, LocalTime deliveryTime, DeliveryLocation deliveryLocation) {
+    public GroupOrder(CampusUser campusUser, LocalDateTime deliveryTime, DeliveryLocation deliveryLocation) {
         this.groupOrderID = UUID.randomUUID();
         this.groupOrderOwner = campusUser;
         this.groupOrderCode = GroupOrderCodeGenerator.generate();
@@ -40,7 +41,7 @@ public class GroupOrder {
         return deliveryLocation;
     }
 
-    public LocalTime getDeliveryTime() {
+    public LocalDateTime getDeliveryTime() {
         return deliveryTime;
     }
     public String getGroupOrderCode(){

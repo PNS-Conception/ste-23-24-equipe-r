@@ -1,10 +1,8 @@
 package fr.unice.polytech.steats.delivery;
 
-import fr.unice.polytech.steats.order.Order;
+import fr.unice.polytech.steats.order.SimpleOrder;
+import fr.unice.polytech.steats.order.Subscriber;
 import fr.unice.polytech.steats.users.DeliveryPerson;
-
-import java.util.Optional;
-import java.util.UUID;
 
 import static fr.unice.polytech.steats.delivery.DeliveryStatus.IN_PROGRESS;
 
@@ -15,8 +13,8 @@ public class DeliveryRegistry {
         this.deliveryRepository = deliveryRepository;
     }
 
-    public void register(Order order) {
-        Delivery delivery = new Delivery(order);
+    public void register(SimpleOrder simpleOrder) {
+        Delivery delivery = new Delivery(simpleOrder);
         deliveryRepository.save(delivery, delivery.getId());
     }
 

@@ -7,7 +7,8 @@ import fr.unice.polytech.steats.exceptions.order.*;
 import fr.unice.polytech.steats.exceptions.restaurant.DeliveryDateNotAvailable;
 import fr.unice.polytech.steats.exceptions.restaurant.InsufficientTimeSlotCapacity;
 import fr.unice.polytech.steats.exceptions.restaurant.NonExistentTimeSlot;
-import fr.unice.polytech.steats.order.Order;
+import fr.unice.polytech.steats.order.SimpleOrder;
+import fr.unice.polytech.steats.order.Subscriber;
 import fr.unice.polytech.steats.order.grouporder.GroupOrder;
 import fr.unice.polytech.steats.order.grouporder.GroupOrderRegistry;
 import fr.unice.polytech.steats.order.grouporder.GroupOrderService;
@@ -21,6 +22,8 @@ import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 import static org.junit.Assert.*;
@@ -35,7 +38,7 @@ public class GroupOrderSteps {
     GroupOrderRegistry groupOrderRegistry;
     GroupOrderService groupOrderService;
     TimeSlot timeSlot;
-    LocalTime deliveryTime;
+    LocalDateTime deliveryTime;
     DeliveryLocation deliveryLocation;
 
     public GroupOrderSteps(FacadeContainer container){
@@ -56,6 +59,14 @@ public class GroupOrderSteps {
         restaurant = restaurantRegistry.findByName(restaurantName).get();
     }
 
+    @And("group order {string} is set with delivery time {string} and location {string}")
+    public void groupOrderIsSetWithTimeslotAndLocation(String groupOrderCode,
+                                                       String timeSlotString, String locationString) {
+        deliveryTime = LocalDate.now().atTime(LocalTime.parse(timeSlotString));
+        DeliveryLocation deliveryLocation = DeliveryLocation.getByName(locationString);
+        groupOrder = groupOrderRegistry.register(campusUser, deliveryTime, deliveryLocation);
+        groupOrder.setGroupOrderCode(groupOrderCode);
+    }
     @And("chooses timeslot {string} of the restaurant {string} and delivery location {string} for group order")
     public void chooseAvailableTimeslotAndDeliveryLocation(String timeSlotString, String restaurantName,
                                                            String delivLocation) {
@@ -73,7 +84,7 @@ public class GroupOrderSteps {
 
     @Then("a group order is created with a unique code")
     public void aGroupOrderIsCreatedWithAUniqueCode() {
-        groupOrderRegistry.register(campusUser,LocalTime.now(),deliveryLocation);
+        groupOrderRegistry.register(campusUser, LocalDateTime.now(),deliveryLocation);
     }
 
     @And("the group order is in {string} status")
@@ -82,8 +93,8 @@ public class GroupOrderSteps {
         assertEquals(isOpen, groupOrder.isOpen());
     }
 
-    @When("{string} joins the group order using the code")
-    public void joinsTheGroupOrder(String userName) {
+    @When("{string} joins the group order {string}")
+    public void joinsTheGroupOrder(String userName, String groupOrderCode) {
         groupOrder = groupOrderRegistry.findByCode(groupOrderCode).get();
         campusUser = campusUserRegistry.findByName(userName).get();
     }
@@ -98,15 +109,14 @@ public class GroupOrderSteps {
         groupOrderService.addSubOrder(groupOrderCode, restaurant, campusUser, campusUser.getCart().getMenuMap());
     }
 
-    @And("{string}'s order should be set with timeslot {string} and location {string}")
-    public void sOrderShouldBeSetWithTimeslotAndLocation(String username, String timeslotString, String delivLocation) {
+    @And("{string}'s order should be set with delivery time {string} and location {string}")
+    public void sOrderShouldBeSetWithTimeslotAndLocation(String username, String deliveryTime, String delivLocation) {
         campusUser = campusUserRegistry.findByName(username).get();
-        LocalTime openingTime = LocalTime.parse(timeslotString);
-        TimeSlot timeSlot = restaurant.getSchedule().findTimeSlotByStartTime(openingTime).get();
         DeliveryLocation deliveryLocation = DeliveryLocation.getByName(delivLocation);
-        Order order = groupOrder.getSubOrders().get(0);
-        assertEquals(order.getTimeSlot(), timeSlot);
-        assertEquals(order.getDeliveryLocation(),deliveryLocation);
+        SimpleOrder simpleOrder = groupOrder.getSubOrders().get(0);
+        LocalDateTime deliveryDate = LocalDate.now().atTime(LocalTime.parse(deliveryTime));
+        assertEquals(deliveryDate, simpleOrder.getDeliveryTime());
+        assertEquals(deliveryLocation, simpleOrder.getDeliveryLocation());
     }
 
     @And("the group order should have {int} order")
@@ -118,8 +128,8 @@ public class GroupOrderSteps {
     @Then("the price of {string}'s order is {double}")
     public void thePriceOfSOrderIs(String username, double price) {
         campusUser = campusUserRegistry.findByName(username).get();
-        Order order = groupOrderService.locateOrder(groupOrder, campusUser).get();
-        assertEquals(order.getPrice(), price, 0.1);
+        SimpleOrder simpleOrder = groupOrderService.locateOrder(groupOrder, campusUser).get();
+        assertEquals(simpleOrder.getPrice(), price, 0.1);
 
     }
     @When("{string} closes the group order")
