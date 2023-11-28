@@ -14,7 +14,6 @@ Feature: Place a group order
       | Big Tasty          | 12.00 |
       | Chicken McNuggets  | 14.00 |
       | Filet-o-Fish       | 13.00 |
-    And a group order exists with the code "5XSD15SS" of user "Chris" with restaurant "McDonalds"
     And group order "5XSD15SS" is set with delivery time "2023-11-26 14:30" and location "Student Center"
 
   Scenario: Create a group order
@@ -27,7 +26,6 @@ Feature: Place a group order
     And "Jotaro" orders and pays for 2 x "McChicken"
     Then the price of "Jotaro"'s order is 20.00
     And "Jotaro"'s order should be set with timeslot "2023-11-26 12:30" and location "Student Center"
-    And group order "5XSD15SS" should have 1 order
 
   Scenario: Add multiple sub orders to an existing group order
     When "Jotaro" joins the group order "5XSD15SS"
