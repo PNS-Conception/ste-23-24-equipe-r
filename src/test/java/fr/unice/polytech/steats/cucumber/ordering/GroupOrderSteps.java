@@ -37,7 +37,6 @@ public class GroupOrderSteps {
     RestaurantRegistry restaurantRegistry;
     GroupOrderRegistry groupOrderRegistry;
     GroupOrderService groupOrderService;
-    TimeSlot timeSlot;
     LocalDateTime deliveryTime;
     DeliveryLocation deliveryLocation;
 
@@ -49,22 +48,15 @@ public class GroupOrderSteps {
     }
 
 
-    @And("a group order exists of user {string} with restaurant {string} and delivery time {string} and location {string}")
-    public void aGroupOrderExistsWithTheCodeOfUser(String campusUserName, String restaurantName,String deliveryTimeString, String deliveryLocationString) {
-        deliveryTime = LocalDateTime.parse(deliveryTimeString);
-        deliveryLocation = DeliveryLocation.getByName(deliveryLocationString);
-        groupOrder = groupOrderRegistry.register(campusUser,deliveryTime,deliveryLocation);
-        groupOrderCode = groupOrder.getGroupOrderCode();
-        campusUser = campusUserRegistry.findByName(campusUserName).get();
-        restaurant = restaurantRegistry.findByName(restaurantName).get();
-    }
+
 
     @And("group order {string} is set with delivery time {string} and location {string}")
-    public void groupOrderIsSetWithTimeslotAndLocation(String groupOrderCode, String dateTimeString, String locationString) {
+    public void groupOrderIsSetWithTimeslotAndLocation(String groupOrderCoe, String dateTimeString, String locationString) {
         LocalDateTime deliveryDateTime = LocalDateTime.parse(dateTimeString, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
         DeliveryLocation deliveryLocation = DeliveryLocation.getByName(locationString);
 
         groupOrder = groupOrderRegistry.register(campusUser, deliveryDateTime, deliveryLocation);
+        groupOrderCode = groupOrder.getGroupOrderCode();
     }
 
 
@@ -85,7 +77,7 @@ public class GroupOrderSteps {
     }
 
     @When("{string} joins the group order {string}")
-    public void joinsTheGroupOrder(String userName, String groupOrderCode) {
+    public void joinsTheGroupOrder(String userName, String groupOrderCoe) {
         groupOrder = groupOrderRegistry.findByCode(groupOrderCode).get();
         campusUser = campusUserRegistry.findByName(userName).get();
     }
