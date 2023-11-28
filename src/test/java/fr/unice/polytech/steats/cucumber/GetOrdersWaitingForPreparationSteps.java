@@ -15,6 +15,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 import static fr.unice.polytech.steats.order.OrderStatus.PREPARING;
+import static fr.unice.polytech.steats.order.OrderStatus.WAITING_FOR_PREPARATION;
 import static fr.unice.polytech.steats.users.CampusUserStatus.STAFF;
 import static org.junit.Assert.assertEquals;
 
@@ -36,10 +37,11 @@ public class GetOrdersWaitingForPreparationSteps {
         staff = new CampusUser(staffName,STAFF);
     }
     @Given("the restaurant has {int} orders waiting for preparation")
-    public void a_restaurant_with_orders_waiting_for_preparation(int ordersNumber){
+    public void a_restaurant_with_orders_waiting_for_preparation(int ordersNumber) throws Exception {
         for(int i = 0; i < ordersNumber; i++){
             LocalDate orderDate = LocalDate.now();
             Order order = new Order(restaurant, new Menu("MaxBurger",12), orderDate);
+            order.setStatus(WAITING_FOR_PREPARATION);
             orderRepository.save(order, order.getId());
         }
         for(int i = 0; i < 6; i++){

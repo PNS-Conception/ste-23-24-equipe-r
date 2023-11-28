@@ -1,16 +1,14 @@
 package fr.unice.polytech.steats.users;
 
 import fr.unice.polytech.steats.cart.Cart;
-import fr.unice.polytech.steats.delivery.DeliveryLocation;
-import fr.unice.polytech.steats.delivery.DeliverySubscriber;
+import fr.unice.polytech.steats.notification.Notification;
 import fr.unice.polytech.steats.order.Order;
-import fr.unice.polytech.steats.order.OrderSubscriber;
 import fr.unice.polytech.steats.restaurant.Menu;
 import fr.unice.polytech.steats.restaurant.Timeslot;
 
 import java.util.*;
 
-public class CampusUser extends User implements OrderSubscriber, DeliverySubscriber {
+public class CampusUser extends User {
     private Cart cart;
     private double balance;
 
@@ -60,22 +58,7 @@ public class CampusUser extends User implements OrderSubscriber, DeliverySubscri
         this.status = status;
     }
 
-    @Override
-    public void update(Map<String, Object> event) {
-        // Handle the event in a way that makes sense for this subscriber (user)
-        UUID orderID = (UUID)event.get("orderId");
-        DeliveryLocation deliveryLocation = (DeliveryLocation)event.get("deliveryDate");
-        Timeslot timeSlot =(Timeslot)event.get("location");
-        System.out.println("The order : " + orderID);
-        System.out.println("delivery location : "+deliveryLocation);
-        System.out.println("delivery date : "+timeSlot);
-    }
 
-    @Override
-    public void updateDelivery(Map<String, Object> event) {
-        System.out.println("updating the Campus user about the delivery : ");
-        System.out.println(event);
-    }
 
     @Override
     public String toString() {

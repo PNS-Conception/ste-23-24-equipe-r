@@ -4,6 +4,7 @@ import fr.unice.polytech.steats.cart.Cart;
 import fr.unice.polytech.steats.cucumber.ordering.FacadeContainer;
 import fr.unice.polytech.steats.exceptions.order.EmptyCartException;
 import fr.unice.polytech.steats.exceptions.order.PaymentException;
+import fr.unice.polytech.steats.exceptions.order.SubscriberNotExistent;
 import fr.unice.polytech.steats.exceptions.restaurant.DeliveryDateNotAvailable;
 import fr.unice.polytech.steats.exceptions.restaurant.InsufficientTimeSlotCapacity;
 import fr.unice.polytech.steats.exceptions.restaurant.NonExistentTimeSlot;
@@ -38,7 +39,7 @@ public class AccessPreviousOrders {
     }
 
     @Given("a logged-in Campus user {string} and a list of previous orders")
-    public void a_logged_in_Campus_user_and_a_list_of_previous_orders(String name) throws EmptyCartException, PaymentException, NonExistentTimeSlot, InsufficientTimeSlotCapacity, DeliveryDateNotAvailable {
+    public void a_logged_in_Campus_user_and_a_list_of_previous_orders (String name) throws EmptyCartException, PaymentException, InsufficientTimeSlotCapacity, DeliveryDateNotAvailable, SubscriberNotExistent {
         campusUser = new CampusUser(name);
         Cart cart = new Cart();
         LocalDateTime dateTime = LocalDateTime.of(LocalDate.now(), LocalTime.NOON);

@@ -5,7 +5,9 @@ import fr.unice.polytech.steats.cucumber.ordering.FacadeContainer;
 import fr.unice.polytech.steats.delivery.*;
 import fr.unice.polytech.steats.exceptions.order.EmptyCartException;
 import fr.unice.polytech.steats.exceptions.order.PaymentException;
+import fr.unice.polytech.steats.exceptions.order.SubscriberNotExistent;
 import fr.unice.polytech.steats.exceptions.restaurant.DeliveryDateNotAvailable;
+import fr.unice.polytech.steats.notification.NotificationRegistry;
 import fr.unice.polytech.steats.order.Order;
 import fr.unice.polytech.steats.order.OrderManager;
 import fr.unice.polytech.steats.restaurant.Menu;
@@ -21,6 +23,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 import static fr.unice.polytech.steats.delivery.DeliveryLocation.LIBRARY;
+import static fr.unice.polytech.steats.delivery.DeliveryStatus.IN_PROGRESS;
 import static org.junit.jupiter.api.Assertions.*;
 public class DeliveryNotificationSteps {
 
@@ -33,10 +36,20 @@ public class DeliveryNotificationSteps {
     Order order;
 
     DeliveryRegistry deliveryRegistry;
+    NotificationRegistry notificationRegistry;
+
 
     public DeliveryNotificationSteps(FacadeContainer container) {
         orderManager = container.orderManager;
         deliveryRegistry = orderManager.getDeliveryRegistry();
+        orderManager = container.orderManager;
+        deliveryRegistry = orderManager.getDeliveryRegistry();
+        notificationRegistry =container.notificationRegistry;
+
+
+
+
+
     }
 
     @Given("a user named {string}")
@@ -47,7 +60,8 @@ public class DeliveryNotificationSteps {
     @Given("{string} a delivery person")
     public void a_delivery_person(String name) {
         deliveryPerson = new DeliveryPerson(name, UserRole.DELIVERY_PERSON);
-        deliveryPerson.setPhoneNumber(789456123);
+        deliveryPerson.setPhoneNumber("789456123");
+
     }
     @Given("a delivery with the status WAITING")
     public void a_delivery_with_the_status_waiting() throws EmptyCartException, PaymentException, DeliveryDateNotAvailable {
@@ -58,6 +72,7 @@ public class DeliveryNotificationSteps {
         order = orderManager.process(new Restaurant("R1"), campusUser, cart.getMenuMap(), deliveryDateTime, LIBRARY);
 
         delivery = new Delivery(order);
+        delivery.subscribe(notificationRegistry);
         deliveryRegistry.getDeliveryRepository().save(delivery, delivery.getId());
     }
 
@@ -65,11 +80,14 @@ public class DeliveryNotificationSteps {
 
     @When("the delivery status is set as IN_PROGRESS")
     public void the_delivery_status_is_set_as_in_progress() {
-        deliveryRegistry.markDeliveryAsReady(delivery, deliveryPerson);
+        delivery.setDeliveryPerson(deliveryPerson);
+        delivery.setStatus(IN_PROGRESS);
     }
 
     @Then("a notification is sent to the delivery person and the campus user")
     public void a_notification_is_sent_to_the_delivery_person_and_the_campus_user() {
         assertEquals(delivery.getStatus(), DeliveryStatus.IN_PROGRESS);
+        assertEquals(notificationRegistry.findByUser(campusUser).size(),1 );
+        assertEquals(notificationRegistry.findByUser(deliveryPerson).size(),1);
     }
 }

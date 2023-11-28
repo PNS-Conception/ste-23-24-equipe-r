@@ -20,13 +20,15 @@ public class DeliveryRegistry {
         deliveryRepository.save(delivery, delivery.getId());
     }
 
+    public void assign(Delivery delivery, DeliveryPerson deliveryPerson) {
+        delivery.setDeliveryPerson(deliveryPerson);
+        delivery.setStatus(IN_PROGRESS);
+        deliveryRepository.save(delivery, delivery.getId());
+    }
+
     public DeliveryRepository getDeliveryRepository() {
         return deliveryRepository;
     }
 
-    public void markDeliveryAsReady(Delivery delivery, DeliveryPerson deliveryPerson){
-            delivery.setDeliveryPerson(deliveryPerson);
-            delivery.setStatus(IN_PROGRESS);
-            deliveryRepository.save(delivery,delivery.getId());
-    }
+
 }
