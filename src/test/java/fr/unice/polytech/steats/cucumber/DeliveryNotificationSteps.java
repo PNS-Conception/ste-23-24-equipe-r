@@ -10,6 +10,7 @@ import fr.unice.polytech.steats.exceptions.restaurant.DeliveryDateNotAvailable;
 import fr.unice.polytech.steats.notification.NotificationRegistry;
 import fr.unice.polytech.steats.order.Order;
 import fr.unice.polytech.steats.order.OrderManager;
+import fr.unice.polytech.steats.order.SimpleOrder;
 import fr.unice.polytech.steats.restaurant.Menu;
 import fr.unice.polytech.steats.restaurant.Restaurant;
 import fr.unice.polytech.steats.users.CampusUser;
@@ -18,6 +19,8 @@ import fr.unice.polytech.steats.users.UserRole;
 import io.cucumber.java.en.*;
 
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 import static fr.unice.polytech.steats.delivery.DeliveryLocation.LIBRARY;
@@ -31,7 +34,7 @@ public class DeliveryNotificationSteps {
 
     OrderManager orderManager;
 
-    Order order;
+    SimpleOrder order;
 
     DeliveryRegistry deliveryRegistry;
     NotificationRegistry notificationRegistry;
