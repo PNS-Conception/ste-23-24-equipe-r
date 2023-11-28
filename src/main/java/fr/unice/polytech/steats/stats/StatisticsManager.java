@@ -12,14 +12,14 @@ import java.util.List;
 
 public class StatisticsManager {
 
-    OrderVolume orderVolume;
+    final OrderVolume orderVolume;
 
     public StatisticsManager() {
         this.orderVolume = OrderVolume.getInstance();
     }
 
     public List<SimpleOrder> getOrderVolumesOverTime() throws NoOrdersPlacedException {
-        if(orderVolume.getOrderVolume().isEmpty() || orderVolume==null) {
+        if(orderVolume==null ||orderVolume.getOrderVolume().isEmpty() ) {
             throw new NoOrdersPlacedException();
         }
         for(SimpleOrder simpleOrder : orderVolume.getOrderVolume()) {
@@ -32,7 +32,7 @@ public class StatisticsManager {
     }
 
     public List<SimpleOrder> getRestaurantOrderVolume(Restaurant restaurant) throws NoOrdersPlacedException {
-        if(orderVolume.getOrderVolume().isEmpty() || orderVolume==null) {
+        if(orderVolume==null || orderVolume.getOrderVolume().isEmpty() ) {
             throw new NoOrdersPlacedException();
         }
         List<SimpleOrder> restaurantSimpleOrderVolume = new ArrayList<>();

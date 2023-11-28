@@ -1,6 +1,5 @@
 package fr.unice.polytech.steats.cucumber;
 import fr.unice.polytech.steats.cart.CartHandler;
-import fr.unice.polytech.steats.order.Subscriber;
 import fr.unice.polytech.steats.restaurant.Menu;
 import fr.unice.polytech.steats.restaurant.Restaurant;
 import fr.unice.polytech.steats.restaurant.RestaurantStatus;

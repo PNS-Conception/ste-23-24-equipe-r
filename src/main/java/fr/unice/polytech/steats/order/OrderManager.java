@@ -2,7 +2,6 @@ package fr.unice.polytech.steats.order;
 
 import fr.unice.polytech.steats.delivery.DeliveryRegistry;
 import fr.unice.polytech.steats.exceptions.order.EmptyCartException;
-import fr.unice.polytech.steats.exceptions.order.SubscriberNotExistent;
 import fr.unice.polytech.steats.exceptions.restaurant.DeliveryDateNotAvailable;
 import fr.unice.polytech.steats.payment.PaymentManager;
 import fr.unice.polytech.steats.delivery.DeliveryLocation;
@@ -14,17 +13,13 @@ import fr.unice.polytech.steats.restaurant.TimeSlot;
 import fr.unice.polytech.steats.users.CampusUser;
 import java.time.LocalDateTime;
 import java.util.*;
-import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
 import java.util.stream.Collectors;
 
 public class OrderManager {
-    PaymentManager paymentManager;
-    OrderRepository orderRepository;
-    DeliveryRegistry deliveryRegistry;
+    final PaymentManager paymentManager;
+    final OrderRepository orderRepository;
+    final DeliveryRegistry deliveryRegistry;
 
     public OrderManager(OrderRepository orderRepository, PaymentManager paymentManager, DeliveryRegistry deliveryRegistry) {
         this.orderRepository = orderRepository;
@@ -34,11 +29,12 @@ public class OrderManager {
 
     public SimpleOrder process(Restaurant restaurant, CampusUser customer, Map<Menu, Integer> menusOrdered,
                          LocalDateTime deliveryDateTime, DeliveryLocation deliveryLocation)
-            throws EmptyCartException, PaymentException, DeliveryDateNotAvailable {
+            throws EmptyCartException, PaymentException, DeliveryDateNotAvailable,NoSuchElementException {
 
 
         int menusNumber = menusOrdered.values().stream().mapToInt(Integer::intValue).sum();
-        TimeSlot timeSlot = calculateTimeslot(restaurant.getSchedule(), deliveryDateTime, menusNumber).get();
+        Optional<TimeSlot> optionalTimeSlot = calculateTimeslot(restaurant.getSchedule(), deliveryDateTime, menusNumber);
+        TimeSlot timeSlot = optionalTimeSlot.orElseThrow(() -> new NoSuchElementException("Element not found"));
         Map<Menu, Integer> menusOrderedCopy = menusOrdered.entrySet().stream()
                 .collect(Collectors.toMap(
                         entry -> new Menu(entry.getKey()),  // Using the copy constructor

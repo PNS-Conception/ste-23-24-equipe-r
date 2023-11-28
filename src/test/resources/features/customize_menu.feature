@@ -1,6 +1,6 @@
 Feature: Customize Menu Selection
   Scenario Outline: Customize Menu Selection
-    Given a logged in campus user 'Jhon'
+    Given a logged in campus user 'John'
     And a chosen Menu 'Fish And Chips' with the price 10
     And a list of possible modifications for each menu item 'sauce', 'dessert', 'add-ons'
     When the user chooses the sauce '<sauce>', the dessert '<dessert>', and the add-ons '<add-ons>'
@@ -12,7 +12,7 @@ Feature: Customize Menu Selection
 
 
   Scenario: ErrorHandling
-    Given a logged in campus user 'Jhon'
+    Given a logged in campus user 'John'
     And a chosen Menu 'Fish And Chips' with the price 10
     And a list of possible modifications for each menu item 'sauce', 'dessert', 'add-ons'
     When the user provides invalid menu customization choices sauce 'invalid_sauce', dessert 'invalid_dessert',add-ons 'invalid_addons'

@@ -10,7 +10,6 @@ import fr.unice.polytech.steats.notification.Notification;
 import fr.unice.polytech.steats.notification.NotificationRegistry;
 import fr.unice.polytech.steats.order.SimpleOrder;
 import fr.unice.polytech.steats.order.OrderManager;
-import fr.unice.polytech.steats.order.OrderStatus;
 import fr.unice.polytech.steats.restaurant.Menu;
 import fr.unice.polytech.steats.restaurant.Restaurant;
 import fr.unice.polytech.steats.users.CampusUser;
@@ -27,12 +26,12 @@ import static org.junit.jupiter.api.Assertions.*;
 public class ReceiveNotification {
     CampusUser campusUser;
     SimpleOrder simpleOrder;
-    OrderManager orderManager ;
+    final OrderManager orderManager ;
     Delivery delivery;
     List<DeliveryPerson> deliveryPeople;
 
 
-    NotificationRegistry notificationRegistry;
+    final NotificationRegistry notificationRegistry;
 
     public ReceiveNotification(FacadeContainer container){
         orderManager=container.orderManager;

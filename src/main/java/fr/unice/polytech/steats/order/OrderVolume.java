@@ -5,7 +5,7 @@ import java.util.List;
 
 public class OrderVolume {
     private static OrderVolume instance = null;
-    private List<SimpleOrder> simpleOrderVolume;
+    private final List<SimpleOrder> simpleOrderVolume;
 
     // Private constructor to prevent instantiation
     private OrderVolume() {

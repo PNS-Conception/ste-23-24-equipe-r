@@ -1,15 +1,12 @@
 package fr.unice.polytech.steats.users;
 
 import fr.unice.polytech.steats.exceptions.user.AlreadyExistingUserException;
-import fr.unice.polytech.steats.notification.Notification;
-import fr.unice.polytech.steats.notification.NotificationRegistry;
-import fr.unice.polytech.steats.order.Subscriber;
 
 import java.util.Optional;
 import java.util.stream.StreamSupport;
 
 public class CampusUserRegistry {
-    UserRepository userRepository;
+    final UserRepository userRepository;
 
     public CampusUserRegistry(UserRepository userRepository) {
         this.userRepository = userRepository;

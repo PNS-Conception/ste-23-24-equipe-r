@@ -3,7 +3,7 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 
 public class TimeSlot {
-    private LocalDateTime startTime;
+    private final LocalDateTime startTime;
     private int capacity;
 
     public TimeSlot(LocalDateTime startTime, int capacity) {
@@ -24,9 +24,6 @@ public class TimeSlot {
 
     public LocalDateTime getStartTime() {
         return this.startTime;
-    }
-    public void setCapacity(int capacity) {
-        this.capacity = capacity;
     }
 
     @Override

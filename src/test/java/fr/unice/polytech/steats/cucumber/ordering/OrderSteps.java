@@ -3,11 +3,8 @@ package fr.unice.polytech.steats.cucumber.ordering;
 import fr.unice.polytech.steats.delivery.DeliveryLocation;
 import fr.unice.polytech.steats.exceptions.order.EmptyCartException;
 import fr.unice.polytech.steats.exceptions.order.PaymentException;
-import fr.unice.polytech.steats.exceptions.order.SubscriberNotExistent;
+import fr.unice.polytech.steats.exceptions.others.NoSuchElementException;
 import fr.unice.polytech.steats.exceptions.restaurant.DeliveryDateNotAvailable;
-import fr.unice.polytech.steats.exceptions.restaurant.InsufficientTimeSlotCapacity;
-import fr.unice.polytech.steats.exceptions.restaurant.NonExistentTimeSlot;
-import fr.unice.polytech.steats.order.Order;
 import fr.unice.polytech.steats.order.OrderManager;
 import fr.unice.polytech.steats.order.OrderStatus;
 import fr.unice.polytech.steats.order.SimpleOrder;
@@ -16,23 +13,20 @@ import fr.unice.polytech.steats.restaurant.RestaurantRegistry;
 import fr.unice.polytech.steats.users.CampusUser;
 import fr.unice.polytech.steats.users.CampusUserRegistry;
 import io.cucumber.java.en.And;
-import io.cucumber.java.en.Then;
 
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
 
 public class OrderSteps {
     SimpleOrder order;
-    CampusUserRegistry campusUserRegistry;
+    final CampusUserRegistry campusUserRegistry;
     LocalDateTime deliveryTime;
     DeliveryLocation deliveryLocation;
     Restaurant restaurant;
-    OrderManager orderManager;
-    RestaurantRegistry restaurantRegistry;
+    final OrderManager orderManager;
+    final RestaurantRegistry restaurantRegistry;
 
     public OrderSteps(FacadeContainer container){
         this.campusUserRegistry = container.campusUserRegistry;
@@ -41,18 +35,17 @@ public class OrderSteps {
     }
 
     @And("chooses delivery time {string} of the restaurant {string} and delivery location {string}")
-    public void chooseAvailableTimeslotAndDeliveryLocation(String dateTimeString, String restaurantName, String delivLocation) {
-        restaurant = restaurantRegistry.findByName(restaurantName).get();
-        LocalDateTime deliveryDateTime = LocalDateTime.parse(dateTimeString, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
-        this.deliveryTime = deliveryDateTime;
+    public void chooseAvailableTimeslotAndDeliveryLocation(String dateTimeString, String restaurantName, String delivLocation) throws NoSuchElementException {
+        restaurant = restaurantRegistry.findByName(restaurantName).orElseThrow(() -> new NoSuchElementException("Element not found"));
+        this.deliveryTime = LocalDateTime.parse(dateTimeString, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
         deliveryLocation = DeliveryLocation.getByName(delivLocation);
     }
 
     @And("{string} confirms and pays for the cart")
     public void confirmsAndPaysForTheCart(String customerName) throws PaymentException,
-            NonExistentTimeSlot, InsufficientTimeSlotCapacity, EmptyCartException, DeliveryDateNotAvailable {
+            EmptyCartException, DeliveryDateNotAvailable, NoSuchElementException {
 
-        CampusUser campusUser = campusUserRegistry.findByName(customerName).get();
+        CampusUser campusUser = campusUserRegistry.findByName(customerName).orElseThrow(() -> new NoSuchElementException("Element not found"));
         order = orderManager.process(restaurant, campusUser, campusUser.getCart().getMenuMap(),
                 deliveryTime, deliveryLocation);
     }

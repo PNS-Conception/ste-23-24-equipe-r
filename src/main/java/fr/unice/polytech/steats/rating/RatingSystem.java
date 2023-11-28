@@ -7,8 +7,8 @@ import fr.unice.polytech.steats.users.UserRole;
 import java.util.*;
 
 public class RatingSystem {
-    private Map<Restaurant, List<RatingInfo>> restaurantRatings;
-    private Map<User, List<RatingInfo>> deliveryPersonRatings;
+    private final Map<Restaurant, List<RatingInfo>> restaurantRatings;
+    private final Map<User, List<RatingInfo>> deliveryPersonRatings;
 
     public RatingSystem(){
         restaurantRatings= new HashMap<>();

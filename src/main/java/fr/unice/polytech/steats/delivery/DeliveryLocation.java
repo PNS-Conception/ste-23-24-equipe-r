@@ -2,6 +2,7 @@ package fr.unice.polytech.steats.delivery;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class DeliveryLocation {
 
@@ -11,9 +12,9 @@ public class DeliveryLocation {
     public static final DeliveryLocation SPORTS_COMPLEX = new DeliveryLocation("Sports Complex", 43.614250, 7.077740);
     public static final DeliveryLocation RESIDENCE_HALL = new DeliveryLocation("Residence Hall", 43.616790, 7.072890);
 
-    private String locationName;
-    private double latitude;
-    private double longitude;
+    private final String locationName;
+    private final double latitude;
+    private final double longitude;
 
 
     private DeliveryLocation(String locationName, double latitude, double longitude) {
@@ -40,7 +41,6 @@ public class DeliveryLocation {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        DeliveryLocation deliveryLocation = (DeliveryLocation) o;
         return ((DeliveryLocation) o).locationName.equals(locationName);
     }
 
@@ -51,5 +51,10 @@ public class DeliveryLocation {
                 ", latitude=" + latitude +
                 ", longitude=" + longitude +
                 '}';
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(locationName, latitude, longitude);
     }
 }

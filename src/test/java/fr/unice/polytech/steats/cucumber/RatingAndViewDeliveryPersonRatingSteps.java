@@ -13,10 +13,10 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class RatingAndViewDeliveryPersonRatingSteps {
-    User deliveryPerson = new User("DP1");
+    final User deliveryPerson = new User("DP1");
 
-    CampusUser campusUser1 = new CampusUser();
-    RatingSystem ratingSystem = new RatingSystem();
+    final CampusUser campusUser1 = new CampusUser();
+    final RatingSystem ratingSystem = new RatingSystem();
 
     @Given("Delivery Person DP1 has a {string} of ratings")
     public void delivery_person_dp1_has_a_of_ratings(String list) {

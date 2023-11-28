@@ -12,9 +12,9 @@ import java.util.Map;
 import java.util.UUID;
 
 public class Menu {
-    private UUID id;
-    private String menuName;
-    private double basePrice;
+    private final UUID id;
+    private final String menuName;
+    private final double basePrice;
 
     private Map<CampusUserStatus, Double> campusUserStatusPrice;
 
@@ -33,12 +33,16 @@ public class Menu {
         this.menuName = menu.getMenuName();
         this.basePrice = menu.getBasePrice();
         this.campusUserStatusPrice = menu.getCampusUserStatusPrice();
+        this.options = menu.options;
+        this.selectedOptions = menu.selectedOptions;
     }
 
-    // Getters and Setters
-    public UUID getMenuID() {
-        return id;
-    }
+// --Commented out by Inspection START (28/11/2023 22:36):
+//    // Getters and Setters
+//    public UUID getMenuID() {
+//        return id;
+//    }
+// --Commented out by Inspection STOP (28/11/2023 22:36)
 
     public String getMenuName() {
         return menuName;
@@ -68,9 +72,11 @@ public class Menu {
         this.options = options;
     }
 
-    public Map<String, String> getSelectedOptions() {
-        return selectedOptions;
-    }
+// --Commented out by Inspection START (28/11/2023 22:36):
+//    public Map<String, String> getSelectedOptions() {
+//        return selectedOptions;
+//    }
+// --Commented out by Inspection STOP (28/11/2023 22:36)
 
     public void setSelectedOptions(Map<String, String> selectedOptions) {
         this.selectedOptions = selectedOptions;
@@ -85,9 +91,11 @@ public class Menu {
         this.campusUserStatusPrice.put(campusUserStatus, price);
     }
 
-    public double getPriceForUserType(CampusUserStatus campusUserStatus){
-        return this.campusUserStatusPrice.get(campusUserStatus);
-    }
+// --Commented out by Inspection START (28/11/2023 22:36):
+//    public double getPriceForUserType(CampusUserStatus campusUserStatus){
+//        return this.campusUserStatusPrice.get(campusUserStatus);
+//    }
+// --Commented out by Inspection STOP (28/11/2023 22:36)
 
     public void setCampusUserStatusPrice(Map<CampusUserStatus, Double> campusUserStatusPrice) {
         this.campusUserStatusPrice = campusUserStatusPrice;

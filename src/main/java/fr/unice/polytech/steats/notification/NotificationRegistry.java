@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class NotificationRegistry implements Subscriber {
-    NotificationRepository notificationRepository;
+    final NotificationRepository notificationRepository;
 
     public NotificationRegistry(NotificationRepository notificationRepository) {
         this.notificationRepository = notificationRepository;
