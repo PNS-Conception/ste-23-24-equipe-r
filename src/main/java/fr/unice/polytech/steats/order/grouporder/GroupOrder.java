@@ -57,4 +57,8 @@ public class GroupOrder {
         return subOrders.size();
     }
     public void closeGroupOrder(){this.isOpen=false;}
+
+    public void setGroupOrderCode(String groupOrderCode) {
+        this.groupOrderCode = groupOrderCode;
+    }
 }

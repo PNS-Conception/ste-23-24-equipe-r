@@ -3,7 +3,10 @@ package fr.unice.polytech.steats.cucumber.ordering;
 import fr.unice.polytech.steats.cart.Cart;
 import fr.unice.polytech.steats.cart.CartHandler;
 import fr.unice.polytech.steats.delivery.DeliveryLocation;
-import fr.unice.polytech.steats.exceptions.order.*;
+import fr.unice.polytech.steats.exceptions.order.ClosedGroupOrderException;
+import fr.unice.polytech.steats.exceptions.order.EmptyCartException;
+import fr.unice.polytech.steats.exceptions.order.NonExistentGroupOrder;
+import fr.unice.polytech.steats.exceptions.order.PaymentException;
 import fr.unice.polytech.steats.exceptions.restaurant.DeliveryDateNotAvailable;
 import fr.unice.polytech.steats.exceptions.restaurant.InsufficientTimeSlotCapacity;
 import fr.unice.polytech.steats.exceptions.restaurant.NonExistentTimeSlot;
@@ -37,7 +40,8 @@ public class GroupOrderSteps {
     RestaurantRegistry restaurantRegistry;
     GroupOrderRegistry groupOrderRegistry;
     GroupOrderService groupOrderService;
-    LocalDateTime deliveryTime;
+    TimeSlot timeSlot;
+    LocalTime deliveryTime;
     DeliveryLocation deliveryLocation;
 
     public GroupOrderSteps(FacadeContainer container){
@@ -48,15 +52,20 @@ public class GroupOrderSteps {
     }
 
 
-
+    @And("a group order exists with the code {string} of user {string} with restaurant {string}")
+    public void aGroupOrderExistsWithTheCodeOfUser(String groupOrderString, String campusUserName, String restaurantName) {
+        groupOrderCode = groupOrderString;
+        campusUser = campusUserRegistry.findByName(campusUserName).get();
+        restaurant = restaurantRegistry.findByName(restaurantName).get();
+    }
 
     @And("group order {string} is set with delivery time {string} and location {string}")
-    public void groupOrderIsSetWithTimeslotAndLocation(String groupOrderCoe, String dateTimeString, String locationString) {
+    public void groupOrderIsSetWithTimeslotAndLocation(String groupOrderCode, String dateTimeString, String locationString) {
         LocalDateTime deliveryDateTime = LocalDateTime.parse(dateTimeString, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
         DeliveryLocation deliveryLocation = DeliveryLocation.getByName(locationString);
 
         groupOrder = groupOrderRegistry.register(campusUser, deliveryDateTime, deliveryLocation);
-        groupOrderCode = groupOrder.getGroupOrderCode();
+        groupOrder.setGroupOrderCode(groupOrderCode);
     }
 
 
@@ -77,7 +86,7 @@ public class GroupOrderSteps {
     }
 
     @When("{string} joins the group order {string}")
-    public void joinsTheGroupOrder(String userName, String groupOrderCoe) {
+    public void joinsTheGroupOrder(String userName, String groupOrderCode) {
         groupOrder = groupOrderRegistry.findByCode(groupOrderCode).get();
         campusUser = campusUserRegistry.findByName(userName).get();
     }
@@ -92,18 +101,19 @@ public class GroupOrderSteps {
         groupOrderService.addSubOrder(groupOrderCode, restaurant, campusUser, campusUser.getCart().getMenuMap());
     }
 
-    @And("{string}'s order should be set with timeslot {string} and location {string}")
+    @And("{string}'s order should be set with delivery time {string} and location {string}")
     public void sOrderShouldBeSetWithTimeslotAndLocation(String username, String dateTimeString, String delivLocation) {
         campusUser = campusUserRegistry.findByName(username).get();
         LocalDateTime timeslotDateTime = LocalDateTime.parse(dateTimeString, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
-        TimeSlot timeSlot = restaurant.getSchedule().findTimeSlotByStartTime(timeslotDateTime).get();
         DeliveryLocation deliveryLocation = DeliveryLocation.getByName(delivLocation);
         SimpleOrder order = groupOrder.getSubOrders().get(0);
+        assertEquals(timeslotDateTime, order.getDeliveryTime());
         assertEquals(order.getDeliveryLocation(), deliveryLocation);
     }
 
-    @And("the group order should have {int} order")
-    public void groupOrderShouldHaveOneOrder(int groupOrderSize) {
+
+    @And("group order {string} should have {int} order")
+    public void groupOrderShouldHaveOneOrder(String groupOrderCode, int groupOrderSize) {
         groupOrder = groupOrderRegistry.findByCode(groupOrderCode).get();
         assertEquals(groupOrderSize, groupOrder.getSize());
     }
