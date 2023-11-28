@@ -1,10 +1,10 @@
+
 package fr.unice.polytech.steats.order;
 import fr.unice.polytech.steats.notification.Notification;
 import fr.unice.polytech.steats.restaurant.Menu;
 import fr.unice.polytech.steats.restaurant.Restaurant;
 import fr.unice.polytech.steats.users.CampusUser;
 import fr.unice.polytech.steats.delivery.DeliveryLocation;
-import fr.unice.polytech.steats.restaurant.TimeSlot;
 import fr.unice.polytech.steats.users.User;
 
 import java.time.LocalDateTime;
@@ -15,7 +15,6 @@ public class SimpleOrder implements Order {
     private OrderStatus orderStatus;
     private Map<Menu, Integer> menusOrdered;
     private DeliveryLocation deliveryLocation;
-    private TimeSlot timeSlot;
     private double discount = 0.1;
     Restaurant restaurant;
     CampusUser customer;
@@ -63,12 +62,6 @@ public class SimpleOrder implements Order {
     }
     public DeliveryLocation getDeliveryLocation(){
         return this.deliveryLocation;
-    }
-    public void setTimeSlot(TimeSlot timeSlot) {
-        this.timeSlot = timeSlot;
-    }
-    public TimeSlot getTimeSlot() {
-        return this.timeSlot;
     }
     public int getTotalMenus(){
         int sum = 0;

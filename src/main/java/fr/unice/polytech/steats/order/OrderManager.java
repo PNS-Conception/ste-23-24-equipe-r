@@ -10,7 +10,7 @@ import fr.unice.polytech.steats.exceptions.order.PaymentException;
 import fr.unice.polytech.steats.restaurant.Menu;
 import fr.unice.polytech.steats.restaurant.Restaurant;
 import fr.unice.polytech.steats.restaurant.Schedule;
-import fr.unice.polytech.steats.restaurant.Timeslot;
+import fr.unice.polytech.steats.restaurant.TimeSlot;
 import fr.unice.polytech.steats.users.CampusUser;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -32,19 +32,19 @@ public class OrderManager {
         this.deliveryRegistry = deliveryRegistry;
     }
 
-    public Order process(Restaurant restaurant, CampusUser customer, Map<Menu, Integer> menusOrdered,
-                         LocalDateTime localDateTime, DeliveryLocation deliveryLocation)
+    public SimpleOrder process(Restaurant restaurant, CampusUser customer, Map<Menu, Integer> menusOrdered,
+                         LocalDateTime deliveryDateTime, DeliveryLocation deliveryLocation)
             throws EmptyCartException, PaymentException, DeliveryDateNotAvailable {
 
 
         int menusNumber = menusOrdered.values().stream().mapToInt(Integer::intValue).sum();
-        Timeslot timeSlot = calculateTimeslot(restaurant.getSchedule(), localDateTime, menusNumber).get();
+        TimeSlot timeSlot = calculateTimeslot(restaurant.getSchedule(), deliveryDateTime, menusNumber).get();
         Map<Menu, Integer> menusOrderedCopy = menusOrdered.entrySet().stream()
                 .collect(Collectors.toMap(
                         entry -> new Menu(entry.getKey()),  // Using the copy constructor
                         Map.Entry::getValue
                 ));
-        Order order = new Order(restaurant, customer, menusOrderedCopy, deliveryLocation, timeSlot);
+        SimpleOrder order = new SimpleOrder(restaurant, customer, menusOrderedCopy, deliveryDateTime, deliveryLocation);
         order.setStatus(OrderStatus.PREPARING);
         paymentManager.completePayment(customer);
         timeSlot.subtractCapacity(menusNumber);
@@ -53,7 +53,7 @@ public class OrderManager {
         customer.getCart().emptyCart();
         return order;
     }
-    public Optional<Timeslot> calculateTimeslot(Schedule schedule, LocalDateTime deliveryTime, int numberOfMenus)
+    public Optional<TimeSlot> calculateTimeslot(Schedule schedule, LocalDateTime deliveryTime, int numberOfMenus)
             throws DeliveryDateNotAvailable, EmptyCartException {
 
         if (numberOfMenus == 0){
@@ -62,14 +62,14 @@ public class OrderManager {
 
         LocalDateTime currentTimeSlotStart = deliveryTime.minusHours(2);
         while (currentTimeSlotStart.isAfter(LocalDateTime.of(deliveryTime.toLocalDate(), schedule.getOpeningTime()))) {
-            Optional<Timeslot> foundTimeslot = schedule.findTimeSlotByStartTime(currentTimeSlotStart);
+            Optional<TimeSlot> foundTimeslot = schedule.findTimeSlotByStartTime(currentTimeSlotStart);
             if (foundTimeslot.isPresent()) {
-                Timeslot timeslot = foundTimeslot.get();
+                TimeSlot timeslot = foundTimeslot.get();
                 if (timeslot.getCapacity() >= numberOfMenus) {
                     return Optional.of(timeslot);
                 }
             } else {
-                Timeslot newTimeslot = new Timeslot(currentTimeSlotStart, schedule.getMaxCapacity() - numberOfMenus);
+                TimeSlot newTimeslot = new TimeSlot(currentTimeSlotStart, schedule.getMaxCapacity() - numberOfMenus);
                 schedule.getTimeSlots().add(newTimeslot);
                 return Optional.of(newTimeslot);
             }
@@ -89,9 +89,9 @@ public class OrderManager {
         return previousOrders;
     }
 
-    public List<Order> getOrdersWaitingForPreparation(Restaurant restaurant) {
-        List<Order> previousOrders = new ArrayList<>();
-        for (Order order : orderRepository.findAll()) {
+    public List<SimpleOrder> getOrdersWaitingForPreparation(Restaurant restaurant) {
+        List<SimpleOrder> previousOrders = new ArrayList<>();
+        for (SimpleOrder order : orderRepository.findAll()) {
             if (order.getStatus()!=null && order.getRestaurant().equals(restaurant) && order.getStatus().equals(OrderStatus.WAITING_FOR_PREPARATION)) {
                 previousOrders.add(order);
             }

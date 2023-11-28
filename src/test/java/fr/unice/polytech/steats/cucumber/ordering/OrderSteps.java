@@ -10,9 +10,9 @@ import fr.unice.polytech.steats.exceptions.restaurant.NonExistentTimeSlot;
 import fr.unice.polytech.steats.order.Order;
 import fr.unice.polytech.steats.order.OrderManager;
 import fr.unice.polytech.steats.order.OrderStatus;
+import fr.unice.polytech.steats.order.SimpleOrder;
 import fr.unice.polytech.steats.restaurant.Restaurant;
 import fr.unice.polytech.steats.restaurant.RestaurantRegistry;
-import fr.unice.polytech.steats.restaurant.Timeslot;
 import fr.unice.polytech.steats.users.CampusUser;
 import fr.unice.polytech.steats.users.CampusUserRegistry;
 import io.cucumber.java.en.And;
@@ -26,7 +26,7 @@ import java.util.Optional;
 import static org.junit.Assert.assertEquals;
 
 public class OrderSteps {
-    Order order;
+    SimpleOrder order;
     CampusUserRegistry campusUserRegistry;
     LocalDateTime deliveryTime;
     DeliveryLocation deliveryLocation;

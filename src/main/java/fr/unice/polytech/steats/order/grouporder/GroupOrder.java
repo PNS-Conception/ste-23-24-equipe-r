@@ -2,6 +2,7 @@ package fr.unice.polytech.steats.order.grouporder;
 
 import fr.unice.polytech.steats.delivery.DeliveryLocation;
 import fr.unice.polytech.steats.order.Order;
+import fr.unice.polytech.steats.order.SimpleOrder;
 import fr.unice.polytech.steats.users.CampusUser;
 import fr.unice.polytech.steats.util.GroupOrderCodeGenerator;
 import java.time.Duration;
@@ -18,7 +19,7 @@ public class GroupOrder {
     private boolean isOpen = true;
     private UUID groupOrderID;
     private String groupOrderCode;
-    private List<Order> subOrders;
+    private List<SimpleOrder> subOrders;
     private LocalDateTime deliveryTime;
     private DeliveryLocation deliveryLocation;
     public GroupOrder(CampusUser campusUser, LocalDateTime deliveryTime, DeliveryLocation deliveryLocation) {
@@ -27,11 +28,10 @@ public class GroupOrder {
         this.groupOrderCode = GroupOrderCodeGenerator.generate();
         this.deliveryTime = deliveryTime;
         this.deliveryLocation = deliveryLocation;
-        generateGroupOrderCode();
         subOrders = new ArrayList<>();
     }
 
-    public List<Order> getSubOrders() {
+    public List<SimpleOrder> getSubOrders() {
         return subOrders;
     }
     public boolean isOpen() {
@@ -55,13 +55,6 @@ public class GroupOrder {
             return 0;
         }
         return subOrders.size();
-    }
-    public void generateGroupOrderCode(){
-        // Generate a random 6-digit number
-        int randomNumber = new Random().nextInt(900000) + 100000; // Ensures exactly 6 digits
-
-        // Set the generated code
-        this.groupOrderCode = String.valueOf(randomNumber);
     }
     public void closeGroupOrder(){this.isOpen=false;}
 }

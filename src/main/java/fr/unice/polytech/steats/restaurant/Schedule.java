@@ -10,7 +10,7 @@ public class Schedule {
     public static final int SLOT_DURATION_IN_MINUTES = 10;
     private LocalTime openingTime;
     private LocalTime closingTime;
-    private List<Timeslot> timeslots = new ArrayList<>();
+    private List<TimeSlot> timeslots = new ArrayList<>();
     private int slotCapacity;
 
     public Schedule(LocalTime openingTime, LocalTime closingTime, int slotCapacity) {
@@ -30,16 +30,16 @@ public class Schedule {
         return LocalTime.parse(time);
     }
 
-    public List<Timeslot> getTimeSlots() {
+    public List<TimeSlot> getTimeSlots() {
         return timeslots;
     }
 
-    public Optional<Timeslot> findTimeSlotByStartTime(LocalDateTime startTime) {
+    public Optional<TimeSlot> findTimeSlotByStartTime(LocalDateTime startTime) {
         return timeslots.stream()
                 .filter(slot -> slot.getStartTime().equals(startTime))
                 .findFirst();
     }
-    public void addTimeslot(Timeslot timeslot) {
+    public void addTimeslot(TimeSlot timeslot) {
         timeslots.add(timeslot);
     }
 

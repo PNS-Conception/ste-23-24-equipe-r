@@ -49,7 +49,7 @@ public class ReceiveNotification {
         Cart cart = new Cart();
         cart.addMenu(new Menu("MaxBurger",12));
         cart.addMenu(new Menu("CheeseBurger",13));
-        simpleOrder = orderManager.register(new Restaurant("R1"), campusUser, cart.getMenuMap(), LocalDate.now().atTime(LocalTime.of(12, 0)), LIBRARY);
+        simpleOrder = orderManager.process(new Restaurant("R1"), campusUser, cart.getMenuMap(), LocalDate.now().atTime(LocalTime.of(12, 0)), LIBRARY);
         delivery = new Delivery(simpleOrder);
         delivery.subscribe(notificationRegistry);
     }

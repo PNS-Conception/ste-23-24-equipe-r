@@ -5,14 +5,12 @@ import fr.unice.polytech.steats.restaurant.*;
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
-import io.cucumber.java.en.Then;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -55,7 +53,7 @@ public class RestaurantSteps {
     public void timeslotHasCapacity(String dateTimeString, String restaurantName, int capacity) {
         restaurant = restaurantRegistry.findByName(restaurantName).get();
         LocalDateTime timeslotDateTime = LocalDateTime.parse(dateTimeString, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
-        restaurant.getSchedule().addTimeslot(new Timeslot(timeslotDateTime, capacity));
+        restaurant.getSchedule().addTimeslot(new TimeSlot(timeslotDateTime, capacity));
     }
 
 }

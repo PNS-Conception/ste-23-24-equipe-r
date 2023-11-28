@@ -3,6 +3,7 @@ package fr.unice.polytech.steats.users;
 import fr.unice.polytech.steats.cart.Cart;
 import fr.unice.polytech.steats.notification.Notification;
 import fr.unice.polytech.steats.order.Order;
+import fr.unice.polytech.steats.order.SimpleOrder;
 import fr.unice.polytech.steats.restaurant.Menu;
 
 import java.util.*;

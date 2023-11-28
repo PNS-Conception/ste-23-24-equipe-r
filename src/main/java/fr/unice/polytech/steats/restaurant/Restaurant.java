@@ -79,8 +79,8 @@ public class Restaurant {
         return this.schedule;
     }
 
-    public int getTimeSlotCapacity(Timeslot timeslot) throws NonExistentTimeSlot {
-        for (Timeslot tslot : schedule.getTimeSlots()){
+    public int getTimeSlotCapacity(TimeSlot timeslot) throws NonExistentTimeSlot {
+        for (TimeSlot tslot : schedule.getTimeSlots()){
             if (timeslot.equals(tslot)){
                 return tslot.getCapacity();
             }

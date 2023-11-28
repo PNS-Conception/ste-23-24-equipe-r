@@ -2,11 +2,11 @@ package fr.unice.polytech.steats.restaurant;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-public class Timeslot {
+public class TimeSlot {
     private LocalDateTime startTime;
     private int capacity;
 
-    public Timeslot(LocalDateTime startTime, int capacity) {
+    public TimeSlot(LocalDateTime startTime, int capacity) {
         this.startTime = startTime;
         this.capacity = capacity;
     }
@@ -33,7 +33,7 @@ public class Timeslot {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Timeslot timeSlot = (Timeslot) o;
+        TimeSlot timeSlot = (TimeSlot) o;
         return Objects.equals(startTime, timeSlot.startTime);
     }
 

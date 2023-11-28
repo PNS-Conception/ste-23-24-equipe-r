@@ -36,7 +36,7 @@ Feature: Place a group order
     And "Aizen" orders and pays for 2 x "Chicken McNuggets"
     Then the price of "Jotaro"'s order is 12.00
     And the price of "Aizen"'s order is 28.00
-    And group order "5XSD15SS" should have 2 order
+    And the group order should have 2 order
 
   Scenario: Close the group order
     When "Chris" closes the group order
