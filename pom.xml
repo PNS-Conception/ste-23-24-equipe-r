@@ -13,6 +13,9 @@
         <java.version>17</java.version>
         <junit.jupiter.version>5.8.0</junit.jupiter.version>
         <cucumber.version>7.13.0</cucumber.version>
+        <sonar.login>bilal</sonar.login>
+        <sonar.password>bilal</sonar.password>
+
     </properties>
     <dependencyManagement>
         <dependencies>
@@ -119,6 +122,22 @@
                         </configurationParameters>
                     </properties>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.pitest</groupId>
+                <artifactId>pitest-maven</artifactId>
+                <version>1.15.2</version>
+                <configuration>
+                    <verbose>true</verbose>
+                    <!-- other PIT configurations -->
+                </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.pitest</groupId>
+                        <artifactId>pitest-junit5-plugin</artifactId>
+                        <version>1.2.1</version>
+                    </dependency>
+                </dependencies>
             </plugin>
         </plugins>
     </build>
