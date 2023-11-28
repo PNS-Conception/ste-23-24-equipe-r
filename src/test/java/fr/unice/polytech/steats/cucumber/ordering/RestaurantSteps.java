@@ -5,10 +5,17 @@ import fr.unice.polytech.steats.restaurant.*;
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
+import io.cucumber.java.en.Then;
 
+import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class RestaurantSteps {
     Restaurant restaurant;
@@ -45,10 +52,10 @@ public class RestaurantSteps {
         }
     }
     @Given("timeslot {string} of the restaurant {string} has capacity {int}")
-    public void timeslotHasCapacity(String timeSlotString,String restaurantName, int capacity) {
+    public void timeslotHasCapacity(String dateTimeString, String restaurantName, int capacity) {
         restaurant = restaurantRegistry.findByName(restaurantName).get();
-        LocalTime openingTime = LocalTime.parse(timeSlotString);
-        TimeSlot timeSlot = restaurant.getSchedule().findTimeSlotByStartTime(openingTime).get();
-        timeSlot.setCapacity(capacity);
+        LocalDateTime timeslotDateTime = LocalDateTime.parse(dateTimeString, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+        restaurant.getSchedule().addTimeslot(new Timeslot(timeslotDateTime, capacity));
     }
+
 }

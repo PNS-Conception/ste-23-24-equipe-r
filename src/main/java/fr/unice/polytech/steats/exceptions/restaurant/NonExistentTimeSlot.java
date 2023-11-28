@@ -1,9 +1,9 @@
 package fr.unice.polytech.steats.exceptions.restaurant;
 
-import fr.unice.polytech.steats.restaurant.TimeSlot;
+import fr.unice.polytech.steats.restaurant.Timeslot;
 
 public class NonExistentTimeSlot extends Exception {
-    public NonExistentTimeSlot(TimeSlot timeslot){
+    public NonExistentTimeSlot(Timeslot timeslot){
         super("timeslot : "+timeslot.getStartTime()+" is not available");
     }
 }

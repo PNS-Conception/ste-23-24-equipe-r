@@ -33,7 +33,7 @@ public class Cart {
         this.restaurant = restaurant;
     }
 
-    public void addMenu(Menu mn){
-        this.menuMap.put(mn,1);
+    public void addMenu(Menu menu){
+        this.menuMap.put(menu,1);
     }
 }

@@ -1,10 +1,6 @@
 package fr.unice.polytech.steats.restaurant;
 import fr.unice.polytech.steats.exceptions.restaurant.NonExistentTimeSlot;
-import fr.unice.polytech.steats.users.CampusUserStatus;
-import fr.unice.polytech.steats.util.DailyResetScheduler;
-import org.picocontainer.annotations.Inject;
 
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.*;
 
@@ -13,13 +9,11 @@ public class Restaurant {
     private String restaurantName;
     private List<Menu> menus = new ArrayList<>();
     private Schedule schedule;
-    private DailyResetScheduler dailyResetScheduler;
     private RestaurantStatus restaurantStatus;
     public Restaurant(String restaurantName, Schedule schedule) {
         this.id = UUID.randomUUID();
         this.restaurantName = restaurantName;
         this.schedule = schedule;
-        this.dailyResetScheduler = new DailyResetScheduler(schedule);
         this.restaurantStatus= RestaurantStatus.NOT_ELIGIBLE_FOR_DISCOUNT;
     }
     public Restaurant(String restaurantName){
@@ -29,14 +23,12 @@ public class Restaurant {
         LocalTime closingTime = LocalTime.of(20, 0);
         int capacity = 10;
         this.schedule = new Schedule(openingTime, closingTime, capacity);
-        this.dailyResetScheduler = new DailyResetScheduler(schedule);
         this.restaurantStatus= RestaurantStatus.NOT_ELIGIBLE_FOR_DISCOUNT;
     }
     public Restaurant(String restaurantName, Schedule schedule, RestaurantStatus restaurantStatus) {
         this.id = UUID.randomUUID();
         this.restaurantName = restaurantName;
         this.schedule = schedule;
-        this.dailyResetScheduler = new DailyResetScheduler(schedule);
         this.restaurantStatus= restaurantStatus;
     }
 
@@ -47,7 +39,6 @@ public class Restaurant {
         LocalTime closingTime = LocalTime.of(20, 0);
         int capacity = 10;
         this.schedule = new Schedule(openingTime, closingTime, capacity);
-        this.dailyResetScheduler = new DailyResetScheduler(schedule);
         this.restaurantStatus= restaurantStatus;
 
     }
@@ -88,8 +79,8 @@ public class Restaurant {
         return this.schedule;
     }
 
-    public int getTimeSlotCapacity(TimeSlot timeslot) throws NonExistentTimeSlot {
-        for (TimeSlot tslot : schedule.getTimeSlots()){
+    public int getTimeSlotCapacity(Timeslot timeslot) throws NonExistentTimeSlot {
+        for (Timeslot tslot : schedule.getTimeSlots()){
             if (timeslot.equals(tslot)){
                 return tslot.getCapacity();
             }
@@ -117,7 +108,6 @@ public class Restaurant {
                 ", restaurantName='" + restaurantName + '\'' +
                 ", menus=" + menus +
                 ", schedule=" + schedule +
-                ", dailyResetScheduler=" + dailyResetScheduler +
                 ", restaurantStatus=" + restaurantStatus +
                 '}';
     }
