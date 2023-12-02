@@ -43,7 +43,7 @@ public class GroupOrderService {
     }
     public Optional<SimpleOrder> locateOrder(GroupOrder groupOrder, CampusUser customer) {
         List<SimpleOrder> ordersByCustomer = groupOrder.getSubOrders().stream()
-                .filter(order -> order.getCustomer().equals(customer))
+                .filter(order -> order.getCustomers().contains(customer))
                 .toList();
         if (!ordersByCustomer.isEmpty()) {
             return Optional.of(ordersByCustomer.get(ordersByCustomer.size() - 1));

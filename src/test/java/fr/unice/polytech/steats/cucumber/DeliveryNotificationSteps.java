@@ -6,7 +6,6 @@ import fr.unice.polytech.steats.delivery.*;
 import fr.unice.polytech.steats.exceptions.order.EmptyCartException;
 import fr.unice.polytech.steats.exceptions.order.PaymentException;
 import fr.unice.polytech.steats.exceptions.restaurant.DeliveryDateNotAvailable;
-import fr.unice.polytech.steats.notification.NotificationRegistry;
 import fr.unice.polytech.steats.order.OrderManager;
 import fr.unice.polytech.steats.order.SimpleOrder;
 import fr.unice.polytech.steats.restaurant.Menu;
@@ -34,7 +33,6 @@ public class DeliveryNotificationSteps {
     SimpleOrder order;
 
     DeliveryRegistry deliveryRegistry;
-    final NotificationRegistry notificationRegistry;
 
 
     public DeliveryNotificationSteps(FacadeContainer container) {
@@ -42,7 +40,6 @@ public class DeliveryNotificationSteps {
         deliveryRegistry = orderManager.getDeliveryRegistry();
         orderManager = container.orderManager;
         deliveryRegistry = orderManager.getDeliveryRegistry();
-        notificationRegistry =container.notificationRegistry;
     }
 
     @Given("a user named {string}")
@@ -65,7 +62,6 @@ public class DeliveryNotificationSteps {
         order = orderManager.process(new Restaurant("R1"), campusUser, cart.getMenuMap(), deliveryDateTime, LIBRARY);
 
         delivery = new Delivery(order);
-        delivery.subscribe(notificationRegistry);
         deliveryRegistry.getDeliveryRepository().save(delivery, delivery.getId());
     }
 
@@ -80,7 +76,7 @@ public class DeliveryNotificationSteps {
     @Then("a notification is sent to the delivery person and the campus user")
     public void a_notification_is_sent_to_the_delivery_person_and_the_campus_user() {
         assertEquals(delivery.getStatus(), DeliveryStatus.IN_PROGRESS);
-        assertEquals(notificationRegistry.findByUser(campusUser).size(),1 );
-        assertEquals(notificationRegistry.findByUser(deliveryPerson).size(),1);
+        assertEquals(delivery.getDeliveryPublisher().getObservers().size(),1 );
+        assertTrue(delivery.getDeliveryPublisher().getObservers().contains(deliveryPerson));
     }
 }

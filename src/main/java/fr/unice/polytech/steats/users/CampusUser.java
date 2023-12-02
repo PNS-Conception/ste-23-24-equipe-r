@@ -1,9 +1,11 @@
 package fr.unice.polytech.steats.users;
 
 import fr.unice.polytech.steats.cart.Cart;
+import fr.unice.polytech.steats.notification.order.OrderSubscriber;
+import fr.unice.polytech.steats.order.Order;
 import fr.unice.polytech.steats.restaurant.Menu;
 
-public class CampusUser extends User {
+public class CampusUser extends User implements OrderSubscriber {
     private Cart cart;
     // --Commented out by Inspection (28/11/2023 22:22):private double balance;
 
@@ -17,6 +19,7 @@ public class CampusUser extends User {
         super();
         this.cart = new Cart();
         this.status = CampusUserStatus.EXTERNAL;
+
     }
 
     public CampusUser(String name) {
@@ -46,5 +49,13 @@ public class CampusUser extends User {
     }
     public void setStatus(CampusUserStatus status) {
         this.status = status;
+    }
+
+    @Override
+    public void update(Order order) {
+        if(order.getCustomers().contains(this)){
+            System.out.println("The update of your order"+ order.getId() + " is : " + order.getStatus());
+            System.out.println("The delivery location of your order"+ order.getId() + " is : " + order.getDeliveryLocation());
+        }
     }
 }

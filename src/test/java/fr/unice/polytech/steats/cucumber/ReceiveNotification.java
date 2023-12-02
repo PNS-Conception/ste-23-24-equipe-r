@@ -6,8 +6,6 @@ import fr.unice.polytech.steats.delivery.DeliveryStatus;
 import fr.unice.polytech.steats.exceptions.order.EmptyCartException;
 import fr.unice.polytech.steats.exceptions.order.PaymentException;
 import fr.unice.polytech.steats.exceptions.restaurant.DeliveryDateNotAvailable;
-import fr.unice.polytech.steats.notification.Notification;
-import fr.unice.polytech.steats.notification.NotificationRegistry;
 import fr.unice.polytech.steats.order.SimpleOrder;
 import fr.unice.polytech.steats.order.OrderManager;
 import fr.unice.polytech.steats.restaurant.Menu;
@@ -31,11 +29,9 @@ public class ReceiveNotification {
     List<DeliveryPerson> deliveryPeople;
 
 
-    final NotificationRegistry notificationRegistry;
 
     public ReceiveNotification(FacadeContainer container){
         orderManager=container.orderManager;
-        notificationRegistry = container.notificationRegistry;
     }
 
     @Given("a logged-in Campus user as the order owner")
@@ -50,7 +46,6 @@ public class ReceiveNotification {
         cart.addMenu(new Menu("CheeseBurger",13));
         simpleOrder = orderManager.process(new Restaurant("R1"), campusUser, cart.getMenuMap(), LocalDate.now().atTime(LocalTime.of(12, 0)), LIBRARY);
         delivery = new Delivery(simpleOrder);
-        delivery.subscribe(notificationRegistry);
     }
 
 
@@ -59,18 +54,12 @@ public class ReceiveNotification {
     public void the_order_registry_sets_the_order_status_to() {
         delivery.setReady(deliveryPeople.get(0));
     }
-    @Then("the user is notified")
-    public void the_user_is_notified() {
-        assertEquals(DeliveryStatus.READY, delivery.getStatus());
-        List<Notification> userNotifications = notificationRegistry.findByUser(campusUser);
-        assertEquals(1, userNotifications.size());
-    }
 
     @Then("a delivery person is notified")
     public void a_delivery_person_is_notified() {
         assertEquals(DeliveryStatus.READY, delivery.getStatus());
-        List<Notification> userNotifications = notificationRegistry.findByUser(deliveryPeople.get(0));
-        assertEquals(1, userNotifications.size());
+        assertEquals(1, delivery.getDeliveryPublisher().getObservers().size());
+        assertTrue(delivery.getDeliveryPublisher().getObservers().contains(delivery.getDeliveryPerson()));
     }
 
     @And("delivery people ready to pick an order")

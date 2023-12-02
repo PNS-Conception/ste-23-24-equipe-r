@@ -29,6 +29,6 @@ public class SimpleOrderFactory implements OrderFactory{
     }
     @Override
     public SimpleOrder createOrder() {
-        return new SimpleOrder(singletonList(restaurant), customer, menusOrdered,deliveryDate, deliveryLocation);
+        return new SimpleOrder(restaurant, customer, menusOrdered,deliveryDate, deliveryLocation);
     }
 }

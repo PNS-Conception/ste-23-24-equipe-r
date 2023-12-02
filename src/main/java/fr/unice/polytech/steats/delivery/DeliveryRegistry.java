@@ -1,5 +1,6 @@
 package fr.unice.polytech.steats.delivery;
 
+import fr.unice.polytech.steats.notification.delivery.DeliveryPublisher;
 import fr.unice.polytech.steats.order.SimpleOrder;
 import fr.unice.polytech.steats.users.DeliveryPerson;
 
@@ -20,6 +21,7 @@ public class DeliveryRegistry {
     public void assign(Delivery delivery, DeliveryPerson deliveryPerson) {
         delivery.setDeliveryPerson(deliveryPerson);
         delivery.setStatus(IN_PROGRESS);
+        delivery.deliveryPublisher.subscribe(deliveryPerson);
         deliveryRepository.save(delivery, delivery.getId());
     }
 
