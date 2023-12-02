@@ -57,16 +57,4 @@ public class CampusUser extends User {
     public void setStatus(CampusUserStatus status) {
         this.status = status;
     }
-
-
-
-    @Override
-    public String toString() {
-        return "CampusUser{" +
-                "cart=" + cart +
-                ", balance=" + balance +
-                ", status=" + status +
-                ", PreviousOrders=" + previousSimpleOrders +
-                '}';
-    }
 }

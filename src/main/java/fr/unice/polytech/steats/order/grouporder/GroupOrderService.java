@@ -3,8 +3,6 @@ package fr.unice.polytech.steats.order.grouporder;
 import fr.unice.polytech.steats.exceptions.order.*;
 import fr.unice.polytech.steats.exceptions.restaurant.DeliveryDateNotAvailable;
 import fr.unice.polytech.steats.exceptions.restaurant.InsufficientTimeSlotCapacity;
-import fr.unice.polytech.steats.exceptions.restaurant.NonExistentTimeSlot;
-import fr.unice.polytech.steats.order.Order;
 import fr.unice.polytech.steats.order.OrderManager;
 import fr.unice.polytech.steats.order.OrderVolume;
 import fr.unice.polytech.steats.order.SimpleOrder;

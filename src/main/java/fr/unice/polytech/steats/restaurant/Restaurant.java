@@ -100,15 +100,4 @@ public class Restaurant {
     public void setRestaurantStatus(RestaurantStatus restaurantStatus){
         this.restaurantStatus=restaurantStatus;
     }
-
-    @Override
-    public String toString() {
-        return "Restaurant{" +
-                "id=" + id +
-                ", restaurantName='" + restaurantName + '\'' +
-                ", menus=" + menus +
-                ", schedule=" + schedule +
-                ", restaurantStatus=" + restaurantStatus +
-                '}';
-    }
 }

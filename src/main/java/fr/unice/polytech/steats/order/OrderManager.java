@@ -2,7 +2,6 @@ package fr.unice.polytech.steats.order;
 
 import fr.unice.polytech.steats.delivery.DeliveryRegistry;
 import fr.unice.polytech.steats.exceptions.order.EmptyCartException;
-import fr.unice.polytech.steats.exceptions.order.SubscriberNotExistent;
 import fr.unice.polytech.steats.exceptions.restaurant.DeliveryDateNotAvailable;
 import fr.unice.polytech.steats.payment.PaymentManager;
 import fr.unice.polytech.steats.delivery.DeliveryLocation;
@@ -14,7 +13,6 @@ import fr.unice.polytech.steats.restaurant.TimeSlot;
 import fr.unice.polytech.steats.users.CampusUser;
 import java.time.LocalDateTime;
 import java.util.*;
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
