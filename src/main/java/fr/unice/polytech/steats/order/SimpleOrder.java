@@ -13,12 +13,12 @@ import java.util.*;
 public class SimpleOrder implements Order {
     private final UUID orderID;
     private OrderStatus orderStatus;
-    private Map<Menu, Integer> menusOrdered;
-    private DeliveryLocation deliveryLocation;
-    private double discount = 0.1;
-    Restaurant restaurant;
-    CampusUser customer;
-    LocalDateTime deliveryDate;
+    private final Map<Menu, Integer> menusOrdered;
+    private final DeliveryLocation deliveryLocation;
+    private final double discount = 0.1;
+    final Restaurant restaurant;
+    final CampusUser customer;
+    final LocalDateTime deliveryDate;
     private List<Subscriber> subscribers = new ArrayList<>();
 
     public LocalDateTime getDeliveryTime(){
@@ -57,9 +57,6 @@ public class SimpleOrder implements Order {
         return orderID;
     }
 
-    public void setDeliveryLocation(DeliveryLocation deliveryLocation) {
-        this.deliveryLocation = deliveryLocation;
-    }
     public DeliveryLocation getDeliveryLocation(){
         return this.deliveryLocation;
     }
@@ -69,10 +66,6 @@ public class SimpleOrder implements Order {
             sum += value;
         }
         return sum;
-    }
-
-    public void setDiscount(double discount){
-        this.discount = discount;
     }
 
     public double getPrice(){
@@ -87,6 +80,7 @@ public class SimpleOrder implements Order {
         }
         return total;
     }
+
     public Menu getMenu(){
         return menusOrdered.keySet().iterator().next();
     }

@@ -1,16 +1,14 @@
 package fr.unice.polytech.steats.order.grouporder;
 
 import fr.unice.polytech.steats.delivery.DeliveryLocation;
-import fr.unice.polytech.steats.order.Subscriber;
 import fr.unice.polytech.steats.users.CampusUser;
 
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.Optional;
 import java.util.stream.StreamSupport;
 
 public class GroupOrderRegistry {
-    GroupOrderRepository groupOrderRepository;
+    final GroupOrderRepository groupOrderRepository;
     public GroupOrderRegistry(GroupOrderRepository groupOrderRepository){
         this.groupOrderRepository = groupOrderRepository;
     }

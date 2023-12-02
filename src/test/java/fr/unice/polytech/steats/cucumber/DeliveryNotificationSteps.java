@@ -5,17 +5,14 @@ import fr.unice.polytech.steats.cucumber.ordering.FacadeContainer;
 import fr.unice.polytech.steats.delivery.*;
 import fr.unice.polytech.steats.exceptions.order.EmptyCartException;
 import fr.unice.polytech.steats.exceptions.order.PaymentException;
-import fr.unice.polytech.steats.exceptions.order.SubscriberNotExistent;
 import fr.unice.polytech.steats.exceptions.restaurant.DeliveryDateNotAvailable;
 import fr.unice.polytech.steats.notification.NotificationRegistry;
-import fr.unice.polytech.steats.order.Order;
 import fr.unice.polytech.steats.order.OrderManager;
 import fr.unice.polytech.steats.order.SimpleOrder;
 import fr.unice.polytech.steats.restaurant.Menu;
 import fr.unice.polytech.steats.restaurant.Restaurant;
 import fr.unice.polytech.steats.users.CampusUser;
 import fr.unice.polytech.steats.users.DeliveryPerson;
-import fr.unice.polytech.steats.users.UserRole;
 import io.cucumber.java.en.*;
 
 
@@ -37,7 +34,7 @@ public class DeliveryNotificationSteps {
     SimpleOrder order;
 
     DeliveryRegistry deliveryRegistry;
-    NotificationRegistry notificationRegistry;
+    final NotificationRegistry notificationRegistry;
 
 
     public DeliveryNotificationSteps(FacadeContainer container) {

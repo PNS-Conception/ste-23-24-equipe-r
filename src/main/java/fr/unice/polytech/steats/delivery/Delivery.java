@@ -10,9 +10,9 @@ import java.util.*;
 import static fr.unice.polytech.steats.delivery.DeliveryStatus.READY;
 
 public class Delivery {
-    SimpleOrder simpleOrder;
+    final SimpleOrder simpleOrder;
     DeliveryPerson deliveryPerson;
-    UUID id;
+    final UUID id;
     DeliveryStatus status;
     private List<Subscriber> subscribers;
 
@@ -51,9 +51,11 @@ public class Delivery {
         this.status = status;
     }
 
-    public SimpleOrder getOrder() {
-        return simpleOrder;
-    }
+// --Commented out by Inspection START (28/11/2023 22:24):
+//    public SimpleOrder getOrder() {
+//        return simpleOrder;
+//    }
+// --Commented out by Inspection STOP (28/11/2023 22:24)
 
 
 
@@ -64,9 +66,11 @@ public class Delivery {
         this.subscribers.add(subscriber);
     }
 
-    public List<Subscriber> getSubscribers() {
-        return subscribers;
-    }
+// --Commented out by Inspection START (28/11/2023 22:24):
+//    public List<Subscriber> getSubscribers() {
+//        return subscribers;
+//    }
+// --Commented out by Inspection STOP (28/11/2023 22:24)
 
     private Map<String,Object> getEventForDeliveryPerson(){
         Map<String,Object> event = new HashMap<>();

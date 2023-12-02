@@ -11,6 +11,8 @@ import fr.unice.polytech.steats.order.grouporder.GroupOrderRepository;
 import fr.unice.polytech.steats.order.grouporder.GroupOrderService;
 import fr.unice.polytech.steats.payment.ExternalPaymentMock;
 import fr.unice.polytech.steats.payment.PaymentManager;
+import fr.unice.polytech.steats.restaurant.MenuComments.CommentsRegistry;
+import fr.unice.polytech.steats.restaurant.MenuComments.CommentsRepository;
 import fr.unice.polytech.steats.restaurant.RestaurantRegistry;
 import fr.unice.polytech.steats.restaurant.RestaurantRepository;
 import fr.unice.polytech.steats.users.CampusUserRegistry;
@@ -41,6 +43,8 @@ public class AppExplicitConfig {
             container.addComponent(DeliveryRepository.class);
             container.addComponent(NotificationRepository.class);
             container.addComponent(NotificationRegistry.class);
+            container.addComponent(CommentsRepository.class);
+            container.addComponent(CommentsRegistry.class);
 
         }
         return container;

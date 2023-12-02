@@ -4,7 +4,7 @@ import java.util.Optional;
 
 
 public class DeliveryPersonRegistry {
-    UserRepository userRepository;
+    final UserRepository userRepository;
     public DeliveryPersonRegistry(UserRepository userRepository) {
         this.userRepository = userRepository;
     }

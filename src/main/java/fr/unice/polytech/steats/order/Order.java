@@ -14,7 +14,7 @@ public interface Order {
 
     UUID getId();
 
-    void setDeliveryLocation(DeliveryLocation deliveryLocation);
+    // --Commented out by Inspection (28/11/2023 22:38):void setDeliveryLocation(DeliveryLocation deliveryLocation);
     DeliveryLocation getDeliveryLocation();
     LocalDateTime getDeliveryTime();
 }

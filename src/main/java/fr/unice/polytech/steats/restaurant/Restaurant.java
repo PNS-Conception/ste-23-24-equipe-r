@@ -1,15 +1,14 @@
 package fr.unice.polytech.steats.restaurant;
-import fr.unice.polytech.steats.exceptions.restaurant.NonExistentTimeSlot;
 
 import java.time.LocalTime;
 import java.util.*;
 
 public class Restaurant {
-    private UUID id;
-    private String restaurantName;
-    private List<Menu> menus = new ArrayList<>();
+    private final UUID id;
+    private final String restaurantName;
+    private final List<Menu> menus = new ArrayList<>();
     private Schedule schedule;
-    private RestaurantStatus restaurantStatus;
+    private final RestaurantStatus restaurantStatus;
     public Restaurant(String restaurantName, Schedule schedule) {
         this.id = UUID.randomUUID();
         this.restaurantName = restaurantName;
@@ -25,12 +24,7 @@ public class Restaurant {
         this.schedule = new Schedule(openingTime, closingTime, capacity);
         this.restaurantStatus= RestaurantStatus.NOT_ELIGIBLE_FOR_DISCOUNT;
     }
-    public Restaurant(String restaurantName, Schedule schedule, RestaurantStatus restaurantStatus) {
-        this.id = UUID.randomUUID();
-        this.restaurantName = restaurantName;
-        this.schedule = schedule;
-        this.restaurantStatus= restaurantStatus;
-    }
+
 
     public Restaurant(String restaurantName, RestaurantStatus restaurantStatus){
         this.id = UUID.randomUUID();
@@ -79,14 +73,7 @@ public class Restaurant {
         return this.schedule;
     }
 
-    public int getTimeSlotCapacity(TimeSlot timeslot) throws NonExistentTimeSlot {
-        for (TimeSlot tslot : schedule.getTimeSlots()){
-            if (timeslot.equals(tslot)){
-                return tslot.getCapacity();
-            }
-        }
-        throw new NonExistentTimeSlot(timeslot);
-    }
+
 
     public void setSchedule(Schedule schedule) {
         this.schedule = schedule;
@@ -95,9 +82,5 @@ public class Restaurant {
 
     public RestaurantStatus getRestaurantStatus(){
         return restaurantStatus;
-    }
-
-    public void setRestaurantStatus(RestaurantStatus restaurantStatus){
-        this.restaurantStatus=restaurantStatus;
     }
 }

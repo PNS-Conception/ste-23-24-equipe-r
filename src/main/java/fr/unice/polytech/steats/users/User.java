@@ -3,8 +3,8 @@ package fr.unice.polytech.steats.users;
 import java.util.UUID;
 
 public class User {
-    private String name;
-    private UUID id;
+    private final String name;
+    private final UUID id;
     private UserRole userRole;
 
     public User() {
@@ -33,9 +33,7 @@ public class User {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+
 
     public UserRole getUserRole() {
         return userRole;

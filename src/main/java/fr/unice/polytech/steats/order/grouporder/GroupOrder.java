@@ -1,27 +1,24 @@
 package fr.unice.polytech.steats.order.grouporder;
 
 import fr.unice.polytech.steats.delivery.DeliveryLocation;
-import fr.unice.polytech.steats.order.Order;
 import fr.unice.polytech.steats.order.SimpleOrder;
 import fr.unice.polytech.steats.users.CampusUser;
 import fr.unice.polytech.steats.util.GroupOrderCodeGenerator;
-import java.time.Duration;
+
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 import java.util.UUID;
 
 public class GroupOrder {
-    private CampusUser groupOrderOwner;
-    private Duration groupOrderOpenDuration;
+    private final CampusUser groupOrderOwner;
+    // --Commented out by Inspection (28/11/2023 22:32):private Duration groupOrderOpenDuration;
     private boolean isOpen = true;
-    private UUID groupOrderID;
+    private final UUID groupOrderID;
     private String groupOrderCode;
-    private List<SimpleOrder> subOrders;
-    private LocalDateTime deliveryTime;
-    private DeliveryLocation deliveryLocation;
+    private final List<SimpleOrder> subOrders;
+    private final LocalDateTime deliveryTime;
+    private final DeliveryLocation deliveryLocation;
     public GroupOrder(CampusUser campusUser, LocalDateTime deliveryTime, DeliveryLocation deliveryLocation) {
         this.groupOrderID = UUID.randomUUID();
         this.groupOrderOwner = campusUser;

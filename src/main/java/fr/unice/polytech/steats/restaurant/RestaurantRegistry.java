@@ -7,7 +7,7 @@ import java.util.Optional;
 import java.util.stream.StreamSupport;
 
 public class RestaurantRegistry {
-    private RestaurantRepository restaurantRepository;
+    private final RestaurantRepository restaurantRepository;
 
     public RestaurantRegistry(RestaurantRepository restaurantRepository){
         this.restaurantRepository = restaurantRepository;
