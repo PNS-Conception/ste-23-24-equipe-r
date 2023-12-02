@@ -19,16 +19,16 @@ import static fr.unice.polytech.steats.users.UserRole.DELIVERY_PERSON;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class DeliverySteps {
-    DeliveryRegistry deliveryRegistry;
+    final DeliveryRegistry deliveryRegistry;
     User deliveryPerson;
     SimpleOrder simpleOrder;
     Delivery delivery;
 
-    OrderManager orderManager;
+
 
     public DeliverySteps(FacadeContainer container){
         deliveryRegistry = container.deliveryRegistry;
-        orderManager = container.orderManager;
+
     }
     @Given("an order is ready to be delivered")
     public void an_order_is_ready_to_be_delivered() {

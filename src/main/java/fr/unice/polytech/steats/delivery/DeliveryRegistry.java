@@ -1,13 +1,12 @@
 package fr.unice.polytech.steats.delivery;
 
 import fr.unice.polytech.steats.order.SimpleOrder;
-import fr.unice.polytech.steats.order.Subscriber;
 import fr.unice.polytech.steats.users.DeliveryPerson;
 
 import static fr.unice.polytech.steats.delivery.DeliveryStatus.IN_PROGRESS;
 
 public class DeliveryRegistry {
-    DeliveryRepository deliveryRepository;
+    final DeliveryRepository deliveryRepository;
 
     public DeliveryRegistry(DeliveryRepository deliveryRepository) {
         this.deliveryRepository = deliveryRepository;

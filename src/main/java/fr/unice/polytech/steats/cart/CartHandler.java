@@ -1,22 +1,23 @@
 package fr.unice.polytech.steats.cart;
 
 import fr.unice.polytech.steats.exceptions.cart.MenuRemovalFromCartException;
-import fr.unice.polytech.steats.order.Subscriber;
 import fr.unice.polytech.steats.restaurant.Menu;
 import fr.unice.polytech.steats.users.CampusUser;
 
 import java.util.Map;
 
 public class CartHandler {
-    private Cart cart;
+    private final Cart cart;
 
     public CartHandler(Cart cart) {
         this.cart = cart;
     }
 
-    public Cart getCart() {
-        return cart;
-    }
+// --Commented out by Inspection START (28/11/2023 22:23):
+//    public Cart getCart() {
+//        return cart;
+//    }
+// --Commented out by Inspection STOP (28/11/2023 22:23)
 
     public void addItem(Menu menu, int quantity){
         int existingQuantity = cart.getMenuMap().getOrDefault(menu, 0);

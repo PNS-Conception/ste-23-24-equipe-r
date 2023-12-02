@@ -4,13 +4,12 @@ import fr.unice.polytech.steats.users.User;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.UUID;
 
 public class Notification {
     private final UUID id;
-    private List<User> users;
-    Map<String, Object> event;
+    private final List<User> users;
+    final Map<String, Object> event;
 
     public List<User> getUsers() {
         return users;

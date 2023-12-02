@@ -13,9 +13,7 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.HashMap;
 import java.util.List;
 
@@ -27,8 +25,8 @@ import static org.junit.Assert.assertEquals;
 public class GetOrdersWaitingForPreparationSteps {
     Restaurant restaurant;
     CampusUser staff;
-    OrderRepository orderRepository;
-    OrderManager orderManager;
+    final OrderRepository orderRepository;
+    final OrderManager orderManager;
     List<SimpleOrder> ordersWaitingForPreparation;
 
     public GetOrdersWaitingForPreparationSteps(FacadeContainer container) {
@@ -42,7 +40,7 @@ public class GetOrdersWaitingForPreparationSteps {
         staff = new CampusUser(staffName,STAFF);
     }
     @Given("the restaurant has {int} orders waiting for preparation")
-    public void a_restaurant_with_orders_waiting_for_preparation(int ordersNumber) throws Exception {
+    public void a_restaurant_with_orders_waiting_for_preparation(int ordersNumber) {
         for(int i = 0; i < ordersNumber; i++){
             LocalDateTime orderDate = LocalDateTime.now();
             SimpleOrderFactory simpleOrderFactory = new SimpleOrderFactory(restaurant, new CampusUser("lambda"), new HashMap<Menu,Integer>(), orderDate, DeliveryLocation.LIBRARY);

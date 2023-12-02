@@ -5,5 +5,5 @@ public enum CampusUserStatus {
     STUDENT,
     FACULTY,
     STAFF,
-    EXTERNAL;
+    EXTERNAL
 }

@@ -14,10 +14,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class RatingAndViewRestaurantRatingSteps {
 
-    Restaurant restaurant = new Restaurant("Restaurant A");;
-    CampusUser campusUser1 = new CampusUser();
-    CampusUser campusUser2 = new CampusUser();
-    RatingSystem ratingSystem = new RatingSystem();
+    final Restaurant restaurant = new Restaurant("Restaurant A");
+    final CampusUser campusUser1 = new CampusUser();
+    final RatingSystem ratingSystem = new RatingSystem();
 
     /////////////////////////////////////////// Scenario 1 ///////////////////////////////////////////
 

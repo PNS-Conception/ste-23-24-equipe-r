@@ -7,10 +7,9 @@ import fr.unice.polytech.steats.exceptions.order.ClosedGroupOrderException;
 import fr.unice.polytech.steats.exceptions.order.EmptyCartException;
 import fr.unice.polytech.steats.exceptions.order.NonExistentGroupOrder;
 import fr.unice.polytech.steats.exceptions.order.PaymentException;
+import fr.unice.polytech.steats.exceptions.others.NoSuchElementException;
 import fr.unice.polytech.steats.exceptions.restaurant.DeliveryDateNotAvailable;
 import fr.unice.polytech.steats.exceptions.restaurant.InsufficientTimeSlotCapacity;
-import fr.unice.polytech.steats.exceptions.restaurant.NonExistentTimeSlot;
-import fr.unice.polytech.steats.order.Order;
 import fr.unice.polytech.steats.order.SimpleOrder;
 import fr.unice.polytech.steats.order.grouporder.GroupOrder;
 import fr.unice.polytech.steats.order.grouporder.GroupOrderRegistry;
@@ -18,7 +17,6 @@ import fr.unice.polytech.steats.order.grouporder.GroupOrderService;
 import fr.unice.polytech.steats.restaurant.Menu;
 import fr.unice.polytech.steats.restaurant.Restaurant;
 import fr.unice.polytech.steats.restaurant.RestaurantRegistry;
-import fr.unice.polytech.steats.restaurant.TimeSlot;
 import fr.unice.polytech.steats.users.CampusUser;
 import fr.unice.polytech.steats.users.CampusUserRegistry;
 import io.cucumber.java.en.And;
@@ -26,7 +24,6 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
 import static org.junit.Assert.*;
@@ -36,10 +33,10 @@ public class GroupOrderSteps {
     String groupOrderCode;
     CampusUser campusUser;
     Restaurant restaurant;
-    CampusUserRegistry campusUserRegistry;
-    RestaurantRegistry restaurantRegistry;
-    GroupOrderRegistry groupOrderRegistry;
-    GroupOrderService groupOrderService;
+    final CampusUserRegistry campusUserRegistry;
+    final RestaurantRegistry restaurantRegistry;
+    final GroupOrderRegistry groupOrderRegistry;
+    final GroupOrderService groupOrderService;
     DeliveryLocation deliveryLocation;
 
     public GroupOrderSteps(FacadeContainer container){
@@ -51,25 +48,24 @@ public class GroupOrderSteps {
 
 
     @And("a group order exists with the code {string} of user {string} with restaurant {string}")
-    public void aGroupOrderExistsWithTheCodeOfUser(String groupOrderString, String campusUserName, String restaurantName) {
+    public void aGroupOrderExistsWithTheCodeOfUser(String groupOrderString, String campusUserName, String restaurantName) throws NoSuchElementException {
         groupOrderCode = groupOrderString;
-        campusUser = campusUserRegistry.findByName(campusUserName).get();
-        restaurant = restaurantRegistry.findByName(restaurantName).get();
+        campusUser = campusUserRegistry.findByName(campusUserName).orElseThrow(() -> new NoSuchElementException("Element not found"));
+        restaurant = restaurantRegistry.findByName(restaurantName).orElseThrow(() -> new NoSuchElementException("Element not found"));
     }
 
     @And("group order {string} is set with delivery time {string} and location {string}")
     public void groupOrderIsSetWithTimeslotAndLocation(String groupOrderCode, String dateTimeString, String locationString) {
         LocalDateTime deliveryDateTime = LocalDateTime.parse(dateTimeString, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
-        DeliveryLocation deliveryLocation = DeliveryLocation.getByName(locationString);
-
+        deliveryLocation = DeliveryLocation.getByName(locationString);
         groupOrder = groupOrderRegistry.register(campusUser, deliveryDateTime, deliveryLocation);
         groupOrder.setGroupOrderCode(groupOrderCode);
     }
 
 
     @When("{string} requests to create a group order")
-    public void requestsToCreateAGroupOrder(String user) {
-        campusUser = campusUserRegistry.findByName(user).get();
+    public void requestsToCreateAGroupOrder(String user) throws NoSuchElementException {
+        campusUser = campusUserRegistry.findByName(user).orElseThrow(() -> new NoSuchElementException("Element not found"));
     }
 
     @Then("a group order is created with a unique code")
@@ -84,14 +80,14 @@ public class GroupOrderSteps {
     }
 
     @When("{string} joins the group order {string}")
-    public void joinsTheGroupOrder(String userName, String groupOrderCode) {
-        groupOrder = groupOrderRegistry.findByCode(groupOrderCode).get();
-        campusUser = campusUserRegistry.findByName(userName).get();
+    public void joinsTheGroupOrder(String userName, String groupOrderCode) throws NoSuchElementException {
+        groupOrder = groupOrderRegistry.findByCode(groupOrderCode).orElseThrow(() -> new NoSuchElementException("Element not found"));
+        campusUser = campusUserRegistry.findByName(userName).orElseThrow(() -> new NoSuchElementException("Element not found"));
     }
 
     @And("{string} orders and pays for {int} x {string}")
-    public void ordersAndPaysForX(String userName, int quantity, String menuName) throws EmptyCartException, PaymentException, NonExistentTimeSlot, InsufficientTimeSlotCapacity, NonExistentGroupOrder, ClosedGroupOrderException, DeliveryDateNotAvailable {
-        campusUser = campusUserRegistry.findByName(userName).get();
+    public void ordersAndPaysForX(String userName, int quantity, String menuName) throws EmptyCartException, PaymentException, InsufficientTimeSlotCapacity, NonExistentGroupOrder, ClosedGroupOrderException, DeliveryDateNotAvailable, NoSuchElementException {
+        campusUser = campusUserRegistry.findByName(userName).orElseThrow(() -> new NoSuchElementException("Element not found"));
         Cart cart = campusUser.getCart();
         Menu menu = restaurant.getMenufromName(menuName);
         CartHandler cartHandler = new CartHandler(cart);
@@ -100,8 +96,8 @@ public class GroupOrderSteps {
     }
 
     @And("{string}'s order should be set with delivery time {string} and location {string}")
-    public void sOrderShouldBeSetWithTimeslotAndLocation(String username, String dateTimeString, String delivLocation) {
-        campusUser = campusUserRegistry.findByName(username).get();
+    public void sOrderShouldBeSetWithTimeslotAndLocation(String username, String dateTimeString, String delivLocation) throws NoSuchElementException {
+        campusUser = campusUserRegistry.findByName(username).orElseThrow(() -> new NoSuchElementException("Element not found"));
         LocalDateTime timeslotDateTime = LocalDateTime.parse(dateTimeString, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
         DeliveryLocation deliveryLocation = DeliveryLocation.getByName(delivLocation);
         SimpleOrder order = groupOrder.getSubOrders().get(0);
@@ -111,21 +107,21 @@ public class GroupOrderSteps {
 
 
     @And("group order {string} should have {int} order")
-    public void groupOrderShouldHaveOneOrder(String groupOrderCode, int groupOrderSize) {
-        groupOrder = groupOrderRegistry.findByCode(groupOrderCode).get();
+    public void groupOrderShouldHaveOneOrder(String groupOrderCode, int groupOrderSize) throws NoSuchElementException {
+        groupOrder = groupOrderRegistry.findByCode(groupOrderCode).orElseThrow(() -> new NoSuchElementException("Element not found"));
         assertEquals(groupOrderSize, groupOrder.getSize());
     }
 
     @Then("the price of {string}'s order is {double}")
-    public void thePriceOfSOrderIs(String username, double price) {
-        campusUser = campusUserRegistry.findByName(username).get();
-        SimpleOrder order = groupOrderService.locateOrder(groupOrder, campusUser).get();
+    public void thePriceOfSOrderIs(String username, double price) throws NoSuchElementException {
+        campusUser = campusUserRegistry.findByName(username).orElseThrow(() -> new NoSuchElementException("Element not found"));
+        SimpleOrder order = groupOrderService.locateOrder(groupOrder, campusUser).orElseThrow(() -> new NoSuchElementException("Element not found"));
         assertEquals(order.getPrice(), price, 0.1);
 
     }
     @When("{string} closes the group order")
-    public void requestsToCloseTheGroupOrder(String username) {
-        campusUser = campusUserRegistry.findByName(username).get();
+    public void requestsToCloseTheGroupOrder(String username) throws NoSuchElementException {
+        campusUser = campusUserRegistry.findByName(username).orElseThrow(() -> new NoSuchElementException("Element not found"));
         groupOrder.closeGroupOrder();
     }
 }

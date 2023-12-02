@@ -13,7 +13,7 @@ import static fr.unice.polytech.steats.delivery.DeliveryStatus.READY;
 public class Delivery {
     Order order;
     DeliveryPerson deliveryPerson;
-    UUID id;
+    final UUID id;
     DeliveryStatus status;
     private List<Subscriber> subscribers;
 
