@@ -5,6 +5,7 @@ import fr.unice.polytech.steats.delivery.DeliveryLocation;
 import fr.unice.polytech.steats.order.SimpleOrder;
 import fr.unice.polytech.steats.order.OrderManager;
 import fr.unice.polytech.steats.order.OrderRepository;
+import fr.unice.polytech.steats.order.factory.SimpleOrderFactory;
 import fr.unice.polytech.steats.restaurant.Menu;
 import fr.unice.polytech.steats.restaurant.Restaurant;
 import fr.unice.polytech.steats.users.CampusUser;
@@ -44,13 +45,15 @@ public class GetOrdersWaitingForPreparationSteps {
     public void a_restaurant_with_orders_waiting_for_preparation(int ordersNumber) throws Exception {
         for(int i = 0; i < ordersNumber; i++){
             LocalDateTime orderDate = LocalDateTime.now();
-            SimpleOrder simpleOrder = new SimpleOrder(restaurant, new CampusUser("lambda"), new HashMap<Menu,Integer>(), orderDate, DeliveryLocation.LIBRARY);
+            SimpleOrderFactory simpleOrderFactory = new SimpleOrderFactory(restaurant, new CampusUser("lambda"), new HashMap<Menu,Integer>(), orderDate, DeliveryLocation.LIBRARY);
+            SimpleOrder simpleOrder = simpleOrderFactory.createOrder();
             simpleOrder.setStatus(WAITING_FOR_PREPARATION);
             orderRepository.save(simpleOrder, simpleOrder.getId());
         }
         for(int i = 0; i < 6; i++){
             LocalDateTime orderDate = LocalDateTime.now();
-            SimpleOrder simpleOrder = new SimpleOrder(restaurant, new CampusUser("other"), new HashMap<Menu,Integer>(), orderDate, DeliveryLocation.LIBRARY);
+            SimpleOrderFactory simpleOrderFactory = new SimpleOrderFactory(restaurant, new CampusUser("other"), new HashMap<Menu,Integer>(), orderDate, DeliveryLocation.LIBRARY);
+            SimpleOrder simpleOrder = simpleOrderFactory.createOrder();
             simpleOrder.setStatus(PREPARING);
             orderRepository.save(simpleOrder, simpleOrder.getId());
         }

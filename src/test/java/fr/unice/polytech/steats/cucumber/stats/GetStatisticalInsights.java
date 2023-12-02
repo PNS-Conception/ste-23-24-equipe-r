@@ -2,6 +2,7 @@ package fr.unice.polytech.steats.cucumber.stats;
 import fr.unice.polytech.steats.delivery.DeliveryLocation;
 import fr.unice.polytech.steats.exceptions.order.NoOrdersPlacedException;
 import fr.unice.polytech.steats.order.SimpleOrder;
+import fr.unice.polytech.steats.order.factory.SimpleOrderFactory;
 import fr.unice.polytech.steats.restaurant.Restaurant;
 import fr.unice.polytech.steats.stats.StatisticsManager;
 import fr.unice.polytech.steats.users.CampusUser;
@@ -22,7 +23,8 @@ public class GetStatisticalInsights {
 
     @Given("an Order has been created but not {string}")
     public void an_Order_has_been_created_but_not(String status) {
-        simpleOrder = new SimpleOrder(restaurant,null,null,null,null);
+        SimpleOrderFactory simpleOrderFactory = new SimpleOrderFactory(restaurant,null,null,null,null);
+        simpleOrder = simpleOrderFactory.createOrder();
         assertNotEquals(simpleOrder.getStatus().toString(), status);
     }
     @When("a {string} retrieves statistical data on order volumes")
@@ -39,7 +41,8 @@ public class GetStatisticalInsights {
     @Given("an Order from a {string} has been created but not {string}")
     public void an_order_from_a_restaurant_has_been_created_but_not(String restaurantName,String status) {
         restaurant = new Restaurant(restaurantName);
-        simpleOrder = new SimpleOrder(restaurant,null,null,null,null);
+        SimpleOrderFactory simpleOrderFactory = new SimpleOrderFactory(restaurant,null,null,null,null);
+        simpleOrder = simpleOrderFactory.createOrder();
         assertNotEquals(simpleOrder.getStatus().toString(), status);
     }
     @When("a {string} retrieves statistical data on order volumes per restaurant")
@@ -58,7 +61,8 @@ public class GetStatisticalInsights {
     public void an_order_from_is_created_by_a_with_the_delivery_location(String restaurantName, String userName, String deliveryLocation) {
         restaurant = new Restaurant(restaurantName);
         deliveryLocation1 = DeliveryLocation.getByName(deliveryLocation);
-        simpleOrder = new SimpleOrder(restaurant,(new CampusUser(userName)), null, null, deliveryLocation1);
+        SimpleOrderFactory simpleOrderFactory = new SimpleOrderFactory(restaurant,null,null,null,null);
+        simpleOrder = simpleOrderFactory.createOrder();
     }
     @Given("the status is not {string}")
     public void the_status_is_not(String status) {

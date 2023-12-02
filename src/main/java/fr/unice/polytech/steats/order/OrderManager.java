@@ -2,8 +2,8 @@ package fr.unice.polytech.steats.order;
 
 import fr.unice.polytech.steats.delivery.DeliveryRegistry;
 import fr.unice.polytech.steats.exceptions.order.EmptyCartException;
-import fr.unice.polytech.steats.exceptions.order.SubscriberNotExistent;
 import fr.unice.polytech.steats.exceptions.restaurant.DeliveryDateNotAvailable;
+import fr.unice.polytech.steats.order.factory.SimpleOrderFactory;
 import fr.unice.polytech.steats.payment.PaymentManager;
 import fr.unice.polytech.steats.delivery.DeliveryLocation;
 import fr.unice.polytech.steats.exceptions.order.PaymentException;
@@ -14,7 +14,6 @@ import fr.unice.polytech.steats.restaurant.TimeSlot;
 import fr.unice.polytech.steats.users.CampusUser;
 import java.time.LocalDateTime;
 import java.util.*;
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -44,7 +43,8 @@ public class OrderManager {
                         entry -> new Menu(entry.getKey()),  // Using the copy constructor
                         Map.Entry::getValue
                 ));
-        SimpleOrder order = new SimpleOrder(restaurant, customer, menusOrderedCopy, deliveryDateTime, deliveryLocation);
+        SimpleOrderFactory simpleOrderFactory = new SimpleOrderFactory(restaurant, customer, menusOrderedCopy, deliveryDateTime, deliveryLocation);
+        SimpleOrder order = simpleOrderFactory.createOrder();
         order.setStatus(OrderStatus.PREPARING);
         paymentManager.completePayment(customer);
         timeSlot.subtractCapacity(menusNumber);
@@ -92,7 +92,7 @@ public class OrderManager {
     public List<SimpleOrder> getOrdersWaitingForPreparation(Restaurant restaurant) {
         List<SimpleOrder> previousOrders = new ArrayList<>();
         for (SimpleOrder order : orderRepository.findAll()) {
-            if (order.getStatus()!=null && order.getRestaurant().equals(restaurant) && order.getStatus().equals(OrderStatus.WAITING_FOR_PREPARATION)) {
+            if (order.getStatus()!=null && order.getRestaurants().contains(restaurant) && order.getStatus().equals(OrderStatus.WAITING_FOR_PREPARATION)) {
                 previousOrders.add(order);
             }
         }

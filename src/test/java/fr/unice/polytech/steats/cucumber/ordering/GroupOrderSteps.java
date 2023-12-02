@@ -40,8 +40,6 @@ public class GroupOrderSteps {
     RestaurantRegistry restaurantRegistry;
     GroupOrderRegistry groupOrderRegistry;
     GroupOrderService groupOrderService;
-    TimeSlot timeSlot;
-    LocalTime deliveryTime;
     DeliveryLocation deliveryLocation;
 
     public GroupOrderSteps(FacadeContainer container){

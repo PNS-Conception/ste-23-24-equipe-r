@@ -40,7 +40,7 @@ public class StatisticsManager {
             if(simpleOrder.getStatus() == OrderStatus.DELIVERED) {
                 orderVolume.getOrderVolume().remove(simpleOrder);
             }
-            if(simpleOrder.getRestaurant()==restaurant){
+            if(simpleOrder.getRestaurants().contains(restaurant)){
                 restaurantSimpleOrderVolume.add(simpleOrder);
             }
         }

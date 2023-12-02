@@ -9,7 +9,11 @@ import fr.unice.polytech.steats.users.CampusUser;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Map;
+
+import static java.util.Collections.singletonList;
 
 public class SimpleOrderFactory implements OrderFactory{
     Restaurant restaurant;
@@ -19,8 +23,8 @@ public class SimpleOrderFactory implements OrderFactory{
     LocalDateTime deliveryDate;
 
 
-    public SimpleOrderFactory(Restaurant restaurant, CampusUser customer, Map<Menu, Integer> menusOrdered,
-                              DeliveryLocation deliveryLocation, LocalDateTime deliveryDate){
+    public SimpleOrderFactory(Restaurant restaurant, CampusUser customer, Map<Menu, Integer> menusOrdered, LocalDateTime deliveryDate,
+                              DeliveryLocation deliveryLocation){
         this.restaurant = restaurant;
         this.customer= customer;
         this.menusOrdered = menusOrdered;
@@ -29,6 +33,6 @@ public class SimpleOrderFactory implements OrderFactory{
     }
     @Override
     public SimpleOrder createOrder() {
-        return new SimpleOrder(restaurant, customer, menusOrdered,deliveryDate, deliveryLocation);
+        return new SimpleOrder(singletonList(restaurant), customer, menusOrdered,deliveryDate, deliveryLocation);
     }
 }

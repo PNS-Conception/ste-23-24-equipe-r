@@ -5,6 +5,7 @@ import fr.unice.polytech.steats.delivery.DeliveryRegistry;
 import fr.unice.polytech.steats.delivery.DeliveryStatus;
 import fr.unice.polytech.steats.order.SimpleOrder;
 import fr.unice.polytech.steats.order.OrderManager;
+import fr.unice.polytech.steats.order.factory.SimpleOrderFactory;
 import fr.unice.polytech.steats.restaurant.Restaurant;
 import fr.unice.polytech.steats.users.CampusUser;
 import fr.unice.polytech.steats.users.DeliveryPerson;
@@ -31,7 +32,8 @@ public class DeliverySteps {
     }
     @Given("an order is ready to be delivered")
     public void an_order_is_ready_to_be_delivered() {
-        simpleOrder = new SimpleOrder(new Restaurant("restaurant"), new CampusUser("user"), null, null, null);
+        SimpleOrderFactory simpleOrderFactory = new SimpleOrderFactory(new Restaurant("restaurant"), new CampusUser("user"), null, null, null);
+        simpleOrder = simpleOrderFactory.createOrder();
         simpleOrder.setStatus(READY_FOR_DELIVERY);
         deliveryRegistry.register(simpleOrder);
     }

@@ -16,7 +16,7 @@ public class SimpleOrder implements Order {
     private Map<Menu, Integer> menusOrdered;
     private DeliveryLocation deliveryLocation;
     private double discount = 0.1;
-    Restaurant restaurant;
+    List<Restaurant> restaurant;
     CampusUser customer;
     LocalDateTime deliveryDate;
     private List<Subscriber> subscribers = new ArrayList<>();
@@ -26,7 +26,7 @@ public class SimpleOrder implements Order {
     }
 
 
-    public SimpleOrder(Restaurant restaurant, CampusUser customer, Map<Menu, Integer> menusOrdered, LocalDateTime deliveryDate,
+    public SimpleOrder(List<Restaurant> restaurant, CampusUser customer, Map<Menu, Integer> menusOrdered, LocalDateTime deliveryDate,
                        DeliveryLocation deliveryLocation){
         this.orderID = UUID.randomUUID();
         this.menusOrdered = menusOrdered;
@@ -38,7 +38,7 @@ public class SimpleOrder implements Order {
         OrderVolume.getInstance().addOrder(this);
     }
 
-    public Restaurant getRestaurant() {
+    public List<Restaurant> getRestaurants() {
         return restaurant;
     }
     public CampusUser getCustomer() {
