@@ -82,7 +82,7 @@ public class OrderManager {
     public List<SimpleOrder> getPreviousOrders(CampusUser user) {
         List<SimpleOrder> previousOrders = new ArrayList<>();
         for (SimpleOrder order : orderRepository.findAll()) {
-            if (order.getCustomer().equals(user)) {
+            if (order.getCustomers().contains(user)) {
                 previousOrders.add(order);
             }
         }

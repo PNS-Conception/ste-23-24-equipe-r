@@ -1,5 +1,6 @@
 package fr.unice.polytech.steats.notification;
 
+import fr.unice.polytech.steats.users.CampusUser;
 import fr.unice.polytech.steats.users.User;
 
 import java.util.List;

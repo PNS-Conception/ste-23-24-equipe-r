@@ -4,9 +4,13 @@ import fr.unice.polytech.steats.notification.*;
 import fr.unice.polytech.steats.order.Order;
 import fr.unice.polytech.steats.order.SimpleOrder;
 import fr.unice.polytech.steats.order.Subscriber;
+import fr.unice.polytech.steats.restaurant.Restaurant;
+import fr.unice.polytech.steats.users.CampusUser;
 import fr.unice.polytech.steats.users.DeliveryPerson;
+import fr.unice.polytech.steats.users.User;
 
 import java.util.*;
+import java.util.stream.Stream;
 
 import static fr.unice.polytech.steats.delivery.DeliveryStatus.READY;
 
@@ -72,9 +76,9 @@ public class Delivery {
     private Map<String,Object> getEventForDeliveryPerson(){
         Map<String,Object> event = new HashMap<>();
         event.put("pickup time", order.getDeliveryTime());
-        event.put("restaurants names", order.getRestaurants());
+        event.put("restaurants names", order.getRestaurants().stream().map(Restaurant::getRestaurantName).toArray());
         event.put("delivery location", order.getDeliveryLocation());
-        event.put("customer name", order.getCustomer().getName());
+        event.put("customers names", order.getCustomers().stream().map(CampusUser::getName).toArray());
         return event;
     }
 
@@ -91,7 +95,9 @@ public class Delivery {
     public void notifySubscribers() {
 
         Notification deliveryNotification = new Notification(getEventForDeliveryPerson(), Collections.singletonList(deliveryPerson));
-        Notification userNotification = new Notification(getEventForCustomer(), Collections.singletonList(order.getCustomer()));
+        Notification userNotification = new Notification(getEventForCustomer(), order.getCustomers().stream()
+                                                                                                    .map(User.class::cast)
+                                                                                                    .toList());
 
 
         for(Subscriber subscriber : subscribers){
