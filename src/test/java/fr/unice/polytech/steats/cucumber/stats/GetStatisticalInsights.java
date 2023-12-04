@@ -23,7 +23,7 @@ public class GetStatisticalInsights {
 
     @Given("an Order has been created but not {string}")
     public void an_Order_has_been_created_but_not(String status) {
-        SimpleOrderFactory simpleOrderFactory = new SimpleOrderFactory(restaurant,null,null,null,null);
+        SimpleOrderFactory simpleOrderFactory = new SimpleOrderFactory(restaurant,new CampusUser(),null,null,null);
         simpleOrder = simpleOrderFactory.createOrder();
         assertNotEquals(simpleOrder.getStatus().toString(), status);
     }
@@ -41,7 +41,7 @@ public class GetStatisticalInsights {
     @Given("an Order from a {string} has been created but not {string}")
     public void an_order_from_a_restaurant_has_been_created_but_not(String restaurantName,String status) {
         restaurant = new Restaurant(restaurantName);
-        SimpleOrderFactory simpleOrderFactory = new SimpleOrderFactory(restaurant,null,null,null,null);
+        SimpleOrderFactory simpleOrderFactory = new SimpleOrderFactory(restaurant,new CampusUser(),null,null,null);
         simpleOrder = simpleOrderFactory.createOrder();
         assertNotEquals(simpleOrder.getStatus().toString(), status);
     }
@@ -61,7 +61,7 @@ public class GetStatisticalInsights {
     public void an_order_from_is_created_by_a_with_the_delivery_location(String restaurantName, String userName, String deliveryLocation) {
         restaurant = new Restaurant(restaurantName);
         deliveryLocation1 = DeliveryLocation.getByName(deliveryLocation);
-        SimpleOrderFactory simpleOrderFactory = new SimpleOrderFactory(restaurant,null,null,null,null);
+        SimpleOrderFactory simpleOrderFactory = new SimpleOrderFactory(restaurant,new CampusUser(userName),null,null,null);
         simpleOrder = simpleOrderFactory.createOrder();
     }
     @Given("the status is not {string}")

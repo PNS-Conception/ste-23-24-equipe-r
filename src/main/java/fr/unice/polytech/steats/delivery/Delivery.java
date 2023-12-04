@@ -29,8 +29,8 @@ public class Delivery {
     public void setReady(DeliveryPerson deliveryPerson) {
         this.deliveryPerson = deliveryPerson;
         setStatus(READY);
-        deliveryPublisher.notifySubscribers(this);
         deliveryPublisher.subscribe(deliveryPerson);
+        deliveryPublisher.notifySubscribers(this);
     }
 
 

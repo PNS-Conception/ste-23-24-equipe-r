@@ -1,6 +1,7 @@
 package fr.unice.polytech.steats.order;
 
 import fr.unice.polytech.steats.delivery.DeliveryLocation;
+import fr.unice.polytech.steats.notification.NotificationRegistry;
 import fr.unice.polytech.steats.notification.order.OrderPublisher;
 import fr.unice.polytech.steats.restaurant.Menu;
 import fr.unice.polytech.steats.restaurant.Restaurant;
