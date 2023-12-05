@@ -16,7 +16,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.StreamSupport;
 
-public class GroupOrderService {
+public class GroupOrderService implements SubOrderManager, GroupOrderRegistration, GroupOrderFinder {
     final GroupOrderRepository groupOrderRepository;
     final OrderProcessing orderProcessing;
     public GroupOrderService(GroupOrderRepository groupOrderRepository, OrderProcessing orderProcessing){
@@ -26,16 +26,19 @@ public class GroupOrderService {
 
 
 
+    @Override
     public GroupOrder register(CampusUser campusUser, LocalDateTime deliveryTime, DeliveryLocation deliveryLocation){
         GroupOrder groupOrder = new GroupOrder(campusUser, deliveryTime, deliveryLocation);
         groupOrderRepository.save(groupOrder, groupOrder.getId());
         return groupOrder;
     }
+    @Override
     public Optional<GroupOrder> findByCode(String code) {
         return StreamSupport.stream(groupOrderRepository.findAll().spliterator(), false)
                 .filter(groupOrder -> code.equals(groupOrder.getGroupOrderCode())).findAny();
     }
 
+    @Override
     public void addSubOrder(String groupOrderCode, Restaurant restaurant,
                             CampusUser customer, Map<Menu, Integer> menusOrdered)
             throws NonExistentGroupOrder, ClosedGroupOrderException, EmptyCartException, PaymentException, DeliveryDateNotAvailable {
@@ -56,6 +59,7 @@ public class GroupOrderService {
         }
         return groupOrder;
     }
+    @Override
     public Optional<SimpleOrder> locateSubOrder(GroupOrder groupOrder, CampusUser customer) {
         List<SimpleOrder> ordersByCustomer = groupOrder.getSubOrders().stream()
                 .filter(order -> order.getCustomers().contains(customer))
