@@ -12,7 +12,6 @@ import java.util.UUID;
 
 public class GroupOrder {
     private final CampusUser groupOrderOwner;
-    // --Commented out by Inspection (28/11/2023 22:32):private Duration groupOrderOpenDuration;
     private boolean isOpen = true;
     private final UUID groupOrderID;
     private String groupOrderCode;

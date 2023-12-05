@@ -6,24 +6,18 @@ import fr.unice.polytech.steats.users.CampusUser;
 
 import java.util.Map;
 
-public class CartHandler {
+public class CartHandler implements CartModifier, CartTotalCalculator{
     private final Cart cart;
 
     public CartHandler(Cart cart) {
         this.cart = cart;
     }
-
-// --Commented out by Inspection START (28/11/2023 22:23):
-//    public Cart getCart() {
-//        return cart;
-//    }
-// --Commented out by Inspection STOP (28/11/2023 22:23)
-
+    @Override
     public void addItem(Menu menu, int quantity){
         int existingQuantity = cart.getMenuMap().getOrDefault(menu, 0);
         cart.getMenuMap().put(menu, existingQuantity + quantity);
     }
-
+    @Override
     public void removeItem(Menu menu, int quantityToRemove) throws MenuRemovalFromCartException {
         if (cart.getMenuMap().containsKey(menu)) {
             int existingQuantity = cart.getMenuMap().get(menu);
@@ -37,7 +31,7 @@ public class CartHandler {
             }
         }
     }
-
+    @Override
     public double getPriceForUser(CampusUser campusUser){
         double total = 0;
         for (Map.Entry<Menu, Integer> entry : cart.getMenuMap().entrySet()) {

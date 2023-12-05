@@ -15,9 +15,11 @@ import java.util.Map;
 
 public class RestaurantSteps {
     Restaurant restaurant;
-    final RestaurantRegistry restaurantRegistry;
+    final RestaurantRegistration restaurantRegistration;
+    RestaurantLocator restaurantLocator;
     public RestaurantSteps(FacadeContainer container){
-        this.restaurantRegistry = container.restaurantRegistry;
+        this.restaurantRegistration = container.restaurantRegistration;
+        this.restaurantLocator = container.restaurantLocator;
     }
 
     @And("a restaurant {string} exists with the following details")
@@ -31,14 +33,14 @@ public class RestaurantSteps {
         LocalTime openingTime = LocalTime.parse(openingTimeStr);
         LocalTime closingTime = LocalTime.parse(closingTimeStr);
         int capacity = Integer.parseInt(capacityStr);
-        restaurantRegistry.register(restaurantName, openingTime, closingTime, capacity);
+        restaurantRegistration.register(restaurantName, openingTime, closingTime, capacity);
     }
 
 
 
     @And("the restaurant {string} has the following menus")
     public void a_restaurant_exists_with_the_following_menus(String restaurantName, DataTable dataTable) throws NoSuchElementException {
-        restaurant = restaurantRegistry.findByName(restaurantName).orElseThrow(() -> new NoSuchElementException("Element not found"));
+        restaurant = restaurantLocator.findByName(restaurantName).orElseThrow(() -> new NoSuchElementException("Element not found"));
         List<Map<String, String>> menus = dataTable.asMaps(String.class, String.class);
         for (Map<String, String> menuData : menus) {
             String menuName = menuData.get("Menu Name");
@@ -49,7 +51,7 @@ public class RestaurantSteps {
     }
     @Given("timeslot {string} of the restaurant {string} has capacity {int}")
     public void timeslotHasCapacity(String dateTimeString, String restaurantName, int capacity) throws NoSuchElementException {
-        restaurant = restaurantRegistry.findByName(restaurantName).orElseThrow(() -> new NoSuchElementException("Element not found"));
+        restaurant = restaurantLocator.findByName(restaurantName).orElseThrow(() -> new NoSuchElementException("Element not found"));
         LocalDateTime timeslotDateTime = LocalDateTime.parse(dateTimeString, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
         restaurant.getSchedule().addTimeslot(new TimeSlot(timeslotDateTime, capacity));
     }

@@ -2,6 +2,7 @@ package fr.unice.polytech.steats.cucumber;
 
 import fr.unice.polytech.steats.cucumber.ordering.FacadeContainer;
 import fr.unice.polytech.steats.delivery.DeliveryLocation;
+import fr.unice.polytech.steats.order.OrderLocator;
 import fr.unice.polytech.steats.order.SimpleOrder;
 import fr.unice.polytech.steats.order.OrderManager;
 import fr.unice.polytech.steats.order.OrderRepository;
@@ -26,11 +27,11 @@ public class GetOrdersWaitingForPreparationSteps {
     Restaurant restaurant;
     CampusUser staff;
     final OrderRepository orderRepository;
-    final OrderManager orderManager;
+    final OrderLocator orderLocator;
     List<SimpleOrder> ordersWaitingForPreparation;
 
     public GetOrdersWaitingForPreparationSteps(FacadeContainer container) {
-        orderManager = container.orderManager;
+        orderLocator = container.orderLocator;
         orderRepository = container.orderRepository;
     }
 
@@ -58,7 +59,7 @@ public class GetOrdersWaitingForPreparationSteps {
     }
     @When("the restaurant staff Karim clicks on get orders waiting for preparation")
     public void the_restaurant_staff_karim_clicks_on_get_orders_waiting_for_preparation() {
-        ordersWaitingForPreparation = orderManager.getOrdersWaitingForPreparation(restaurant);
+        ordersWaitingForPreparation = orderLocator.getOrdersByStatus(restaurant, WAITING_FOR_PREPARATION);
     }
     @Then("he should get a list of {int} orders waiting for preparation")
     public void he_should_get_a_list_of_orders_waiting_for_preparation(int ordersNumber) {

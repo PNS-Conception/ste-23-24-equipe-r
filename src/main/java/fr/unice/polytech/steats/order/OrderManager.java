@@ -4,7 +4,7 @@ import fr.unice.polytech.steats.delivery.DeliveryRegistry;
 import fr.unice.polytech.steats.exceptions.order.EmptyCartException;
 import fr.unice.polytech.steats.exceptions.restaurant.DeliveryDateNotAvailable;
 import fr.unice.polytech.steats.order.factory.SimpleOrderFactory;
-import fr.unice.polytech.steats.payment.PaymentManager;
+import fr.unice.polytech.steats.payment.Payment;
 import fr.unice.polytech.steats.delivery.DeliveryLocation;
 import fr.unice.polytech.steats.exceptions.order.PaymentException;
 import fr.unice.polytech.steats.restaurant.Menu;
@@ -19,19 +19,20 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class OrderManager {
-    final PaymentManager paymentManager;
+public class OrderManager implements OrderLocator, UserOrderHistory, OrderProcessing {
+    final Payment payment;
     final OrderRepository orderRepository;
     final DeliveryRegistry deliveryRegistry;
 
-    public OrderManager(OrderRepository orderRepository, PaymentManager paymentManager, DeliveryRegistry deliveryRegistry) {
+    public OrderManager(OrderRepository orderRepository, Payment payment, DeliveryRegistry deliveryRegistry) {
         this.orderRepository = orderRepository;
-        this.paymentManager = paymentManager;
+        this.payment = payment;
         this.deliveryRegistry = deliveryRegistry;
     }
 
+    @Override
     public SimpleOrder process(Restaurant restaurant, CampusUser customer, Map<Menu, Integer> menusOrdered,
-                         LocalDateTime deliveryDateTime, DeliveryLocation deliveryLocation)
+                               LocalDateTime deliveryDateTime, DeliveryLocation deliveryLocation)
             throws EmptyCartException, PaymentException, DeliveryDateNotAvailable,NoSuchElementException {
 
 
@@ -46,7 +47,7 @@ public class OrderManager {
         SimpleOrderFactory simpleOrderFactory = new SimpleOrderFactory(restaurant, customer, menusOrderedCopy, deliveryDateTime, deliveryLocation);
         SimpleOrder order = simpleOrderFactory.createOrder();
         order.setStatus(OrderStatus.PREPARING);
-        paymentManager.completePayment(customer);
+        payment.completePayment(customer);
         timeSlot.subtractCapacity(menusNumber);
         orderRepository.save(order, order.getId());
         deliveryRegistry.register(order);
@@ -78,7 +79,7 @@ public class OrderManager {
         throw new DeliveryDateNotAvailable(deliveryTime);
     }
 
-
+    @Override
     public List<SimpleOrder> getPreviousOrders(CampusUser user) {
         List<SimpleOrder> previousOrders = new ArrayList<>();
         for (SimpleOrder order : orderRepository.findAll()) {
@@ -88,11 +89,11 @@ public class OrderManager {
         }
         return previousOrders;
     }
-
-    public List<SimpleOrder> getOrdersWaitingForPreparation(Restaurant restaurant) {
+    @Override
+    public List<SimpleOrder> getOrdersByStatus(Restaurant restaurant, OrderStatus orderStatus) {
         List<SimpleOrder> previousOrders = new ArrayList<>();
         for (SimpleOrder order : orderRepository.findAll()) {
-            if (order.getStatus()!=null && order.getRestaurants().contains(restaurant) && order.getStatus().equals(OrderStatus.WAITING_FOR_PREPARATION)) {
+            if (order.getStatus()!=null && order.getRestaurants().contains(restaurant) && order.getStatus().equals(orderStatus)) {
                 previousOrders.add(order);
             }
         }

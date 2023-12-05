@@ -8,6 +8,7 @@ import fr.unice.polytech.steats.exceptions.order.PaymentException;
 import fr.unice.polytech.steats.exceptions.restaurant.DeliveryDateNotAvailable;
 import fr.unice.polytech.steats.notification.Notification;
 import fr.unice.polytech.steats.notification.NotificationRegistry;
+import fr.unice.polytech.steats.order.OrderProcessing;
 import fr.unice.polytech.steats.order.SimpleOrder;
 import fr.unice.polytech.steats.order.OrderManager;
 import fr.unice.polytech.steats.restaurant.Menu;
@@ -26,7 +27,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class ReceiveNotification {
     CampusUser campusUser;
     SimpleOrder simpleOrder;
-    final OrderManager orderManager ;
+    final OrderProcessing orderProcessing ;
     Delivery delivery;
     List<DeliveryPerson> deliveryPeople;
     NotificationRegistry notificationRegistry = NotificationRegistry.getInstance();
@@ -34,7 +35,7 @@ public class ReceiveNotification {
 
 
     public ReceiveNotification(FacadeContainer container){
-        orderManager=container.orderManager;
+        orderProcessing=container.orderProcessing;
     }
 
     @Given("a logged-in Campus user as the order owner")
@@ -48,7 +49,7 @@ public class ReceiveNotification {
         Cart cart = new Cart();
         cart.addMenu(new Menu("MaxBurger",12));
         cart.addMenu(new Menu("CheeseBurger",13));
-        simpleOrder = orderManager.process(new Restaurant("R1"), campusUser, cart.getMenuMap(), LocalDate.now().atTime(LocalTime.of(12, 0)), LIBRARY);
+        simpleOrder = orderProcessing.process(new Restaurant("R1"), campusUser, cart.getMenuMap(), LocalDate.now().atTime(LocalTime.of(12, 0)), LIBRARY);
         delivery = new Delivery(simpleOrder);
     }
 
@@ -71,7 +72,7 @@ public class ReceiveNotification {
         Cart cart = new Cart();
         cart.addMenu(new Menu("MaxBurger",12));
         cart.addMenu(new Menu("CheeseBurger",13));
-        simpleOrder = orderManager.process(new Restaurant("R1"), campusUser, cart.getMenuMap(), LocalDate.now().atTime(LocalTime.of(12, 0)), LIBRARY);
+        simpleOrder = orderProcessing.process(new Restaurant("R1"), campusUser, cart.getMenuMap(), LocalDate.now().atTime(LocalTime.of(12, 0)), LIBRARY);
     }
 
     @Then("{string} is notified")

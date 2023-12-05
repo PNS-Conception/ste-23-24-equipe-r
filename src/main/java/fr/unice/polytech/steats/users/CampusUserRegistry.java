@@ -5,12 +5,13 @@ import fr.unice.polytech.steats.exceptions.user.AlreadyExistingUserException;
 import java.util.Optional;
 import java.util.stream.StreamSupport;
 
-public class CampusUserRegistry {
+public class CampusUserRegistry implements CampusUserFinder, CampusUserRegistration {
     final UserRepository userRepository;
 
     public CampusUserRegistry(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
+    @Override
     public void register(String name) throws AlreadyExistingUserException {
         if (findByName(name).isPresent()){
             throw new AlreadyExistingUserException(name);
@@ -20,6 +21,7 @@ public class CampusUserRegistry {
     }
 
 
+    @Override
     public Optional<CampusUser> findByName(String name) {
         return StreamSupport.stream(userRepository.findAll().spliterator(), false)
                 .filter(campusUser -> name.equals(campusUser.getName()))
