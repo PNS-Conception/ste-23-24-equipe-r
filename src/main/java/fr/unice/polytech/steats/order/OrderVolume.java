@@ -5,7 +5,7 @@ import java.util.List;
 
 public class OrderVolume {
     private static OrderVolume instance = null;
-    private final List<Order> simpleOrderVolume;
+    private final List<SimpleOrder> simpleOrderVolume;
 
     // Private constructor to prevent instantiation
     private OrderVolume() {
@@ -20,11 +20,11 @@ public class OrderVolume {
         return instance;
     }
 
-    public List<Order> getOrderVolume() {
+    public List<SimpleOrder> getOrderVolume() {
         return simpleOrderVolume;
     }
 
-    public void addOrder(Order Order) {
+    public void addOrder(SimpleOrder Order) {
         simpleOrderVolume.add(Order);
     }
 }

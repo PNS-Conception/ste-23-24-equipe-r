@@ -1,6 +1,7 @@
 package fr.unice.polytech.steats.order.factory;
 
 import fr.unice.polytech.steats.delivery.DeliveryLocation;
+import fr.unice.polytech.steats.order.OrderDetails;
 import fr.unice.polytech.steats.order.SimpleOrder;
 import fr.unice.polytech.steats.restaurant.Menu;
 import fr.unice.polytech.steats.restaurant.Restaurant;
@@ -12,23 +13,8 @@ import java.util.Map;
 import static java.util.Collections.singletonList;
 
 public class SimpleOrderFactory implements OrderFactory{
-    final Restaurant restaurant;
-    final CampusUser customer;
-    final Map<Menu, Integer> menusOrdered;
-    final DeliveryLocation deliveryLocation;
-    final LocalDateTime deliveryDate;
-
-
-    public SimpleOrderFactory(Restaurant restaurant, CampusUser customer, Map<Menu, Integer> menusOrdered, LocalDateTime deliveryDate,
-                              DeliveryLocation deliveryLocation){
-        this.restaurant = restaurant;
-        this.customer= customer;
-        this.menusOrdered = menusOrdered;
-        this.deliveryLocation = deliveryLocation;
-        this.deliveryDate = deliveryDate;
-    }
     @Override
-    public SimpleOrder createOrder() {
-        return new SimpleOrder(restaurant, customer, menusOrdered,deliveryDate, deliveryLocation);
+    public SimpleOrder createOrder(OrderDetails orderDetails) {
+        return new SimpleOrder(orderDetails);
     }
 }

@@ -13,7 +13,6 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 
 public interface OrderProcessing {
-    SimpleOrder process(Restaurant restaurant, CampusUser customer, Map<Menu, Integer> menusOrdered,
-                        LocalDateTime deliveryDateTime, DeliveryLocation deliveryLocation)
+    SimpleOrder process(OrderDetails orderDetails)
             throws EmptyCartException, PaymentException, DeliveryDateNotAvailable, NoSuchElementException;
 }
