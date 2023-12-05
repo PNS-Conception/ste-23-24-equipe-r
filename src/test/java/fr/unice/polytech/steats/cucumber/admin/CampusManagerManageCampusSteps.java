@@ -2,7 +2,6 @@ package fr.unice.polytech.steats.cucumber.admin;
 
 import fr.unice.polytech.steats.cucumber.ordering.FacadeContainer;
 import fr.unice.polytech.steats.restaurant.Restaurant;
-import fr.unice.polytech.steats.restaurant.RestaurantRegistry;
 import fr.unice.polytech.steats.restaurant.RestaurantRepository;
 import fr.unice.polytech.steats.users.DeliveryPersonRegistry;
 import fr.unice.polytech.steats.users.User;
@@ -13,14 +12,13 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 
-import static fr.unice.polytech.steats.users.UserRole.DELIVERY_PERSON;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class CampusManagerManageCampusSteps {
 
-    RestaurantRepository restaurantRepository;
+    final RestaurantRepository restaurantRepository;
     DeliveryPersonRegistry deliveryPersonRegistry;
-    UserRepository userRepository;
+    final UserRepository userRepository;
     User deliveryPerson;
 
     public CampusManagerManageCampusSteps(FacadeContainer container){

@@ -6,12 +6,13 @@ import java.time.LocalTime;
 import java.util.Optional;
 import java.util.stream.StreamSupport;
 
-public class RestaurantRegistry {
-    private RestaurantRepository restaurantRepository;
+public class RestaurantRegistry implements RestaurantRegistration, RestaurantLocator {
+    private final RestaurantRepository restaurantRepository;
 
     public RestaurantRegistry(RestaurantRepository restaurantRepository){
         this.restaurantRepository = restaurantRepository;
     }
+    @Override
     public void register(String restaurantName, LocalTime openingTime, LocalTime closingTime, int capacity)
             throws AlreadyExistingRestaurantException{
         if (findByName(restaurantName).isPresent()){
@@ -21,6 +22,7 @@ public class RestaurantRegistry {
         Restaurant restaurant = new Restaurant(restaurantName, schedule);
         restaurantRepository.save(restaurant, restaurant.getId());
     }
+    @Override
     public Optional<Restaurant> findByName(String name){
         return StreamSupport.stream(restaurantRepository.findAll().spliterator(),false)
                 .filter(restaurant -> name.equals(restaurant.getRestaurantName())).findAny();

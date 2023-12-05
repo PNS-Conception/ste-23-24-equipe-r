@@ -7,3 +7,8 @@ Feature: Receiving Notifications
     And an order with the status PREPARING
     When the order registry sets the order status to READY_FOR_DELIVERY
     Then a delivery person is notified
+
+  Scenario: Notifying a Campus user when the order is created
+    Given "John" is a campus user
+    When "John" creates an order
+    Then "John" is notified

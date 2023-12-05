@@ -2,25 +2,25 @@ package fr.unice.polytech.steats.order.factory;
 
 import fr.unice.polytech.steats.delivery.DeliveryLocation;
 import fr.unice.polytech.steats.order.SimpleOrder;
-import fr.unice.polytech.steats.order.Subscriber;
 import fr.unice.polytech.steats.restaurant.Menu;
 import fr.unice.polytech.steats.restaurant.Restaurant;
 import fr.unice.polytech.steats.users.CampusUser;
 
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.Map;
 
+import static java.util.Collections.singletonList;
+
 public class SimpleOrderFactory implements OrderFactory{
-    Restaurant restaurant;
-    CampusUser customer;
-    Map<Menu, Integer> menusOrdered;
-    DeliveryLocation deliveryLocation;
-    LocalDateTime deliveryDate;
+    final Restaurant restaurant;
+    final CampusUser customer;
+    final Map<Menu, Integer> menusOrdered;
+    final DeliveryLocation deliveryLocation;
+    final LocalDateTime deliveryDate;
 
 
-    public SimpleOrderFactory(Restaurant restaurant, CampusUser customer, Map<Menu, Integer> menusOrdered,
-                              DeliveryLocation deliveryLocation, LocalDateTime deliveryDate){
+    public SimpleOrderFactory(Restaurant restaurant, CampusUser customer, Map<Menu, Integer> menusOrdered, LocalDateTime deliveryDate,
+                              DeliveryLocation deliveryLocation){
         this.restaurant = restaurant;
         this.customer= customer;
         this.menusOrdered = menusOrdered;

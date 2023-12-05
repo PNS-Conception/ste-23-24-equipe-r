@@ -4,18 +4,16 @@ import fr.unice.polytech.steats.cart.Cart;
 import fr.unice.polytech.steats.cucumber.ordering.FacadeContainer;
 import fr.unice.polytech.steats.exceptions.order.EmptyCartException;
 import fr.unice.polytech.steats.exceptions.order.PaymentException;
-import fr.unice.polytech.steats.exceptions.order.SubscriberNotExistent;
 import fr.unice.polytech.steats.exceptions.restaurant.DeliveryDateNotAvailable;
-import fr.unice.polytech.steats.exceptions.restaurant.InsufficientTimeSlotCapacity;
-import fr.unice.polytech.steats.order.SimpleOrder;
 import fr.unice.polytech.steats.order.OrderManager;
-import fr.unice.polytech.steats.order.Subscriber;
+import fr.unice.polytech.steats.order.OrderProcessing;
+import fr.unice.polytech.steats.order.SimpleOrder;
+import fr.unice.polytech.steats.order.UserOrderHistory;
 import fr.unice.polytech.steats.restaurant.Menu;
 import fr.unice.polytech.steats.restaurant.Restaurant;
 import fr.unice.polytech.steats.users.CampusUser;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,27 +24,28 @@ import io.cucumber.java.en.When;
 
 import static fr.unice.polytech.steats.delivery.DeliveryLocation.LIBRARY;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+
 public class AccessPreviousOrders {
     CampusUser campusUser;
-    OrderManager orderManager;
+    final OrderProcessing orderProcessing;
 
     List<SimpleOrder> previousSimpleOrders = new ArrayList<>();
-
+    UserOrderHistory userOrderHistory;
 
     public AccessPreviousOrders(FacadeContainer container) {
-        orderManager = container.orderManager;
+        userOrderHistory = container.userOrderHistory;
+        orderProcessing = container.orderProcessing;
     }
 
     @Given("a logged-in Campus user {string} and a list of previous orders")
-    public void a_logged_in_Campus_user_and_a_list_of_previous_orders (String name) throws EmptyCartException, PaymentException, InsufficientTimeSlotCapacity, DeliveryDateNotAvailable, SubscriberNotExistent {
+    public void a_logged_in_Campus_user_and_a_list_of_previous_orders (String name) throws EmptyCartException, PaymentException, DeliveryDateNotAvailable {
         campusUser = new CampusUser(name);
         Cart cart = new Cart();
         cart.addMenu(new Menu("MaxBurger",12));
         cart.addMenu(new Menu("CheeseBurger",13));
-        orderManager.process(new Restaurant("R1"), campusUser, cart.getMenuMap(), LocalDate.now().atTime(LocalTime.NOON), LIBRARY);
-        cart.addMenu(new Menu("DoubleBurger",17));;
-        orderManager.process(new Restaurant("R1"), campusUser, cart.getMenuMap(), LocalDate.now().atTime(LocalTime.NOON), LIBRARY);
+        orderProcessing.process(new Restaurant("R1"), campusUser, cart.getMenuMap(), LocalDate.now().atTime(LocalTime.NOON), LIBRARY);
+        cart.addMenu(new Menu("DoubleBurger",17));
+        orderProcessing.process(new Restaurant("R1"), campusUser, cart.getMenuMap(), LocalDate.now().atTime(LocalTime.NOON), LIBRARY);
     }
     @Given("a logged-in Campus user {string}")
     public void a_logged_in_campus_user(String name) {
@@ -55,7 +54,8 @@ public class AccessPreviousOrders {
 
     @When("the campus user Karim clicks on show previous orders")
     public void the_campus_user_karim_clicks_on_show_previous_orders() {
-        previousSimpleOrders = orderManager.getPreviousOrders(campusUser);
+
+        previousSimpleOrders = userOrderHistory.getPreviousOrders(campusUser);
     }
 
     @Then("he should get a list of all his previous orders")

@@ -1,28 +1,23 @@
 package fr.unice.polytech.steats.cart;
 
 import fr.unice.polytech.steats.exceptions.cart.MenuRemovalFromCartException;
-import fr.unice.polytech.steats.order.Subscriber;
 import fr.unice.polytech.steats.restaurant.Menu;
 import fr.unice.polytech.steats.users.CampusUser;
 
 import java.util.Map;
 
-public class CartHandler {
-    private Cart cart;
+public class CartHandler implements CartModifier, CartTotalCalculator{
+    private final Cart cart;
 
     public CartHandler(Cart cart) {
         this.cart = cart;
     }
-
-    public Cart getCart() {
-        return cart;
-    }
-
+    @Override
     public void addItem(Menu menu, int quantity){
         int existingQuantity = cart.getMenuMap().getOrDefault(menu, 0);
         cart.getMenuMap().put(menu, existingQuantity + quantity);
     }
-
+    @Override
     public void removeItem(Menu menu, int quantityToRemove) throws MenuRemovalFromCartException {
         if (cart.getMenuMap().containsKey(menu)) {
             int existingQuantity = cart.getMenuMap().get(menu);
@@ -36,7 +31,7 @@ public class CartHandler {
             }
         }
     }
-
+    @Override
     public double getPriceForUser(CampusUser campusUser){
         double total = 0;
         for (Map.Entry<Menu, Integer> entry : cart.getMenuMap().entrySet()) {

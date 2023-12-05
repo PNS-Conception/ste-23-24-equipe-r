@@ -3,14 +3,13 @@ package fr.unice.polytech.steats.cucumber.ordering;
 import fr.unice.polytech.steats.delivery.DeliveryRegistry;
 import fr.unice.polytech.steats.delivery.DeliveryRepository;
 import fr.unice.polytech.steats.order.OrderManager;
-import fr.unice.polytech.steats.notification.NotificationRegistry;
-import fr.unice.polytech.steats.notification.NotificationRepository;
 import fr.unice.polytech.steats.order.OrderRepository;
-import fr.unice.polytech.steats.order.grouporder.GroupOrderRegistry;
 import fr.unice.polytech.steats.order.grouporder.GroupOrderRepository;
 import fr.unice.polytech.steats.order.grouporder.GroupOrderService;
-import fr.unice.polytech.steats.payment.ExternalPaymentMock;
+import fr.unice.polytech.steats.payment.PaymentProxyMock;
 import fr.unice.polytech.steats.payment.PaymentManager;
+import fr.unice.polytech.steats.restaurant.MenuComments.CommentsRegistry;
+import fr.unice.polytech.steats.restaurant.MenuComments.CommentsRepository;
 import fr.unice.polytech.steats.restaurant.RestaurantRegistry;
 import fr.unice.polytech.steats.restaurant.RestaurantRepository;
 import fr.unice.polytech.steats.users.CampusUserRegistry;
@@ -33,14 +32,13 @@ public class AppExplicitConfig {
             container.addComponent(OrderRepository.class);
             container.addComponent(OrderManager.class);
             container.addComponent(PaymentManager.class);
-            container.addComponent(ExternalPaymentMock.class);
+            container.addComponent(PaymentProxyMock.class);
             container.addComponent(GroupOrderRepository.class);
-            container.addComponent(GroupOrderRegistry.class);
             container.addComponent(GroupOrderService.class);
             container.addComponent(DeliveryRegistry.class);
             container.addComponent(DeliveryRepository.class);
-            container.addComponent(NotificationRepository.class);
-            container.addComponent(NotificationRegistry.class);
+            container.addComponent(CommentsRepository.class);
+            container.addComponent(CommentsRegistry.class);
 
         }
         return container;

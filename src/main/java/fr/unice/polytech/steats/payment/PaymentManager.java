@@ -2,19 +2,19 @@ package fr.unice.polytech.steats.payment;
 
 import fr.unice.polytech.steats.cart.CartHandler;
 import fr.unice.polytech.steats.exceptions.order.PaymentException;
-import fr.unice.polytech.steats.order.Subscriber;
 import fr.unice.polytech.steats.users.CampusUser;
 
-public class PaymentManager {
-    private ExternalPaymentMock externalPaymentMock;
-    public PaymentManager(ExternalPaymentMock externalPaymentMock){
-        this.externalPaymentMock = externalPaymentMock;
+public class PaymentManager implements Payment {
+    private final PaymentProxyMock paymentProxyMock;
+    public PaymentManager(PaymentProxyMock paymentProxyMock){
+        this.paymentProxyMock = paymentProxyMock;
     }
 
+    @Override
     public void completePayment(CampusUser user) throws PaymentException {
         CartHandler cartHandler = new CartHandler(user.getCart());
         double totalPrice = cartHandler.getPriceForUser(user);
-        if (!externalPaymentMock.executePayment(user, totalPrice)){
+        if (!paymentProxyMock.executePayment(user, totalPrice)){
             throw new PaymentException();
         }
     }
