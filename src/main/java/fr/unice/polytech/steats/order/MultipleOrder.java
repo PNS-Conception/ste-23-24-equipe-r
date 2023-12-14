@@ -12,8 +12,13 @@ import java.util.Map;
 import static java.util.Collections.singletonList;
 
 public class MultipleOrder extends Order{
-    public MultipleOrder(List<Restaurant> restaurants, CampusUser customer, Map<Menu, Integer> menusOrdered, LocalDateTime deliveryDate,
-                         DeliveryLocation deliveryLocation) {
-        super(restaurants, singletonList(customer), menusOrdered, deliveryDate, deliveryLocation);
+    private OrderDetails orderDetails;
+    private double discount = 0.1;
+    public MultipleOrder(OrderDetails orderDetails) {
+        super(orderDetails);
+        this.orderDetails = orderDetails;
+    }
+    public List<Restaurant> getRestaurants(){
+        return orderDetails.getRestaurants();
     }
 }

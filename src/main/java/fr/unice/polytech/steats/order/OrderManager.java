@@ -3,6 +3,7 @@ package fr.unice.polytech.steats.order;
 import fr.unice.polytech.steats.delivery.DeliveryRegistry;
 import fr.unice.polytech.steats.exceptions.order.EmptyCartException;
 import fr.unice.polytech.steats.exceptions.restaurant.DeliveryDateNotAvailable;
+import fr.unice.polytech.steats.order.factory.OrderFactory;
 import fr.unice.polytech.steats.order.factory.SimpleOrderFactory;
 import fr.unice.polytech.steats.payment.Payment;
 import fr.unice.polytech.steats.delivery.DeliveryLocation;
@@ -23,6 +24,7 @@ public class OrderManager implements OrderLocator, UserOrderHistory, OrderProces
     final Payment payment;
     final OrderRepository orderRepository;
     final DeliveryRegistry deliveryRegistry;
+    SimpleOrderFactory simpleOrderFactory = new SimpleOrderFactory();
 
     public OrderManager(OrderRepository orderRepository, Payment payment, DeliveryRegistry deliveryRegistry) {
         this.orderRepository = orderRepository;
@@ -31,27 +33,21 @@ public class OrderManager implements OrderLocator, UserOrderHistory, OrderProces
     }
 
     @Override
-    public SimpleOrder process(Restaurant restaurant, CampusUser customer, Map<Menu, Integer> menusOrdered,
-                               LocalDateTime deliveryDateTime, DeliveryLocation deliveryLocation)
+    public SimpleOrder process(OrderDetails orderDetails)
             throws EmptyCartException, PaymentException, DeliveryDateNotAvailable,NoSuchElementException {
 
 
-        int menusNumber = menusOrdered.values().stream().mapToInt(Integer::intValue).sum();
-        Optional<TimeSlot> optionalTimeSlot = calculateTimeslot(restaurant.getSchedule(), deliveryDateTime, menusNumber);
+        int menusNumber = orderDetails.menusOrdered().values().stream().mapToInt(Integer::intValue).sum();
+        Optional<TimeSlot> optionalTimeSlot = calculateTimeslot(orderDetails.getRestaurant().getSchedule(), orderDetails.getDeliveryTime(), menusNumber);
         TimeSlot timeSlot = optionalTimeSlot.orElseThrow(() -> new NoSuchElementException("Element not found"));
-        Map<Menu, Integer> menusOrderedCopy = menusOrdered.entrySet().stream()
-                .collect(Collectors.toMap(
-                        entry -> new Menu(entry.getKey()),  // Using the copy constructor
-                        Map.Entry::getValue
-                ));
-        SimpleOrderFactory simpleOrderFactory = new SimpleOrderFactory(restaurant, customer, menusOrderedCopy, deliveryDateTime, deliveryLocation);
-        SimpleOrder order = simpleOrderFactory.createOrder();
+
+        SimpleOrder order = simpleOrderFactory.createOrder(orderDetails);
         order.setStatus(OrderStatus.PREPARING);
-        payment.completePayment(customer);
+        payment.completePayment(orderDetails.getOrderOwner());
         timeSlot.subtractCapacity(menusNumber);
         orderRepository.save(order, order.getId());
         deliveryRegistry.register(order);
-        customer.getCart().emptyCart();
+        orderDetails.getOrderOwner().getCart().emptyCart();
         return order;
     }
     public Optional<TimeSlot> calculateTimeslot(Schedule schedule, LocalDateTime deliveryTime, int numberOfMenus)
@@ -83,7 +79,7 @@ public class OrderManager implements OrderLocator, UserOrderHistory, OrderProces
     public List<SimpleOrder> getPreviousOrders(CampusUser user) {
         List<SimpleOrder> previousOrders = new ArrayList<>();
         for (SimpleOrder order : orderRepository.findAll()) {
-            if (order.getCustomers().contains(user)) {
+            if (order.getCustomer().equals(user)) {
                 previousOrders.add(order);
             }
         }
@@ -93,7 +89,7 @@ public class OrderManager implements OrderLocator, UserOrderHistory, OrderProces
     public List<SimpleOrder> getOrdersByStatus(Restaurant restaurant, OrderStatus orderStatus) {
         List<SimpleOrder> previousOrders = new ArrayList<>();
         for (SimpleOrder order : orderRepository.findAll()) {
-            if (order.getStatus()!=null && order.getRestaurants().contains(restaurant) && order.getStatus().equals(orderStatus)) {
+            if (order.getStatus()!=null && order.getRestaurant().equals(restaurant) && order.getStatus().equals(orderStatus)) {
                 previousOrders.add(order);
             }
         }

@@ -3,9 +3,7 @@ package fr.unice.polytech.steats.order.grouporder;
 import fr.unice.polytech.steats.delivery.DeliveryLocation;
 import fr.unice.polytech.steats.exceptions.order.*;
 import fr.unice.polytech.steats.exceptions.restaurant.DeliveryDateNotAvailable;
-import fr.unice.polytech.steats.order.OrderProcessing;
-import fr.unice.polytech.steats.order.OrderVolume;
-import fr.unice.polytech.steats.order.SimpleOrder;
+import fr.unice.polytech.steats.order.*;
 import fr.unice.polytech.steats.restaurant.Menu;
 import fr.unice.polytech.steats.restaurant.Restaurant;
 import fr.unice.polytech.steats.users.CampusUser;
@@ -27,8 +25,8 @@ public class GroupOrderService implements SubOrderManager, GroupOrderRegistratio
 
 
     @Override
-    public GroupOrder register(CampusUser campusUser, LocalDateTime deliveryTime, DeliveryLocation deliveryLocation){
-        GroupOrder groupOrder = new GroupOrder(campusUser, deliveryTime, deliveryLocation);
+    public GroupOrder register(OrderDetails orderDetails){
+        GroupOrder groupOrder = new GroupOrder(orderDetails);
         groupOrderRepository.save(groupOrder, groupOrder.getId());
         return groupOrder;
     }
@@ -39,11 +37,10 @@ public class GroupOrderService implements SubOrderManager, GroupOrderRegistratio
     }
 
     @Override
-    public void addSubOrder(String groupOrderCode, Restaurant restaurant,
-                            CampusUser customer, Map<Menu, Integer> menusOrdered)
+    public void addSubOrder(String groupOrderCode, OrderDetails orderDetails)
             throws NonExistentGroupOrder, ClosedGroupOrderException, EmptyCartException, PaymentException, DeliveryDateNotAvailable {
         GroupOrder groupOrder = validateAndGetGroupOrder(groupOrderCode);
-        SimpleOrder order = orderProcessing.process(restaurant, customer, menusOrdered,groupOrder.getDeliveryTime(), groupOrder.getDeliveryLocation());
+        SimpleOrder order = orderProcessing.process(orderDetails);
         groupOrder.getSubOrders().add(order);
         OrderVolume.getInstance().addOrder(order);
     }
@@ -62,7 +59,7 @@ public class GroupOrderService implements SubOrderManager, GroupOrderRegistratio
     @Override
     public Optional<SimpleOrder> locateSubOrder(GroupOrder groupOrder, CampusUser customer) {
         List<SimpleOrder> ordersByCustomer = groupOrder.getSubOrders().stream()
-                .filter(order -> order.getCustomers().contains(customer))
+                .filter(order -> order.getCustomer().equals(customer))
                 .toList();
         if (!ordersByCustomer.isEmpty()) {
             return Optional.of(ordersByCustomer.get(ordersByCustomer.size() - 1));

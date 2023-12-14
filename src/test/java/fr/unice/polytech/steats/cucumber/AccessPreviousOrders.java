@@ -5,10 +5,7 @@ import fr.unice.polytech.steats.cucumber.ordering.FacadeContainer;
 import fr.unice.polytech.steats.exceptions.order.EmptyCartException;
 import fr.unice.polytech.steats.exceptions.order.PaymentException;
 import fr.unice.polytech.steats.exceptions.restaurant.DeliveryDateNotAvailable;
-import fr.unice.polytech.steats.order.OrderManager;
-import fr.unice.polytech.steats.order.OrderProcessing;
-import fr.unice.polytech.steats.order.SimpleOrder;
-import fr.unice.polytech.steats.order.UserOrderHistory;
+import fr.unice.polytech.steats.order.*;
 import fr.unice.polytech.steats.restaurant.Menu;
 import fr.unice.polytech.steats.restaurant.Restaurant;
 import fr.unice.polytech.steats.users.CampusUser;
@@ -40,12 +37,19 @@ public class AccessPreviousOrders {
     @Given("a logged-in Campus user {string} and a list of previous orders")
     public void a_logged_in_Campus_user_and_a_list_of_previous_orders (String name) throws EmptyCartException, PaymentException, DeliveryDateNotAvailable {
         campusUser = new CampusUser(name);
-        Cart cart = new Cart();
-        cart.addMenu(new Menu("MaxBurger",12));
-        cart.addMenu(new Menu("CheeseBurger",13));
-        orderProcessing.process(new Restaurant("R1"), campusUser, cart.getMenuMap(), LocalDate.now().atTime(LocalTime.NOON), LIBRARY);
-        cart.addMenu(new Menu("DoubleBurger",17));
-        orderProcessing.process(new Restaurant("R1"), campusUser, cart.getMenuMap(), LocalDate.now().atTime(LocalTime.NOON), LIBRARY);
+        Cart cart = campusUser.getCart();
+        cart.addMenu(new Menu("MaxBurger", 12));
+        cart.addMenu(new Menu("CheeseBurger", 13));
+        OrderDetailsBuilder builder = new OrderDetailsBuilder()
+                .restaurant(new Restaurant("R1"))
+                .orderOwner(campusUser)
+                .deliveryTime(LocalDate.now().atTime(LocalTime.NOON))
+                .deliveryLocation(LIBRARY);
+        OrderDetails orderDetails1 = builder.build();
+        orderProcessing.process(orderDetails1);
+        cart.addMenu(new Menu("DoubleBurger", 17));
+        OrderDetails orderDetails2 = builder.build();
+        orderProcessing.process(orderDetails2);
     }
     @Given("a logged-in Campus user {string}")
     public void a_logged_in_campus_user(String name) {

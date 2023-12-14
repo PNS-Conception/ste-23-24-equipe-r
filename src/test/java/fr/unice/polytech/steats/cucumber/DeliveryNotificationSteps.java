@@ -6,6 +6,8 @@ import fr.unice.polytech.steats.delivery.*;
 import fr.unice.polytech.steats.exceptions.order.EmptyCartException;
 import fr.unice.polytech.steats.exceptions.order.PaymentException;
 import fr.unice.polytech.steats.exceptions.restaurant.DeliveryDateNotAvailable;
+import fr.unice.polytech.steats.order.OrderDetails;
+import fr.unice.polytech.steats.order.OrderDetailsBuilder;
 import fr.unice.polytech.steats.order.OrderManager;
 import fr.unice.polytech.steats.order.SimpleOrder;
 import fr.unice.polytech.steats.restaurant.Menu;
@@ -55,16 +57,16 @@ public class DeliveryNotificationSteps {
     }
     @Given("a delivery with the status WAITING")
     public void a_delivery_with_the_status_waiting() throws EmptyCartException, PaymentException, DeliveryDateNotAvailable {
-        Cart cart = new Cart();
-        cart.addMenu(new Menu("MaxBurger", 12));
-
-        LocalDateTime deliveryDateTime = LocalDateTime.of(LocalDate.now(), LocalTime.of(12, 0));
-        order = orderManager.process(new Restaurant("R1"), campusUser, cart.getMenuMap(), deliveryDateTime, LIBRARY);
-
+        OrderDetails orderDetails = new OrderDetailsBuilder()
+                .restaurant(new Restaurant("R1"))
+                .orderOwner(campusUser)
+                .deliveryTime(LocalDateTime.of(LocalDate.now(), LocalTime.of(12, 0)))
+                .deliveryLocation(LIBRARY)
+                .build();
+        order = orderManager.process(orderDetails);
         delivery = new Delivery(order);
         deliveryRegistry.getDeliveryRepository().save(delivery, delivery.getId());
     }
-
 
 
     @When("the delivery status is set as IN_PROGRESS")

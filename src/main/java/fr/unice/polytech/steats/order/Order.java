@@ -6,6 +6,7 @@ import fr.unice.polytech.steats.notification.order.OrderPublisher;
 import fr.unice.polytech.steats.restaurant.Menu;
 import fr.unice.polytech.steats.restaurant.Restaurant;
 import fr.unice.polytech.steats.users.CampusUser;
+import fr.unice.polytech.steats.users.CampusUserFinder;
 import fr.unice.polytech.steats.users.User;
 
 import java.time.LocalDateTime;
@@ -16,42 +17,19 @@ import java.util.UUID;
 
 public abstract class Order {
     private final UUID orderID;
+    private final OrderDetails orderDetails;
     private OrderStatus orderStatus;
-    private Map<Menu, Integer> menusOrdered;
-    private DeliveryLocation deliveryLocation;
-    private double discount = 0.1;
-    List<Restaurant> restaurants;
-    List<CampusUser> customers;
-    LocalDateTime deliveryDate;
-    private OrderPublisher orderPublisher;
+    protected OrderPublisher orderPublisher;
 
-    protected Order(List<Restaurant> restaurants, List<CampusUser> customers, Map<Menu, Integer> menusOrdered, LocalDateTime deliveryDate,
-                    DeliveryLocation deliveryLocation){
+    protected Order(OrderDetails orderDetails){
         this.orderID = UUID.randomUUID();
-        this.menusOrdered = menusOrdered;
-        this.deliveryLocation = deliveryLocation;
         this.orderStatus = OrderStatus.WAITING_FOR_PREPARATION;
-        this.restaurants = restaurants;
-        this.customers = customers;
-        this.deliveryDate = deliveryDate;
-        OrderVolume.getInstance().addOrder((SimpleOrder) this);
+        this.orderDetails = orderDetails;
         this.orderPublisher = new OrderPublisher();
-        for(CampusUser user : customers){
-            this.orderPublisher.subscribe(user);
-        }
+        this.orderPublisher.subscribe(orderDetails.getOrderOwner());
     }
-
-
-
     public LocalDateTime getDeliveryTime(){
-        return deliveryDate;
-    }
-
-    public List<Restaurant> getRestaurants() {
-        return restaurants;
-    }
-    public List<CampusUser> getCustomers() {
-        return customers;
+        return orderDetails.getDeliveryTime();
     }
 
     public OrderStatus getStatus() {
@@ -67,39 +45,12 @@ public abstract class Order {
         return orderID;
     }
 
-    public void setDeliveryLocation(DeliveryLocation deliveryLocation) {
-        this.deliveryLocation = deliveryLocation;
-        this.orderPublisher.notifySubscribers(this);
+    public CampusUser getCustomer() {
+        return orderDetails.getOrderOwner();
     }
-    public DeliveryLocation getDeliveryLocation(){
-        return this.deliveryLocation;
-    }
-    public int getTotalMenus(){
-        int sum = 0;
-        for (int value : menusOrdered.values()) {
-            sum += value;
-        }
-        return sum;
+    public OrderDetails getOrderDetails(){
+        return this.orderDetails;
     }
 
-    public void setDiscount(double discount){
-        this.discount = discount;
-    }
-
-    public double getPrice(){
-        double total = 0;
-        for (Map.Entry<Menu, Integer> entry : menusOrdered.entrySet()) {
-            Menu menu = entry.getKey();
-            int quantity = entry.getValue();
-            total += menu.getBasePrice() * quantity;
-        }
-        if(getTotalMenus()>=10){
-            return total-(total*discount);
-        }
-        return total;
-    }
-    public Menu getMenu(){
-        return menusOrdered.keySet().iterator().next();
-    }
 
 }

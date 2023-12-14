@@ -2,10 +2,7 @@ package fr.unice.polytech.steats.cucumber;
 
 import fr.unice.polytech.steats.cucumber.ordering.FacadeContainer;
 import fr.unice.polytech.steats.delivery.DeliveryLocation;
-import fr.unice.polytech.steats.order.OrderLocator;
-import fr.unice.polytech.steats.order.SimpleOrder;
-import fr.unice.polytech.steats.order.OrderManager;
-import fr.unice.polytech.steats.order.OrderRepository;
+import fr.unice.polytech.steats.order.*;
 import fr.unice.polytech.steats.order.factory.SimpleOrderFactory;
 import fr.unice.polytech.steats.restaurant.Menu;
 import fr.unice.polytech.steats.restaurant.Restaurant;
@@ -42,17 +39,22 @@ public class GetOrdersWaitingForPreparationSteps {
     }
     @Given("the restaurant has {int} orders waiting for preparation")
     public void a_restaurant_with_orders_waiting_for_preparation(int ordersNumber) {
+        OrderDetailsBuilder builder = new OrderDetailsBuilder()
+                .restaurant(restaurant)
+                .orderOwner(new CampusUser("lambda"))
+                .deliveryTime(LocalDateTime.now())
+                .deliveryLocation(DeliveryLocation.LIBRARY);
+        OrderDetails orderDetails1 = builder.build();
+        OrderDetails orderDetails2 = builder.orderOwner(new CampusUser("other")).build();
         for(int i = 0; i < ordersNumber; i++){
-            LocalDateTime orderDate = LocalDateTime.now();
-            SimpleOrderFactory simpleOrderFactory = new SimpleOrderFactory(restaurant, new CampusUser("lambda"), new HashMap<Menu,Integer>(), orderDate, DeliveryLocation.LIBRARY);
-            SimpleOrder simpleOrder = simpleOrderFactory.createOrder();
+
+            SimpleOrder simpleOrder = new SimpleOrder(orderDetails1);
             simpleOrder.setStatus(WAITING_FOR_PREPARATION);
             orderRepository.save(simpleOrder, simpleOrder.getId());
         }
         for(int i = 0; i < 6; i++){
             LocalDateTime orderDate = LocalDateTime.now();
-            SimpleOrderFactory simpleOrderFactory = new SimpleOrderFactory(restaurant, new CampusUser("other"), new HashMap<Menu,Integer>(), orderDate, DeliveryLocation.LIBRARY);
-            SimpleOrder simpleOrder = simpleOrderFactory.createOrder();
+            SimpleOrder simpleOrder = new SimpleOrder(orderDetails2);
             simpleOrder.setStatus(PREPARING);
             orderRepository.save(simpleOrder, simpleOrder.getId());
         }

@@ -9,6 +9,8 @@ import fr.unice.polytech.steats.exceptions.order.PaymentException;
 import fr.unice.polytech.steats.exceptions.others.NoSuchElementException;
 import fr.unice.polytech.steats.exceptions.restaurant.DeliveryDateNotAvailable;
 import fr.unice.polytech.steats.exceptions.restaurant.InsufficientTimeSlotCapacity;
+import fr.unice.polytech.steats.order.OrderDetails;
+import fr.unice.polytech.steats.order.OrderDetailsBuilder;
 import fr.unice.polytech.steats.order.SimpleOrder;
 import fr.unice.polytech.steats.order.grouporder.*;
 import fr.unice.polytech.steats.restaurant.Menu;
@@ -57,7 +59,12 @@ public class GroupOrderSteps {
     public void groupOrderIsSetWithTimeslotAndLocation(String groupOrderCode, String dateTimeString, String locationString) {
         LocalDateTime deliveryDateTime = LocalDateTime.parse(dateTimeString, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
         deliveryLocation = DeliveryLocation.getByName(locationString);
-        groupOrder = groupOrderRegistration.register(campusUser, deliveryDateTime, deliveryLocation);
+        OrderDetails orderDetails = new OrderDetailsBuilder()
+                .orderOwner(campusUser)
+                .deliveryTime(deliveryDateTime)
+                .deliveryLocation(deliveryLocation)
+                .build();
+        groupOrder = groupOrderRegistration.register(orderDetails);
         groupOrder.setGroupOrderCode(groupOrderCode);
     }
 
@@ -69,7 +76,12 @@ public class GroupOrderSteps {
 
     @Then("a group order is created with a unique code")
     public void aGroupOrderIsCreatedWithAUniqueCode() {
-        groupOrderRegistration.register(campusUser,LocalDateTime.now(),deliveryLocation);
+        OrderDetails orderDetails = new OrderDetailsBuilder()
+                .orderOwner(campusUser)
+                .deliveryTime(LocalDateTime.now())
+                .deliveryLocation(deliveryLocation)
+                .build();
+        groupOrderRegistration.register(orderDetails);
     }
 
     @And("the group order is in {string} status")
@@ -87,11 +99,16 @@ public class GroupOrderSteps {
     @And("{string} orders and pays for {int} x {string}")
     public void ordersAndPaysForX(String userName, int quantity, String menuName) throws EmptyCartException, PaymentException, InsufficientTimeSlotCapacity, NonExistentGroupOrder, ClosedGroupOrderException, DeliveryDateNotAvailable, NoSuchElementException {
         campusUser = campusUserFinder.findByName(userName).orElseThrow(() -> new NoSuchElementException("Element not found"));
-        Cart cart = campusUser.getCart();
         Menu menu = restaurant.getMenufromName(menuName);
-        CartHandler cartHandler = new CartHandler(cart);
+        CartHandler cartHandler = new CartHandler(campusUser.getCart());
         cartHandler.addItem(menu, quantity);
-        subOrderManager.addSubOrder(groupOrderCode, restaurant, campusUser, campusUser.getCart().getMenuMap());
+        OrderDetails orderDetails = new OrderDetailsBuilder()
+                .restaurant(restaurant)
+                .orderOwner(campusUser)
+                .deliveryTime(groupOrder.getDeliveryTime())
+                .deliveryLocation(groupOrder.getDeliveryLocation())
+                .build();
+        subOrderManager.addSubOrder(groupOrderCode, orderDetails);
     }
 
     @And("{string}'s order should be set with delivery time {string} and location {string}")

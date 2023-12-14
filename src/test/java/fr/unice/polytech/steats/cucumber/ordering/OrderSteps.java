@@ -5,9 +5,7 @@ import fr.unice.polytech.steats.exceptions.order.EmptyCartException;
 import fr.unice.polytech.steats.exceptions.order.PaymentException;
 import fr.unice.polytech.steats.exceptions.others.NoSuchElementException;
 import fr.unice.polytech.steats.exceptions.restaurant.DeliveryDateNotAvailable;
-import fr.unice.polytech.steats.order.OrderProcessing;
-import fr.unice.polytech.steats.order.OrderStatus;
-import fr.unice.polytech.steats.order.SimpleOrder;
+import fr.unice.polytech.steats.order.*;
 import fr.unice.polytech.steats.restaurant.Restaurant;
 import fr.unice.polytech.steats.restaurant.RestaurantLocator;
 import fr.unice.polytech.steats.users.CampusUser;
@@ -46,8 +44,13 @@ public class OrderSteps {
             EmptyCartException, DeliveryDateNotAvailable, NoSuchElementException {
 
         CampusUser campusUser = campusUserFinder.findByName(customerName).orElseThrow(() -> new NoSuchElementException("Element not found"));
-        order = orderProcessing.process(restaurant, campusUser, campusUser.getCart().getMenuMap(),
-                deliveryTime, deliveryLocation);
+        OrderDetails orderDetails = new OrderDetailsBuilder()
+                .restaurant(restaurant)
+                .orderOwner(campusUser)
+                .deliveryTime(deliveryTime)
+                .deliveryLocation(deliveryLocation)
+                .build();
+        order = orderProcessing.process(orderDetails);
     }
     @And("the price of the order is {double}")
     public void thePriceOfSOrderIs(double price) {

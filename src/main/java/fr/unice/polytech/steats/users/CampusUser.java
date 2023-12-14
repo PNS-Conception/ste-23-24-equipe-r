@@ -73,7 +73,7 @@ public class CampusUser extends User implements DeliverySubscriber, OrderSubscri
         Map<String,Object> event = new HashMap<>();
         event.put("Order Id", order.getId());
         event.put("Delivery date", order.getDeliveryTime());
-        event.put("Delivery location", order.getDeliveryLocation());
+        event.put("Delivery location", order.getOrderDetails().getDeliveryLocation());
         Notification notification = new Notification(event, this);
         notificationRegistry.add(notification);
     }

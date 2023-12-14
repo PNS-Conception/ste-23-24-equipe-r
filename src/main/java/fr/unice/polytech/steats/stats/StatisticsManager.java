@@ -2,7 +2,6 @@ package fr.unice.polytech.steats.stats;
 
 import fr.unice.polytech.steats.delivery.DeliveryLocation;
 import fr.unice.polytech.steats.exceptions.order.NoOrdersPlacedException;
-import fr.unice.polytech.steats.order.Order;
 import fr.unice.polytech.steats.order.SimpleOrder;
 import fr.unice.polytech.steats.order.OrderStatus;
 import fr.unice.polytech.steats.order.OrderVolume;
@@ -19,43 +18,39 @@ public class StatisticsManager {
         this.orderVolume = OrderVolume.getInstance();
     }
 
-    public List<Order> getOrderVolumesOverTime() throws NoOrdersPlacedException {
-        if(orderVolume==null ||orderVolume.getOrderVolume().isEmpty() ) {
+    public List<SimpleOrder> getOrderVolumesOverTime() throws NoOrdersPlacedException {
+        if(orderVolume == null || orderVolume.getOrderVolume().isEmpty()) {
             throw new NoOrdersPlacedException();
         }
-        for(Order order : orderVolume.getOrderVolume()) {
-            if(order.getStatus() == OrderStatus.DELIVERED) {
-                orderVolume.getOrderVolume().remove(order);
+        for(SimpleOrder simpleOrder : orderVolume.getOrderVolume()) {
+            if(simpleOrder.getStatus() == OrderStatus.DELIVERED) {
+                orderVolume.getOrderVolume().remove(simpleOrder);
             }
         }
 
         return orderVolume.getOrderVolume();
     }
 
-    public List<Order> getRestaurantOrderVolume(Restaurant restaurant) throws NoOrdersPlacedException {
-        if(orderVolume==null || orderVolume.getOrderVolume().isEmpty() ) {
+    public List<SimpleOrder> getRestaurantOrderVolume(Restaurant restaurant) throws NoOrdersPlacedException {
+        if(orderVolume == null || orderVolume.getOrderVolume().isEmpty()) {
             throw new NoOrdersPlacedException();
         }
-        List<Order> restaurantSimpleOrderVolume = new ArrayList<>();
-        for(Order order : orderVolume.getOrderVolume()) {
-            if(order.getStatus() == OrderStatus.DELIVERED) {
-                orderVolume.getOrderVolume().remove(order);
+        List<SimpleOrder> restaurantSimpleOrderVolume = new ArrayList<>();
+        for(SimpleOrder simpleOrder : orderVolume.getOrderVolume()) {
+            if(simpleOrder.getStatus() == OrderStatus.DELIVERED) {
+                orderVolume.getOrderVolume().remove(simpleOrder);
             }
-            if(order.getRestaurants().contains(restaurant)){
-                restaurantSimpleOrderVolume.add(order);
+            if(simpleOrder.getRestaurant() != null && simpleOrder.getRestaurant().equals(restaurant)){
+                restaurantSimpleOrderVolume.add(simpleOrder);
             }
         }
         return restaurantSimpleOrderVolume;
     }
 
-
-    public DeliveryLocation getDeliveryLocation(SimpleOrder simpleOrder1) throws NoOrdersPlacedException{
+    public DeliveryLocation getDeliveryLocation(SimpleOrder simpleOrder1) throws NoOrdersPlacedException {
         if(orderVolume.getOrderVolume().contains(simpleOrder1) && !(simpleOrder1.getStatus().equals(OrderStatus.DELIVERED))){
             return simpleOrder1.getDeliveryLocation();
         }
         throw new NoOrdersPlacedException();
     }
-
-
-
 }

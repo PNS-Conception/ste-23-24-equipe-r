@@ -3,6 +3,8 @@ package fr.unice.polytech.steats.cucumber.ordering;
 import fr.unice.polytech.steats.delivery.Delivery;
 import fr.unice.polytech.steats.delivery.DeliveryRegistry;
 import fr.unice.polytech.steats.delivery.DeliveryStatus;
+import fr.unice.polytech.steats.order.OrderDetails;
+import fr.unice.polytech.steats.order.OrderDetailsBuilder;
 import fr.unice.polytech.steats.order.SimpleOrder;
 import fr.unice.polytech.steats.order.OrderManager;
 import fr.unice.polytech.steats.order.factory.SimpleOrderFactory;
@@ -13,6 +15,9 @@ import fr.unice.polytech.steats.users.User;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static fr.unice.polytech.steats.order.OrderStatus.READY_FOR_DELIVERY;
 import static fr.unice.polytech.steats.users.UserRole.DELIVERY_PERSON;
@@ -32,8 +37,12 @@ public class DeliverySteps {
     }
     @Given("an order is ready to be delivered")
     public void an_order_is_ready_to_be_delivered() {
-        SimpleOrderFactory simpleOrderFactory = new SimpleOrderFactory(new Restaurant("restaurant"), new CampusUser("user"), null, null, null);
-        simpleOrder = simpleOrderFactory.createOrder();
+        Restaurant restaurant = new Restaurant("restaurant");
+        OrderDetails orderDetails = new OrderDetailsBuilder()
+                .restaurants(new ArrayList<>(List.of(restaurant)))
+                .orderOwner(new CampusUser("user"))
+                .build();
+        simpleOrder = new SimpleOrder(orderDetails);
         simpleOrder.setStatus(READY_FOR_DELIVERY);
         deliveryRegistry.register(simpleOrder);
     }

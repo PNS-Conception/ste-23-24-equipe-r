@@ -33,9 +33,9 @@ public class DeliveryPerson extends User implements DeliverySubscriber {
     public void update(Delivery delivery) {
         Order order = delivery.getOrder();
         Map<String, Object> event = new HashMap<>();
-        event.put("Usernames", order.getCustomers().stream().map(User::getName).toList());
-        event.put("Delivery location", order.getDeliveryLocation());
-        event.put("Involved restaurants", order.getRestaurants());
+        event.put("Username", order.getCustomer());
+        event.put("Delivery location", order.getOrderDetails().getDeliveryLocation());
+        event.put("Involved restaurant", order.getOrderDetails().getRestaurant());
         Notification notification = new Notification(event, this);
         notificationRegistry.add(notification);
     }

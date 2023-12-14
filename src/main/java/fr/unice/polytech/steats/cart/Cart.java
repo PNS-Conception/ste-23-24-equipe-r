@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Cart {
-    private final Map<Menu, Integer> menuMap;
+    private Map<Menu, Integer> menuMap = new HashMap<>();
     private Restaurant restaurant;
 
     public Cart() {
@@ -34,7 +34,19 @@ public class Cart {
         this.restaurant = restaurant;
     }
 
+
     public Restaurant getRestaurant() {
         return restaurant;
+    }
+
+    public Map<Menu, Integer> getMenusCopy() {
+        Map<Menu, Integer> deepCopy = new HashMap<>();
+        for (Map.Entry<Menu, Integer> entry : menuMap.entrySet()) {
+            Menu originalMenu = entry.getKey();
+            int quantity = entry.getValue();
+            Menu copiedMenu = new Menu(originalMenu);
+            deepCopy.put(copiedMenu, quantity);
+        }
+        return deepCopy;
     }
 }

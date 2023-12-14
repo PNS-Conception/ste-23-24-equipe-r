@@ -8,9 +8,7 @@ import fr.unice.polytech.steats.exceptions.order.PaymentException;
 import fr.unice.polytech.steats.exceptions.restaurant.DeliveryDateNotAvailable;
 import fr.unice.polytech.steats.notification.Notification;
 import fr.unice.polytech.steats.notification.NotificationRegistry;
-import fr.unice.polytech.steats.order.OrderProcessing;
-import fr.unice.polytech.steats.order.SimpleOrder;
-import fr.unice.polytech.steats.order.OrderManager;
+import fr.unice.polytech.steats.order.*;
 import fr.unice.polytech.steats.restaurant.Menu;
 import fr.unice.polytech.steats.restaurant.Restaurant;
 import fr.unice.polytech.steats.users.CampusUser;
@@ -46,11 +44,17 @@ public class ReceiveNotification {
     @Given("an order with the status PREPARING")
     public void an_order_with_the_status() throws EmptyCartException, PaymentException, DeliveryDateNotAvailable {
 
-        Cart cart = new Cart();
+        Cart cart = campusUser.getCart();
         cart.addMenu(new Menu("MaxBurger",12));
         cart.addMenu(new Menu("CheeseBurger",13));
-        simpleOrder = orderProcessing.process(new Restaurant("R1"), campusUser, cart.getMenuMap(), LocalDate.now().atTime(LocalTime.of(12, 0)), LIBRARY);
-        delivery = new Delivery(simpleOrder);
+        OrderDetails orderDetails = new OrderDetailsBuilder()
+                .restaurant(new Restaurant("R1"))
+                .orderOwner(campusUser)
+                .deliveryTime(LocalDate.now().atTime(LocalTime.of(12, 0)))
+                .deliveryLocation(LIBRARY)
+                .build();
+        simpleOrder = orderProcessing.process(orderDetails);
+        delivery = new Delivery((SimpleOrder)simpleOrder);
     }
 
 
@@ -69,10 +73,16 @@ public class ReceiveNotification {
     @When("{string} creates an order")
     public void creates_an_order(String customerName) throws EmptyCartException, PaymentException, DeliveryDateNotAvailable {
         campusUser = new CampusUser(customerName);
-        Cart cart = new Cart();
+        Cart cart = campusUser.getCart();
         cart.addMenu(new Menu("MaxBurger",12));
         cart.addMenu(new Menu("CheeseBurger",13));
-        simpleOrder = orderProcessing.process(new Restaurant("R1"), campusUser, cart.getMenuMap(), LocalDate.now().atTime(LocalTime.of(12, 0)), LIBRARY);
+        OrderDetails orderDetails = new OrderDetailsBuilder()
+                .restaurant(new Restaurant("R1"))
+                .orderOwner(campusUser)
+                .deliveryTime(LocalDate.now().atTime(LocalTime.of(12, 0)))
+                .deliveryLocation(LIBRARY)
+                .build();
+        simpleOrder = orderProcessing.process(orderDetails);
     }
 
     @Then("{string} is notified")
