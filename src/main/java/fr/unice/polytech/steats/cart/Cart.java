@@ -33,4 +33,8 @@ public class Cart {
     public void setRestaurant(Restaurant restaurant) {
         this.restaurant = restaurant;
     }
+
+    public Restaurant getRestaurant() {
+        return restaurant;
+    }
 }
