@@ -52,5 +52,7 @@ public abstract class Order {
         return this.orderDetails;
     }
 
-
+    public OrderPublisher getOrderPublisher() {
+        return orderPublisher;
+    }
 }

@@ -31,4 +31,8 @@ public class NotificationRegistry {
                 userNotifications.add(notification);
         return userNotifications;
     }
+
+    public NotificationRepository getNotificationRepository() {
+        return notificationRepository;
+    }
 }

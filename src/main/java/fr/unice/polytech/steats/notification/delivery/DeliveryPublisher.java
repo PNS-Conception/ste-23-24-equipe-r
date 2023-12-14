@@ -4,6 +4,7 @@ import fr.unice.polytech.steats.delivery.Delivery;
 import fr.unice.polytech.steats.notification.order.OrderSubscriber;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 public class DeliveryPublisher {
@@ -29,4 +30,6 @@ public class DeliveryPublisher {
             observer.update(delivery);
         }
     }
+
+
 }

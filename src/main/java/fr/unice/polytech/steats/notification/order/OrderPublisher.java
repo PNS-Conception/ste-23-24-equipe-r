@@ -22,4 +22,7 @@ public class OrderPublisher {
         }
     }
 
+    public List<OrderSubscriber> getObservers() {
+        return observers;
+    }
 }
