@@ -3,6 +3,7 @@ package fr.unice.polytech.steats.unit.OrderTest;
 import fr.unice.polytech.steats.order.Order;
 import fr.unice.polytech.steats.order.OrderDetails;
 import fr.unice.polytech.steats.order.OrderStatus;
+import fr.unice.polytech.steats.order.SimpleOrder;
 import fr.unice.polytech.steats.users.CampusUser;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -25,10 +26,10 @@ class OrderTest {
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
-        when(orderDetails.getOrderOwner()).thenReturn(new CampusUser(/* Initialize CampusUser object here */));
+        when(orderDetails.getOrderOwner()).thenReturn(new CampusUser());
         when(orderDetails.getDeliveryTime()).thenReturn(LocalDateTime.now());
 
-        order = new OrderStub(orderDetails);
+        order = new SimpleOrder(orderDetails);
     }
 
     @Test
@@ -68,10 +69,5 @@ class OrderTest {
         assertEquals(orderDetails.getOrderOwner(), order.getCustomer());
     }
 
-    // Stub class to instantiate the abstract Order class for testing
-    private static class OrderStub extends Order {
-        public OrderStub(OrderDetails orderDetails) {
-            super(orderDetails);
-        }
-    }
+
 }

@@ -53,7 +53,7 @@ class OrderManagerTest {
         campusUser.addMenuToCart(new Menu("fish",55));
         LocalDateTime deliveryTime = LocalDateTime.now();
         DeliveryLocation deliveryLocation = DeliveryLocation.LIBRARY;
-        Restaurant restaurant = new Restaurant("R1"); // Initialize Schedule here
+        Restaurant restaurant = new Restaurant("R1");
         OrderDetails orderDetails = new OrderDetailsBuilder()
                 .restaurant(restaurant)
                 .orderOwner(campusUser)
@@ -61,11 +61,10 @@ class OrderManagerTest {
                 .deliveryLocation(deliveryLocation)
                 .build();
 
-// Fix: use doNothing() for void method
         doNothing().when(orderRepository).save(any(SimpleOrder.class), any(UUID.class));
         doNothing().when(deliveryRegistry).register(any(SimpleOrder.class));
 
-// When
+        // When
         SimpleOrder resultOrder = orderManager.process(orderDetails);
 
 
@@ -81,10 +80,10 @@ class OrderManagerTest {
     @Test
     void testCalculateTimeslot() throws EmptyCartException, DeliveryDateNotAvailable {
         // Given
-        CampusUser campusUser = new CampusUser(/* Initialize CampusUser object here */);
+        CampusUser campusUser = new CampusUser();
         LocalDateTime deliveryTime = LocalDateTime.now();
         DeliveryLocation deliveryLocation = DeliveryLocation.LIBRARY;
-        Restaurant restaurant = new Restaurant("R1"); // Initialize Schedule here
+        Restaurant restaurant = new Restaurant("R1");
         OrderDetails orderDetails = new OrderDetailsBuilder()
                 .restaurant(restaurant)
                 .orderOwner(campusUser)
@@ -107,7 +106,7 @@ class OrderManagerTest {
         // Given
         DeliveryLocation deliveryLocation = DeliveryLocation.LIBRARY;
         Restaurant restaurant = new Restaurant("Restaurant");
-        CampusUser campusUser = new CampusUser(/* Initialize CampusUser object here */);
+        CampusUser campusUser = new CampusUser();
         LocalDateTime deliveryTime = LocalDateTime.now();
         OrderDetails orderDetails = new OrderDetailsBuilder()
                 .restaurant(restaurant)
@@ -124,8 +123,10 @@ class OrderManagerTest {
         // Given
         DeliveryLocation deliveryLocation = DeliveryLocation.LIBRARY;
         Restaurant restaurant = new Restaurant("Restaurant",new Schedule(LocalTime.of(16, 30, 45),LocalTime.of(18, 30, 45),3));
-        CampusUser campusUser = new CampusUser(/* Initialize CampusUser object here */);
-        LocalDateTime deliveryTime = LocalDateTime.now();
+        CampusUser campusUser = new CampusUser();
+        LocalDateTime currentDateTime = LocalDateTime.now();
+        LocalTime desiredTime = LocalTime.of(12, 0, 0);
+        LocalDateTime deliveryTime = LocalDateTime.of(currentDateTime.toLocalDate(), desiredTime);
         OrderDetails orderDetails = new OrderDetailsBuilder()
                 .restaurant(restaurant)
                 .orderOwner(campusUser)
@@ -142,7 +143,7 @@ class OrderManagerTest {
         CampusUser user = new CampusUser();
         LocalDateTime deliveryTime = LocalDateTime.now();
         DeliveryLocation deliveryLocation = DeliveryLocation.LIBRARY;
-        Restaurant restaurant = new Restaurant("R1"); // Initialize Schedule here
+        Restaurant restaurant = new Restaurant("R1");
         OrderDetails orderDetails = new OrderDetailsBuilder()
                 .restaurant(restaurant)
                 .orderOwner(user)
@@ -177,6 +178,6 @@ class OrderManagerTest {
         List<SimpleOrder> ordersByStatus = orderManager.getOrdersByStatus(restaurant, OrderStatus.PREPARING);
 
         // Then
-        assertEquals(0, ordersByStatus.size()); // Assuming none of these orders have the status PREPARING
+        assertEquals(0, ordersByStatus.size());
     }
 }

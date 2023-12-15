@@ -21,7 +21,7 @@ public class DeliveryTest {
 
     @BeforeEach
     void setUp() {
-        CampusUser campusUser = new CampusUser(/* Initialize CampusUser object here */);
+        CampusUser campusUser = new CampusUser();
         LocalDateTime deliveryTime = LocalDateTime.now();
         DeliveryLocation deliveryLocation = DeliveryLocation.LIBRARY;
         Restaurant restaurant = new Restaurant("R1");

@@ -18,8 +18,8 @@ public class CartTest {
     @Test
     void testEmptyCart() {
         // Given
-        cart.addMenu(createMockMenu("Burger", 10.0));
-        cart.addMenu(createMockMenu("Pizza", 12.0));
+        cart.addMenu(new Menu("Burger", 10.0));
+        cart.addMenu(new Menu("Pizza", 12.0));
 
         // When
         cart.emptyCart();
@@ -31,7 +31,7 @@ public class CartTest {
     @Test
     void testAddMenu() {
         // Given
-        Menu burger = createMockMenu("Burger", 10.0);
+        Menu burger = new Menu("Burger", 10.0);
 
         // When
         cart.addMenu(burger);
@@ -45,8 +45,8 @@ public class CartTest {
     @Test
     void testGetSize() {
         // Given
-        cart.addMenu(createMockMenu("Burger", 10.0));
-        cart.addMenu(createMockMenu("Pizza", 12.0));
+        cart.addMenu(new Menu("Burger", 10.0));
+        cart.addMenu(new Menu("Pizza", 12.0));
 
         // When
         int size = cart.getSize();
@@ -67,8 +67,4 @@ public class CartTest {
         assertEquals(restaurant, cart.getRestaurant());
     }
 
-    // Helper method to create a mock Menu
-    private Menu createMockMenu(String name, double price) {
-        return new Menu(name, price);
-    }
 }

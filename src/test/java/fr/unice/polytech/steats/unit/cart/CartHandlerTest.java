@@ -21,7 +21,7 @@ public class CartHandlerTest {
     @Test
     void testAddItem() {
         // Given
-        Menu burger = createMockMenu("Burger", 10.0);
+        Menu burger = new Menu("Burger", 10.0);
 
         // When
         cartHandler.addItem(burger, 2);
@@ -33,7 +33,7 @@ public class CartHandlerTest {
     @Test
     void testRemoveItem() {
         // Given
-        Menu pizza = createMockMenu("Pizza", 12.0);
+        Menu pizza = new Menu("Pizza", 12.0);
         cartHandler.addItem(pizza, 3);
 
         // When
@@ -46,7 +46,7 @@ public class CartHandlerTest {
     @Test
     void testRemoveItemException() {
         // Given
-        Menu pasta = createMockMenu("Pasta", 15.0);
+        Menu pasta = new Menu("Pasta", 15.0);
         cartHandler.addItem(pasta, 3);
 
         // When/Then
@@ -56,12 +56,12 @@ public class CartHandlerTest {
     @Test
     void testGetPriceForUser() {
         // Given
-        Menu burger = createMockMenu("Burger", 10.0);
-        Menu pizza = createMockMenu("Pizza", 12.0);
+        Menu burger = new Menu("Burger", 10.0);
+        Menu pizza = new Menu("Pizza", 12.0);
         cartHandler.addItem(burger, 2);
         cartHandler.addItem(pizza, 3);
 
-        CampusUser campusUser = createMockUser("Student");
+        CampusUser campusUser = new CampusUser("Student");
 
         // When
         double totalPrice = cartHandler.getPriceForUser(campusUser);
@@ -70,13 +70,4 @@ public class CartHandlerTest {
         assertEquals(2 * burger.getBasePrice() + 3 * pizza.getBasePrice(), totalPrice);
     }
 
-    // Helper method to create a mock Menu
-    private Menu createMockMenu(String name, double price) {
-        return new Menu(name, price);
-    }
-
-    // Helper method to create a mock CampusUser
-    private CampusUser createMockUser(String status) {
-        return new CampusUser(status);
-    }
 }
