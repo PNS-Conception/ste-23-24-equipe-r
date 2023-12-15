@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 class NotificationUserTest {
 
-    private Notification<User> notification;
+    private Notification notification;
 
     @BeforeEach
     void setUp() {

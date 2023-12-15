@@ -35,7 +35,7 @@ public class DeliveryPerson extends User implements DeliverySubscriber {
         event.put("Username", order.getCustomer());
         event.put("Delivery location", order.getOrderDetails().getDeliveryLocation());
         event.put("Involved restaurant", order.getOrderDetails().getRestaurant());
-        Notification<User> notification = new Notification(event, this);
+        Notification notification = new Notification(event, this);
         notificationRegistry.add(notification);
     }
 }

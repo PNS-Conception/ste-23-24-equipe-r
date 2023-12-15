@@ -1,8 +1,10 @@
 package fr.unice.polytech.steats.users;
 
+import fr.unice.polytech.steats.notification.Recipient;
+
 import java.util.UUID;
 
-public class User {
+public class User implements Recipient {
     private final String name;
     private final UUID id;
     private UserRole userRole;

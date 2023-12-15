@@ -3,17 +3,17 @@ package fr.unice.polytech.steats.notification;
 import java.util.Map;
 import java.util.UUID;
 
-public class Notification<T> {
+public class Notification {
     private final UUID id;
-    private final T recipient;
+    private final Recipient recipient;
 
     private final Map<String, Object> event;
 
-    public T getRecipient() {
+    public Recipient getRecipient() {
         return recipient;
     }
 
-    public Notification(Map<String, Object> event, T recipient) {
+    public Notification(Map<String, Object> event, Recipient recipient) {
         this.id = UUID.randomUUID();
         this.event = event;
         this.recipient = recipient;

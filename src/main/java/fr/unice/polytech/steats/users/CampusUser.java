@@ -60,7 +60,7 @@ public class CampusUser extends User implements DeliverySubscriber, OrderSubscri
         Map<String, Object> event = new HashMap<>();
         event.put("Delivery person Id", delivery.getDeliveryPerson().getId());
         event.put("Delivery person phone number", delivery.getDeliveryPerson().getPhoneNumber());
-        Notification<User> notification = new Notification(event, this);
+        Notification notification = new Notification(event, this);
         notificationRegistry.add(notification);
     }
 
@@ -70,7 +70,7 @@ public class CampusUser extends User implements DeliverySubscriber, OrderSubscri
         event.put("Order Id", order.getId());
         event.put("Delivery date", order.getDeliveryTime());
         event.put("Delivery location", order.getOrderDetails().getDeliveryLocation());
-        Notification<User> notification = new Notification(event, this);
+        Notification notification = new Notification(event, this);
         notificationRegistry.add(notification);
     }
 }

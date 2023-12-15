@@ -35,7 +35,7 @@ class NotificationUserRegistryTest {
     void testAdd() {
         // Given
         User user = new CampusUser();
-        Notification<User> notification = new Notification(new HashMap<>(), user);
+        Notification notification = new Notification(new HashMap<>(), user);
 
         // When
         notificationRegistry.add(notification);
@@ -49,8 +49,8 @@ class NotificationUserRegistryTest {
     void testFindByUser() {
         // Given
         User user = new CampusUser();
-        Notification<User> notification1 = new Notification(new HashMap<>(), user);
-        Notification<User> notification2 = new Notification(new HashMap<>(), user);
+        Notification notification1 = new Notification(new HashMap<>(), user);
+        Notification notification2 = new Notification(new HashMap<>(), user);
 
         // When
         when(notificationRepository.findAll()).thenReturn(List.of(notification1, notification2));

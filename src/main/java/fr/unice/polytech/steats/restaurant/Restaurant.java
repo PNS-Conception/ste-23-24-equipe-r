@@ -2,13 +2,14 @@ package fr.unice.polytech.steats.restaurant;
 
 import fr.unice.polytech.steats.notification.Notification;
 import fr.unice.polytech.steats.notification.NotificationRegistry;
+import fr.unice.polytech.steats.notification.Recipient;
 import fr.unice.polytech.steats.notification.pickupTime.PickupTimeSubscriber;
 import fr.unice.polytech.steats.order.Order;
 
 import java.time.LocalTime;
 import java.util.*;
 
-public class Restaurant implements PickupTimeSubscriber {
+public class Restaurant implements PickupTimeSubscriber, Recipient {
 
     NotificationRegistry notificationRegistry = NotificationRegistry.getInstance();
     private final UUID id;
@@ -96,7 +97,7 @@ public class Restaurant implements PickupTimeSubscriber {
         Map<String,Object> event = new HashMap<>();
         event.put("Order Id", order.getId());
         event.put("Pick Up Time ", order.getDeliveryTime().minusHours(2));
-        Notification<Restaurant> notification = new Notification<>(event,this);
+        Notification notification = new Notification(event,this);
         notificationRegistry.add(notification);
     }
 }
