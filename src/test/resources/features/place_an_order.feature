@@ -35,11 +35,11 @@ Feature: Place an order
   Scenario: Modifying the menus in a cart
     When "Brahim" chooses the restaurant "Pizza Hut"
     And "Brahim" chooses 2 x "BBQ Chicken Pizza"
-    And "Brahim" chooses 3 x "Meat lovers Pizza"
+    And "Brahim" chooses 3 x "Meat Lovers Pizza"
     And "Brahim" chooses 3 x "BBQ Chicken Pizza"
     And "Brahim" checks his cart's contents
     Then the cart contains the menus : 5 x "BBQ Chicken Pizza"
-    And the cart contains the menus : 3 x "Meat lovers Pizza"
+    And the cart contains the menus : 3 x "Meat Lovers Pizza"
 
   Scenario: Deleting menus from the cart
     When "Brahim" chooses the restaurant "Pizza Hut"

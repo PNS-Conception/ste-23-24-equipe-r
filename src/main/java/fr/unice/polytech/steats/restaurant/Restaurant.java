@@ -1,5 +1,6 @@
 package fr.unice.polytech.steats.restaurant;
 
+import fr.unice.polytech.steats.exceptions.restaurant.NonExistentMenuException;
 import fr.unice.polytech.steats.notification.Notification;
 import fr.unice.polytech.steats.notification.NotificationRegistry;
 import fr.unice.polytech.steats.notification.Recipient;
@@ -65,13 +66,13 @@ public class Restaurant implements PickupTimeSubscriber, Recipient {
     }
 
 
-    public Menu getMenufromName(String menuName) {
+    public Menu getMenufromName(String menuName) throws NonExistentMenuException {
         for (Menu menu : menus) {
             if (menu.getMenuName().equals(menuName)) {
                 return menu;
             }
         }
-        return null;
+        throw new NonExistentMenuException(menuName);
     }
 
     public void addMenu(Menu menu) {

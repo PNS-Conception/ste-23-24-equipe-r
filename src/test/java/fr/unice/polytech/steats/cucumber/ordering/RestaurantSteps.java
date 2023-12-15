@@ -38,6 +38,8 @@ public class RestaurantSteps {
 
 
 
+
+
     @And("the restaurant {string} has the following menus")
     public void a_restaurant_exists_with_the_following_menus(String restaurantName, DataTable dataTable) throws NoSuchElementException {
         restaurant = restaurantLocator.findByName(restaurantName).orElseThrow(() -> new NoSuchElementException("Element not found"));
@@ -55,5 +57,4 @@ public class RestaurantSteps {
         LocalDateTime timeslotDateTime = LocalDateTime.parse(dateTimeString, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
         restaurant.getSchedule().addTimeslot(new TimeSlot(timeslotDateTime, capacity));
     }
-
 }

@@ -1,5 +1,4 @@
 package fr.unice.polytech.steats.notification;
-import fr.unice.polytech.steats.users.User;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +22,7 @@ public class NotificationRegistry {
         notificationRepository.save(notification,notification.getId());
     }
 
-    public List<Notification> findByRecipient(User user){
+    public List<Notification> findByRecipient(Recipient user){
         Iterable<Notification> notifications = notificationRepository.findAll();
         List<Notification> userNotifications = new ArrayList<>();
         for (Notification notification: notifications)

@@ -12,3 +12,18 @@ Feature: Receiving Notifications
     Given "John" is a campus user
     When "John" creates an order
     Then "John" is notified
+
+  Scenario: Notifying a restaurant about the planned pickup time
+    And a restaurant "Burger King" exists with the following details
+      | Opening Time | Closing Time | Capacity |
+      | 09:00        | 20:00        | 10       |
+    And the restaurant "Burger King" has the following menus
+      | Menu Name          | Price |
+      | Veggie Pizza   | 10.00 |
+    And "John" is a campus user
+    When "John" chooses the restaurant "Burger King"
+    And "John" chooses 1 x "Veggie Pizza"
+    And chooses delivery time "2024-01-15 17:30" of the restaurant "Burger King" and delivery location "Library"
+    And "John" confirms and pays for the cart
+    Then "Burger King" is notified about the planned pickup time
+

@@ -5,11 +5,14 @@ import fr.unice.polytech.steats.delivery.Delivery;
 import fr.unice.polytech.steats.delivery.DeliveryStatus;
 import fr.unice.polytech.steats.exceptions.order.EmptyCartException;
 import fr.unice.polytech.steats.exceptions.order.PaymentException;
+import fr.unice.polytech.steats.exceptions.restaurant.AlreadyExistingRestaurantException;
 import fr.unice.polytech.steats.exceptions.restaurant.DeliveryDateNotAvailable;
 import fr.unice.polytech.steats.notification.NotificationRegistry;
 import fr.unice.polytech.steats.order.*;
 import fr.unice.polytech.steats.restaurant.Menu;
 import fr.unice.polytech.steats.restaurant.Restaurant;
+import fr.unice.polytech.steats.restaurant.RestaurantRegistration;
+import fr.unice.polytech.steats.restaurant.RestaurantRegistry;
 import fr.unice.polytech.steats.users.CampusUser;
 import fr.unice.polytech.steats.users.DeliveryPerson;
 import io.cucumber.java.en.*;
@@ -28,11 +31,13 @@ public class ReceiveNotification {
     Delivery delivery;
     List<DeliveryPerson> deliveryPeople;
     NotificationRegistry notificationRegistry = NotificationRegistry.getInstance();
+    final RestaurantRegistry restaurantRegistration;
 
 
 
     public ReceiveNotification(FacadeContainer container){
         orderProcessing=container.orderProcessing;
+        restaurantRegistration=container.restaurantRegistration;
     }
 
     @Given("a logged-in Campus user as the order owner")
@@ -53,7 +58,7 @@ public class ReceiveNotification {
                 .deliveryLocation(LIBRARY)
                 .build();
         simpleOrder = orderProcessing.process(orderDetails);
-        delivery = new Delivery((SimpleOrder)simpleOrder);
+        delivery = new Delivery(simpleOrder);
     }
 
 
@@ -92,5 +97,11 @@ public class ReceiveNotification {
     @And("delivery people ready to pick an order")
     public void deliveryPeopleReadyToPickAnOrder() {
         deliveryPeople = Arrays.asList(new DeliveryPerson("John"), new DeliveryPerson("Jack"));
+    }
+
+    @Then("{string} is notified about the planned pickup time")
+    public void isNotifiedAboutThePlannedPickupTime(String restautanName) throws AlreadyExistingRestaurantException {
+        Restaurant restaurant = restaurantRegistration.findByName(restautanName).orElseThrow(() -> new AlreadyExistingRestaurantException("Element not found"));
+        assertEquals(1, notificationRegistry.findByRecipient(restaurant).size());
     }
 }

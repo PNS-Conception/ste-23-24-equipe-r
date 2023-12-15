@@ -9,6 +9,7 @@ import fr.unice.polytech.steats.exceptions.order.PaymentException;
 import fr.unice.polytech.steats.exceptions.others.NoSuchElementException;
 import fr.unice.polytech.steats.exceptions.restaurant.DeliveryDateNotAvailable;
 import fr.unice.polytech.steats.exceptions.restaurant.InsufficientTimeSlotCapacity;
+import fr.unice.polytech.steats.exceptions.restaurant.NonExistentMenuException;
 import fr.unice.polytech.steats.order.OrderDetails;
 import fr.unice.polytech.steats.order.OrderDetailsBuilder;
 import fr.unice.polytech.steats.order.SimpleOrder;
@@ -97,7 +98,7 @@ public class GroupOrderSteps {
     }
 
     @And("{string} orders and pays for {int} x {string}")
-    public void ordersAndPaysForX(String userName, int quantity, String menuName) throws EmptyCartException, PaymentException, InsufficientTimeSlotCapacity, NonExistentGroupOrder, ClosedGroupOrderException, DeliveryDateNotAvailable, NoSuchElementException {
+    public void ordersAndPaysForX(String userName, int quantity, String menuName) throws EmptyCartException, PaymentException, InsufficientTimeSlotCapacity, NonExistentGroupOrder, ClosedGroupOrderException, DeliveryDateNotAvailable, NoSuchElementException, NonExistentMenuException {
         campusUser = campusUserFinder.findByName(userName).orElseThrow(() -> new NoSuchElementException("Element not found"));
         Menu menu = restaurant.getMenufromName(menuName);
         CartHandler cartHandler = new CartHandler(campusUser.getCart());

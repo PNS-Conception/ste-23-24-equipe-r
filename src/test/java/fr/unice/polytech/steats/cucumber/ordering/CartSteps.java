@@ -6,6 +6,7 @@ import fr.unice.polytech.steats.cart.CartModifier;
 import fr.unice.polytech.steats.cart.CartTotalCalculator;
 import fr.unice.polytech.steats.exceptions.cart.MenuRemovalFromCartException;
 import fr.unice.polytech.steats.exceptions.others.NoSuchElementException;
+import fr.unice.polytech.steats.exceptions.restaurant.NonExistentMenuException;
 import fr.unice.polytech.steats.restaurant.*;
 import fr.unice.polytech.steats.users.CampusUser;
 import fr.unice.polytech.steats.users.CampusUserFinder;
@@ -43,7 +44,7 @@ public class CartSteps {
         assertEquals(numberOfMenus, cart.getSize());
     }
     @When("{string} chooses {int} x {string}")
-    public void addMenusToCart(String customerName, int quantity, String menuName) throws NoSuchElementException {
+    public void addMenusToCart(String customerName, int quantity, String menuName) throws NoSuchElementException, NonExistentMenuException {
         campusUser = campusUserFinder.findByName(customerName).orElseThrow(() -> new NoSuchElementException("Element not found"));
         cart = campusUser.getCart();
         Menu menu = restaurant.getMenufromName(menuName);
@@ -53,7 +54,7 @@ public class CartSteps {
 
     @And("{string} removes {int} x {string}")
     public void removeFromCart(String customerName, int quantity, String menuName)
-            throws MenuRemovalFromCartException, NoSuchElementException {
+            throws MenuRemovalFromCartException, NoSuchElementException, NonExistentMenuException {
         campusUser = campusUserFinder.findByName(customerName).orElseThrow(() -> new NoSuchElementException("Element not found"));
         cart = campusUser.getCart();
         Menu menu = restaurant.getMenufromName(menuName);
@@ -61,7 +62,7 @@ public class CartSteps {
         cartModifier.removeItem(menu, quantity);
     }
     @And("the cart contains the menus : {int} x {string}")
-    public void verifyMultipleMenusInCart(int quantity, String menuName) {
+    public void verifyMultipleMenusInCart(int quantity, String menuName) throws NonExistentMenuException {
         Menu menu = restaurant.getMenufromName(menuName);
         assertTrue(cart.getMenuMap().containsKey(menu));
         assertEquals((int) cart.getMenuMap().get(menu), quantity);

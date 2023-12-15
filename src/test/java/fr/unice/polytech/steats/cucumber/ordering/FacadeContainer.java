@@ -9,6 +9,7 @@ import fr.unice.polytech.steats.order.grouporder.SubOrderManager;
 import fr.unice.polytech.steats.restaurant.MenuComments.CommentsRegistry;
 import fr.unice.polytech.steats.restaurant.RestaurantLocator;
 import fr.unice.polytech.steats.restaurant.RestaurantRegistration;
+import fr.unice.polytech.steats.restaurant.RestaurantRegistry;
 import fr.unice.polytech.steats.restaurant.RestaurantRepository;
 import fr.unice.polytech.steats.users.CampusUserFinder;
 import fr.unice.polytech.steats.users.CampusUserRegistry;
@@ -26,7 +27,7 @@ public class FacadeContainer {
     public UserRepository userRepository;
     public RestaurantRepository restaurantRepository;
     public CampusUserRegistry campusUserRegistry;
-    public RestaurantRegistration restaurantRegistration;
+    public RestaurantRegistry restaurantRegistration;
     public RestaurantLocator restaurantLocator;
     public GroupOrderService groupOrderService;
     public DeliveryRegistry deliveryRegistry;
@@ -38,7 +39,7 @@ public class FacadeContainer {
 
     public FacadeContainer(AppExplicitConfig config){
         this.container = config.getContainer();
-        this.restaurantRegistration = container.getComponent(RestaurantRegistration.class);
+        this.restaurantRegistration = container.getComponent(RestaurantRegistry.class);
         this.restaurantLocator = container.getComponent(RestaurantLocator.class);
         this.campusUserRegistry = container.getComponent(CampusUserRegistry.class);
         this.orderProcessing = container.getComponent(OrderProcessing.class);

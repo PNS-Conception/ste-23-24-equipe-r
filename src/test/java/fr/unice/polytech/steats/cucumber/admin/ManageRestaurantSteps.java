@@ -1,5 +1,6 @@
 package fr.unice.polytech.steats.cucumber.admin;
 
+import fr.unice.polytech.steats.exceptions.restaurant.NonExistentMenuException;
 import fr.unice.polytech.steats.restaurant.Menu;
 import fr.unice.polytech.steats.restaurant.Restaurant;
 import fr.unice.polytech.steats.restaurant.Schedule;
@@ -29,7 +30,7 @@ public class ManageRestaurantSteps {
         }
     }
     @Then("the menu should contain")
-    public void the_menu_should_contain(DataTable dataTable) {
+    public void the_menu_should_contain(DataTable dataTable) throws NonExistentMenuException {
         for (int i = 0; i < dataTable.height(); i++) {
             assertNotNull(restaurant.getMenufromName(dataTable.row(i).get(0)));
         }
