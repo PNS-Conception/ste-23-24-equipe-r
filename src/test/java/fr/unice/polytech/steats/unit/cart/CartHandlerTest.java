@@ -1,4 +1,4 @@
-package fr.unice.polytech.steats.unit.Cart;
+package fr.unice.polytech.steats.unit.cart;
 import fr.unice.polytech.steats.cart.Cart;
 import fr.unice.polytech.steats.cart.CartHandler;
 import fr.unice.polytech.steats.exceptions.cart.MenuRemovalFromCartException;
