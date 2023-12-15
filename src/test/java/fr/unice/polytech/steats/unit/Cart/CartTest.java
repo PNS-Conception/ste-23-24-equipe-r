@@ -1,10 +1,9 @@
-package UnitTests.Cart;
+package fr.unice.polytech.steats.unit.Cart;
 import fr.unice.polytech.steats.cart.Cart;
 import fr.unice.polytech.steats.restaurant.Menu;
 import fr.unice.polytech.steats.restaurant.Restaurant;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 

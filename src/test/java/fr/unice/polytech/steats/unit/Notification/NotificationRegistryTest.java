@@ -1,4 +1,4 @@
-package UnitTests.Notification;
+package fr.unice.polytech.steats.unit.Notification;
 
 import fr.unice.polytech.steats.notification.Notification;
 import fr.unice.polytech.steats.notification.NotificationRegistry;

@@ -1,4 +1,4 @@
-package UnitTests.Delivery;
+package fr.unice.polytech.steats.unit.Delivery;
 import fr.unice.polytech.steats.delivery.Delivery;
 import fr.unice.polytech.steats.delivery.DeliveryLocation;
 

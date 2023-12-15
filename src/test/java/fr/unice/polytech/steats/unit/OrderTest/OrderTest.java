@@ -1,25 +1,15 @@
-package UnitTests.OrderTest;
+package fr.unice.polytech.steats.unit.OrderTest;
 
-import fr.unice.polytech.steats.delivery.DeliveryLocation;
-import fr.unice.polytech.steats.notification.NotificationRegistry;
-import fr.unice.polytech.steats.notification.order.OrderPublisher;
 import fr.unice.polytech.steats.order.Order;
 import fr.unice.polytech.steats.order.OrderDetails;
 import fr.unice.polytech.steats.order.OrderStatus;
-import fr.unice.polytech.steats.restaurant.Menu;
-import fr.unice.polytech.steats.restaurant.Restaurant;
 import fr.unice.polytech.steats.users.CampusUser;
-import fr.unice.polytech.steats.users.CampusUserFinder;
-import fr.unice.polytech.steats.users.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
