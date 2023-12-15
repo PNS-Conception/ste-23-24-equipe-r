@@ -23,11 +23,11 @@ public class NotificationRegistry {
         notificationRepository.save(notification,notification.getId());
     }
 
-    public List<Notification> findByUser(User user){
+    public List<Notification> findByRecipient(User user){
         Iterable<Notification> notifications = notificationRepository.findAll();
         List<Notification> userNotifications = new ArrayList<>();
         for (Notification notification: notifications)
-            if(notification.getUser().equals(user))
+            if(notification.getRecipient().equals(user))
                 userNotifications.add(notification);
         return userNotifications;
     }

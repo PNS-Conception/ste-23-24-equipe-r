@@ -1,26 +1,22 @@
 package fr.unice.polytech.steats.notification;
 
-import fr.unice.polytech.steats.users.CampusUser;
-import fr.unice.polytech.steats.users.User;
-
-import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-public class Notification {
+public class Notification<T> {
     private final UUID id;
-    private final User user;
-    final Map<String, Object> event;
+    private final T recipient;
 
-    public User getUser() {
-        return user;
+    private final Map<String, Object> event;
+
+    public T getRecipient() {
+        return recipient;
     }
 
-
-    public Notification(Map<String, Object> event, User user) {
+    public Notification(Map<String, Object> event, T recipient) {
         this.id = UUID.randomUUID();
         this.event = event;
-        this.user = user;
+        this.recipient = recipient;
     }
 
     public UUID getId() {

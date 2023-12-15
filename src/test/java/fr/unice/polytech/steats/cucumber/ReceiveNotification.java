@@ -6,7 +6,6 @@ import fr.unice.polytech.steats.delivery.DeliveryStatus;
 import fr.unice.polytech.steats.exceptions.order.EmptyCartException;
 import fr.unice.polytech.steats.exceptions.order.PaymentException;
 import fr.unice.polytech.steats.exceptions.restaurant.DeliveryDateNotAvailable;
-import fr.unice.polytech.steats.notification.Notification;
 import fr.unice.polytech.steats.notification.NotificationRegistry;
 import fr.unice.polytech.steats.order.*;
 import fr.unice.polytech.steats.restaurant.Menu;
@@ -67,7 +66,7 @@ public class ReceiveNotification {
     @Then("a delivery person is notified")
     public void a_delivery_person_is_notified() {
         assertEquals(DeliveryStatus.READY, delivery.getStatus());
-        assertEquals(1, notificationRegistry.findByUser(deliveryPeople.get(0)).size());
+        assertEquals(1, notificationRegistry.findByRecipient(deliveryPeople.get(0)).size());
     }
 
     @When("{string} creates an order")
@@ -87,7 +86,7 @@ public class ReceiveNotification {
 
     @Then("{string} is notified")
     public void the_order_owners_are_notified(String userName) {
-        assertEquals(1, notificationRegistry.findByUser(campusUser).size());
+        assertEquals(1, notificationRegistry.findByRecipient(campusUser).size());
     }
 
     @And("delivery people ready to pick an order")

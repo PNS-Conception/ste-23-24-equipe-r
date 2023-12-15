@@ -3,6 +3,7 @@ package fr.unice.polytech.steats.order;
 import fr.unice.polytech.steats.delivery.DeliveryRegistry;
 import fr.unice.polytech.steats.exceptions.order.EmptyCartException;
 import fr.unice.polytech.steats.exceptions.restaurant.DeliveryDateNotAvailable;
+import fr.unice.polytech.steats.notification.pickupTime.PickupTimePublisher;
 import fr.unice.polytech.steats.order.factory.OrderFactory;
 import fr.unice.polytech.steats.order.factory.SimpleOrderFactory;
 import fr.unice.polytech.steats.payment.Payment;
@@ -21,6 +22,8 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 public class OrderManager implements OrderLocator, UserOrderHistory, OrderProcessing {
+
+    private PickupTimePublisher pickupTimePublisher = new PickupTimePublisher();
     final Payment payment;
     final OrderRepository orderRepository;
     final DeliveryRegistry deliveryRegistry;
@@ -48,6 +51,8 @@ public class OrderManager implements OrderLocator, UserOrderHistory, OrderProces
         orderRepository.save(order, order.getId());
         deliveryRegistry.register(order);
         orderDetails.getOrderOwner().getCart().emptyCart();
+        pickupTimePublisher.subscribe(order.getRestaurant());
+        pickupTimePublisher.notifySubscribers(order);
         return order;
     }
     public Optional<TimeSlot> calculateTimeslot(Schedule schedule, LocalDateTime deliveryTime, int numberOfMenus)

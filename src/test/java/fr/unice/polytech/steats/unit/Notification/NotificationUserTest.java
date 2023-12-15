@@ -11,9 +11,9 @@ import java.util.Map;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-class NotificationTest {
+class NotificationUserTest {
 
-    private Notification notification;
+    private Notification<User> notification;
 
     @BeforeEach
     void setUp() {
@@ -28,14 +28,14 @@ class NotificationTest {
     void testNotificationInitialization() {
         assertNotNull(notification.getId());
         assertNotNull(notification.getEvent());
-        assertNotNull(notification.getUser());
+        assertNotNull(notification.getRecipient());
     }
 
     @Test
     void testGetters() {
         assertEquals(notification.getId(), notification.getId());
         assertEquals(notification.getEvent(), notification.getEvent());
-        assertEquals(notification.getUser(), notification.getUser());
+        assertEquals(notification.getRecipient(), notification.getRecipient());
     }
 
 

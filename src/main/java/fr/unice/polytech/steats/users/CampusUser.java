@@ -10,17 +10,13 @@ import fr.unice.polytech.steats.order.Order;
 import fr.unice.polytech.steats.restaurant.Menu;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class CampusUser extends User implements DeliverySubscriber, OrderSubscriber {
     private Cart cart;
-    // --Commented out by Inspection (28/11/2023 22:22):private double balance;
 
     private CampusUserStatus status;
     private NotificationRegistry notificationRegistry = NotificationRegistry.getInstance();
-
-    // --Commented out by Inspection (28/11/2023 22:21):private List<SimpleOrder> previousSimpleOrders;
 
 
 
@@ -64,7 +60,7 @@ public class CampusUser extends User implements DeliverySubscriber, OrderSubscri
         Map<String, Object> event = new HashMap<>();
         event.put("Delivery person Id", delivery.getDeliveryPerson().getId());
         event.put("Delivery person phone number", delivery.getDeliveryPerson().getPhoneNumber());
-        Notification notification = new Notification(event, this);
+        Notification<User> notification = new Notification(event, this);
         notificationRegistry.add(notification);
     }
 
@@ -74,7 +70,7 @@ public class CampusUser extends User implements DeliverySubscriber, OrderSubscri
         event.put("Order Id", order.getId());
         event.put("Delivery date", order.getDeliveryTime());
         event.put("Delivery location", order.getOrderDetails().getDeliveryLocation());
-        Notification notification = new Notification(event, this);
+        Notification<User> notification = new Notification(event, this);
         notificationRegistry.add(notification);
     }
 }
