@@ -42,6 +42,7 @@ class NotificationRegistryTest {
 
         // Then
         verify(notificationRepository, times(1)).save(any(Notification.class), any(UUID.class));
+
     }
 
     @Test
