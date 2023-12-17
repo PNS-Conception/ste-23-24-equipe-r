@@ -51,7 +51,9 @@ class OrderManagerTest {
         // Given
         CampusUser campusUser = new CampusUser();
         campusUser.addMenuToCart(new Menu("fish",55));
-        LocalDateTime deliveryTime = LocalDateTime.now();
+        LocalDateTime currentDateTime = LocalDateTime.now();
+        LocalTime desiredTime = LocalTime.of(12, 0, 0);
+        LocalDateTime deliveryTime = LocalDateTime.of(currentDateTime.toLocalDate(), desiredTime);
         DeliveryLocation deliveryLocation = DeliveryLocation.LIBRARY;
         Restaurant restaurant = new Restaurant("R1");
         OrderDetails orderDetails = new OrderDetailsBuilder()
@@ -81,7 +83,9 @@ class OrderManagerTest {
     void testCalculateTimeslot() throws EmptyCartException, DeliveryDateNotAvailable {
         // Given
         CampusUser campusUser = new CampusUser();
-        LocalDateTime deliveryTime = LocalDateTime.now();
+        LocalDateTime currentDateTime = LocalDateTime.now();
+        LocalTime desiredTime = LocalTime.of(12, 0, 0);
+        LocalDateTime deliveryTime = LocalDateTime.of(currentDateTime.toLocalDate(), desiredTime);
         DeliveryLocation deliveryLocation = DeliveryLocation.LIBRARY;
         Restaurant restaurant = new Restaurant("R1");
         OrderDetails orderDetails = new OrderDetailsBuilder()
@@ -107,7 +111,9 @@ class OrderManagerTest {
         DeliveryLocation deliveryLocation = DeliveryLocation.LIBRARY;
         Restaurant restaurant = new Restaurant("Restaurant");
         CampusUser campusUser = new CampusUser();
-        LocalDateTime deliveryTime = LocalDateTime.now();
+        LocalDateTime currentDateTime = LocalDateTime.now();
+        LocalTime desiredTime = LocalTime.of(12, 0, 0);
+        LocalDateTime deliveryTime = LocalDateTime.of(currentDateTime.toLocalDate(), desiredTime);
         OrderDetails orderDetails = new OrderDetailsBuilder()
                 .restaurant(restaurant)
                 .orderOwner(campusUser)
@@ -141,7 +147,9 @@ class OrderManagerTest {
     void testGetPreviousOrders() {
         // Given
         CampusUser user = new CampusUser();
-        LocalDateTime deliveryTime = LocalDateTime.now();
+        LocalDateTime currentDateTime = LocalDateTime.now();
+        LocalTime desiredTime = LocalTime.of(12, 0, 0);
+        LocalDateTime deliveryTime = LocalDateTime.of(currentDateTime.toLocalDate(), desiredTime);
         DeliveryLocation deliveryLocation = DeliveryLocation.LIBRARY;
         Restaurant restaurant = new Restaurant("R1");
         OrderDetails orderDetails = new OrderDetailsBuilder()
