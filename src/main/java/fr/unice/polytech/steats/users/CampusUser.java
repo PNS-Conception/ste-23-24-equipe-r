@@ -6,8 +6,8 @@ import fr.unice.polytech.steats.notification.Notification;
 import fr.unice.polytech.steats.notification.NotificationRegistry;
 import fr.unice.polytech.steats.notification.delivery.DeliverySubscriber;
 import fr.unice.polytech.steats.notification.order.OrderSubscriber;
-import fr.unice.polytech.steats.notification.strategy.order.NotificationStrategy;
-import fr.unice.polytech.steats.notification.strategy.order.SimpleOrderNotificationStrategy;
+import fr.unice.polytech.steats.notification.strategy.NotificationStrategy;
+import fr.unice.polytech.steats.notification.strategy.SimpleOrderNotificationStrategy;
 import fr.unice.polytech.steats.order.Order;
 import fr.unice.polytech.steats.restaurant.Menu;
 

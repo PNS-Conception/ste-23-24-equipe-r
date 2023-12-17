@@ -1,4 +1,4 @@
-package fr.unice.polytech.steats.notification.strategy.order;
+package fr.unice.polytech.steats.notification.strategy;
 
 import fr.unice.polytech.steats.order.Order;
 
