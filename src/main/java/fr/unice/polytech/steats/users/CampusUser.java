@@ -8,6 +8,7 @@ import fr.unice.polytech.steats.notification.delivery.DeliverySubscriber;
 import fr.unice.polytech.steats.notification.order.OrderSubscriber;
 import fr.unice.polytech.steats.order.Order;
 import fr.unice.polytech.steats.restaurant.Menu;
+import fr.unice.polytech.steats.restaurant.Restaurant;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -41,11 +42,6 @@ public class CampusUser extends User implements DeliverySubscriber, OrderSubscri
 
     public Cart getCart() {
         return this.cart;
-    }
-
-
-    public void addMenuToCart(Menu mn){
-        this.cart.addMenu(mn);
     }
 
     public CampusUserStatus getStatus() {

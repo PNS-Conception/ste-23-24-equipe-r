@@ -19,7 +19,7 @@ public class Delivery {
 
 
 
-    public Delivery(SimpleOrder order) {
+    public Delivery(Order order) {
         id = UUID.randomUUID();
         this.order = order;
         status = DeliveryStatus.WAITING;

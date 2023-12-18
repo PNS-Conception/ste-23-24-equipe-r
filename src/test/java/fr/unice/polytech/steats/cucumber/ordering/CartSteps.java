@@ -16,6 +16,7 @@ import io.cucumber.java.en.When;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -49,7 +50,7 @@ public class CartSteps {
         cart = campusUser.getCart();
         Menu menu = restaurant.getMenufromName(menuName);
         cartModifier = new CartHandler(cart);
-        cartModifier.addItem(menu, quantity);
+        cartModifier.addItem(restaurant, menu, quantity);
     }
 
     @And("{string} removes {int} x {string}")
@@ -59,13 +60,14 @@ public class CartSteps {
         cart = campusUser.getCart();
         Menu menu = restaurant.getMenufromName(menuName);
         cartModifier = new CartHandler(cart);
-        cartModifier.removeItem(menu, quantity);
+        cartModifier.removeItem(restaurant, menu, quantity);
     }
     @And("the cart contains the menus : {int} x {string}")
     public void verifyMultipleMenusInCart(int quantity, String menuName) throws NonExistentMenuException {
         Menu menu = restaurant.getMenufromName(menuName);
-        assertTrue(cart.getMenuMap().containsKey(menu));
-        assertEquals((int) cart.getMenuMap().get(menu), quantity);
+        Map<Menu, Integer> menusFromRestaurant = cart.getRestaurantMenusMap().get(restaurant);
+        assertTrue("Menu should be present in the cart", menusFromRestaurant != null && menusFromRestaurant.containsKey(menu));
+        assertEquals("Menu quantity should match", quantity, (int) menusFromRestaurant.get(menu));
     }
 
     @Then("the price of {string}'s cart is {double}")
@@ -88,7 +90,6 @@ public class CartSteps {
         campusUser = campusUserFinder.findByName(username).orElseThrow(() -> new NoSuchElementException("Element not found"));
         cart = campusUser.getCart();
         restaurant = restaurantLocator.findByName(restaurantName).orElseThrow(() -> new NoSuchElementException("Element not found"));
-        cart.setRestaurant(restaurant);
     }
 
 }

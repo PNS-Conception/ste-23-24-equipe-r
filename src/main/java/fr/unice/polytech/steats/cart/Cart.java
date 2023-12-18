@@ -1,51 +1,45 @@
 package fr.unice.polytech.steats.cart;
+
 import fr.unice.polytech.steats.restaurant.Menu;
 import fr.unice.polytech.steats.restaurant.Restaurant;
-import java.util.HashMap;
-import java.util.Map;
+
+import java.util.*;
 
 public class Cart {
-    private Map<Menu, Integer> menuMap = new HashMap<>();
-    private Restaurant restaurant;
+    private Map<Restaurant, Map<Menu, Integer>> restaurantMenusMap;
 
     public Cart() {
-        this.menuMap= new HashMap<>();
+        this.restaurantMenusMap = new HashMap<>();
     }
 
-    public Map<Menu, Integer> getMenuMap() {
-        return menuMap;
+    public Map<Restaurant, Map<Menu, Integer>> getRestaurantMenusMap() {
+        return restaurantMenusMap;
     }
-    public int getSize(){
-        int totalQuantity = 0;
-        for (int quantity : menuMap.values()) {
-            totalQuantity += quantity;
-        }
-        return totalQuantity;
+
+    public void addMenu(Restaurant restaurant, Menu menu, int quantity) {
+        restaurantMenusMap.computeIfAbsent(restaurant, k -> new HashMap<>())
+                .merge(menu, quantity, Integer::sum);
     }
+
+    public int getSize() {
+        return restaurantMenusMap.values().stream()
+                .flatMapToInt(menus -> menus.values().stream().mapToInt(i -> i))
+                .sum();
+    }
+
     public void emptyCart() {
-        menuMap.clear();
+        restaurantMenusMap.clear();
     }
 
-    public void addMenu(Menu menu){
-        this.menuMap.put(menu,1);
-    }
-
-    public void setRestaurant(Restaurant restaurant) {
-        this.restaurant = restaurant;
-    }
-
-
-    public Restaurant getRestaurant() {
-        return restaurant;
-    }
-
-    public Map<Menu, Integer> getMenusCopy() {
-        Map<Menu, Integer> deepCopy = new HashMap<>();
-        for (Map.Entry<Menu, Integer> entry : menuMap.entrySet()) {
-            Menu originalMenu = entry.getKey();
-            int quantity = entry.getValue();
-            Menu copiedMenu = new Menu(originalMenu);
-            deepCopy.put(copiedMenu, quantity);
+    public Map<Restaurant, Map<Menu, Integer>> getMenusCopy() {
+        Map<Restaurant, Map<Menu, Integer>> deepCopy = new HashMap<>();
+        for (Map.Entry<Restaurant, Map<Menu, Integer>> restaurantEntry : restaurantMenusMap.entrySet()) {
+            Map<Menu, Integer> menuCopy = new HashMap<>();
+            for (Map.Entry<Menu, Integer> menuEntry : restaurantEntry.getValue().entrySet()) {
+                Menu copiedMenu = new Menu(menuEntry.getKey());
+                menuCopy.put(copiedMenu, menuEntry.getValue());
+            }
+            deepCopy.put(restaurantEntry.getKey(), menuCopy);
         }
         return deepCopy;
     }

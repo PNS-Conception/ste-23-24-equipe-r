@@ -9,6 +9,7 @@ import fr.unice.polytech.steats.exceptions.restaurant.AlreadyExistingRestaurantE
 import fr.unice.polytech.steats.exceptions.restaurant.DeliveryDateNotAvailable;
 import fr.unice.polytech.steats.notification.NotificationRegistry;
 import fr.unice.polytech.steats.order.*;
+import fr.unice.polytech.steats.order.strategy.SimpleOrderProcessingStrategy;
 import fr.unice.polytech.steats.restaurant.Menu;
 import fr.unice.polytech.steats.restaurant.Restaurant;
 import fr.unice.polytech.steats.restaurant.RestaurantRegistration;
@@ -16,6 +17,7 @@ import fr.unice.polytech.steats.restaurant.RestaurantRegistry;
 import fr.unice.polytech.steats.users.CampusUser;
 import fr.unice.polytech.steats.users.DeliveryPerson;
 import io.cucumber.java.en.*;
+import org.mockito.Mockito;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -32,32 +34,35 @@ public class ReceiveNotification {
     List<DeliveryPerson> deliveryPeople;
     NotificationRegistry notificationRegistry = NotificationRegistry.getInstance();
     final RestaurantRegistry restaurantRegistration;
+    Restaurant restaurant;
+    SimpleOrderProcessingStrategy simpleOrderProcessingStrategy;
 
 
 
     public ReceiveNotification(FacadeContainer container){
         orderProcessing=container.orderProcessing;
         restaurantRegistration=container.restaurantRegistration;
+        simpleOrderProcessingStrategy = container.simpleOrderProcessingStrategy;
     }
 
     @Given("a logged-in Campus user as the order owner")
     public void a_logged_in_campus_user_as_the_order_owner() {
+        restaurant = new Restaurant("restaurant");
         campusUser = new CampusUser("john");
-
     }
     @Given("an order with the status PREPARING")
     public void an_order_with_the_status() throws EmptyCartException, PaymentException, DeliveryDateNotAvailable {
-
+        orderProcessing.setOrderProcessingStrategy(simpleOrderProcessingStrategy);
         Cart cart = campusUser.getCart();
-        cart.addMenu(new Menu("MaxBurger",12));
-        cart.addMenu(new Menu("CheeseBurger",13));
+        cart.addMenu(restaurant, new Menu("MaxBurger",12), 1);
+        cart.addMenu(restaurant, new Menu("CheeseBurger",13), 1);
         OrderDetails orderDetails = new OrderDetailsBuilder()
-                .restaurant(new Restaurant("R1"))
+                .restaurant(restaurant)
                 .orderOwner(campusUser)
                 .deliveryTime(LocalDate.now().atTime(LocalTime.of(12, 0)))
                 .deliveryLocation(LIBRARY)
                 .build();
-        simpleOrder = orderProcessing.process(orderDetails);
+        simpleOrder = (SimpleOrder)orderProcessing.process(orderDetails);
         delivery = new Delivery(simpleOrder);
     }
 
@@ -76,17 +81,19 @@ public class ReceiveNotification {
 
     @When("{string} creates an order")
     public void creates_an_order(String customerName) throws EmptyCartException, PaymentException, DeliveryDateNotAvailable {
+        orderProcessing.setOrderProcessingStrategy(simpleOrderProcessingStrategy);
+        restaurant = new Restaurant("restaurant");
         campusUser = new CampusUser(customerName);
         Cart cart = campusUser.getCart();
-        cart.addMenu(new Menu("MaxBurger",12));
-        cart.addMenu(new Menu("CheeseBurger",13));
+        cart.addMenu(restaurant, new Menu("MaxBurger",12), 1);
+        cart.addMenu(restaurant, new Menu("CheeseBurger",13), 1);
         OrderDetails orderDetails = new OrderDetailsBuilder()
-                .restaurant(new Restaurant("R1"))
+                .restaurant(restaurant)
                 .orderOwner(campusUser)
                 .deliveryTime(LocalDate.now().atTime(LocalTime.of(12, 0)))
                 .deliveryLocation(LIBRARY)
                 .build();
-        simpleOrder = orderProcessing.process(orderDetails);
+        simpleOrder = (SimpleOrder)orderProcessing.process(orderDetails);
     }
 
     @Then("{string} is notified")

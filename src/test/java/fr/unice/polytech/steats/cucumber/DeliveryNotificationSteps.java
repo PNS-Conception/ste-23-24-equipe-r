@@ -10,6 +10,7 @@ import fr.unice.polytech.steats.order.OrderDetails;
 import fr.unice.polytech.steats.order.OrderDetailsBuilder;
 import fr.unice.polytech.steats.order.OrderManager;
 import fr.unice.polytech.steats.order.SimpleOrder;
+import fr.unice.polytech.steats.order.strategy.SimpleOrderProcessingStrategy;
 import fr.unice.polytech.steats.restaurant.Menu;
 import fr.unice.polytech.steats.restaurant.Restaurant;
 import fr.unice.polytech.steats.users.CampusUser;
@@ -35,13 +36,13 @@ public class DeliveryNotificationSteps {
     SimpleOrder order;
 
     DeliveryRegistry deliveryRegistry;
+    SimpleOrderProcessingStrategy simpleOrderProcessingStrategy;
 
 
     public DeliveryNotificationSteps(FacadeContainer container) {
         orderManager = container.orderManager;
         deliveryRegistry = orderManager.getDeliveryRegistry();
-        orderManager = container.orderManager;
-        deliveryRegistry = orderManager.getDeliveryRegistry();
+        simpleOrderProcessingStrategy = container.simpleOrderProcessingStrategy;
     }
 
     @Given("a user named {string}")
@@ -57,13 +58,14 @@ public class DeliveryNotificationSteps {
     }
     @Given("a delivery with the status WAITING")
     public void a_delivery_with_the_status_waiting() throws EmptyCartException, PaymentException, DeliveryDateNotAvailable {
+        orderManager.setOrderProcessingStrategy(simpleOrderProcessingStrategy);
         OrderDetails orderDetails = new OrderDetailsBuilder()
                 .restaurant(new Restaurant("R1"))
                 .orderOwner(campusUser)
                 .deliveryTime(LocalDateTime.of(LocalDate.now(), LocalTime.of(12, 0)))
                 .deliveryLocation(LIBRARY)
                 .build();
-        order = orderManager.process(orderDetails);
+        order = (SimpleOrder)orderManager.process(orderDetails);
         delivery = new Delivery(order);
         deliveryRegistry.getDeliveryRepository().save(delivery, delivery.getId());
     }

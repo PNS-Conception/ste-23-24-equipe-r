@@ -4,6 +4,7 @@ import fr.unice.polytech.steats.delivery.DeliveryLocation;
 import fr.unice.polytech.steats.exceptions.order.*;
 import fr.unice.polytech.steats.exceptions.restaurant.DeliveryDateNotAvailable;
 import fr.unice.polytech.steats.order.*;
+import fr.unice.polytech.steats.order.strategy.SimpleOrderProcessingStrategy;
 import fr.unice.polytech.steats.restaurant.Menu;
 import fr.unice.polytech.steats.restaurant.Restaurant;
 import fr.unice.polytech.steats.users.CampusUser;
@@ -16,14 +17,11 @@ import java.util.stream.StreamSupport;
 
 public class GroupOrderService implements SubOrderManager, GroupOrderRegistration, GroupOrderFinder {
     final GroupOrderRepository groupOrderRepository;
-    final OrderProcessing orderProcessing;
-    public GroupOrderService(GroupOrderRepository groupOrderRepository, OrderProcessing orderProcessing){
+    final SimpleOrderProcessingStrategy simpleOrderProcessingStrategy;
+    public GroupOrderService(GroupOrderRepository groupOrderRepository, SimpleOrderProcessingStrategy simpleOrderProcessingStrategy){
         this.groupOrderRepository = groupOrderRepository;
-        this.orderProcessing = orderProcessing;
+        this.simpleOrderProcessingStrategy = simpleOrderProcessingStrategy;
     }
-
-
-
     @Override
     public GroupOrder register(OrderDetails orderDetails){
         GroupOrder groupOrder = new GroupOrder(orderDetails);
@@ -40,7 +38,7 @@ public class GroupOrderService implements SubOrderManager, GroupOrderRegistratio
     public void addSubOrder(String groupOrderCode, OrderDetails orderDetails)
             throws NonExistentGroupOrder, ClosedGroupOrderException, EmptyCartException, PaymentException, DeliveryDateNotAvailable {
         GroupOrder groupOrder = validateAndGetGroupOrder(groupOrderCode);
-        SimpleOrder order = orderProcessing.process(orderDetails);
+        SimpleOrder order = (SimpleOrder)simpleOrderProcessingStrategy.process(orderDetails);
         groupOrder.getSubOrders().add(order);
         OrderVolume.getInstance().addOrder(order);
     }

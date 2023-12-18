@@ -25,7 +25,7 @@ public class GetOrdersWaitingForPreparationSteps {
     CampusUser staff;
     final OrderRepository orderRepository;
     final OrderLocator orderLocator;
-    List<SimpleOrder> ordersWaitingForPreparation;
+    List<Order> ordersWaitingForPreparation;
 
     public GetOrdersWaitingForPreparationSteps(FacadeContainer container) {
         orderLocator = container.orderLocator;
@@ -39,22 +39,25 @@ public class GetOrdersWaitingForPreparationSteps {
     }
     @Given("the restaurant has {int} orders waiting for preparation")
     public void a_restaurant_with_orders_waiting_for_preparation(int ordersNumber) {
+        CampusUser user = new CampusUser("lambda");
+        if (!user.getCart().getRestaurantMenusMap().containsKey(restaurant)) {
+            user.getCart().getRestaurantMenusMap().put(restaurant, new HashMap<>());
+        }
         OrderDetailsBuilder builder = new OrderDetailsBuilder()
                 .restaurant(restaurant)
-                .orderOwner(new CampusUser("lambda"))
+                .orderOwner(user)
                 .deliveryTime(LocalDateTime.now())
                 .deliveryLocation(DeliveryLocation.LIBRARY);
         OrderDetails orderDetails1 = builder.build();
         OrderDetails orderDetails2 = builder.orderOwner(new CampusUser("other")).build();
         for(int i = 0; i < ordersNumber; i++){
 
-            SimpleOrder simpleOrder = new SimpleOrder(orderDetails1);
+            Order simpleOrder = new SimpleOrder(orderDetails1);
             simpleOrder.setStatus(WAITING_FOR_PREPARATION);
             orderRepository.save(simpleOrder, simpleOrder.getId());
         }
         for(int i = 0; i < 6; i++){
-            LocalDateTime orderDate = LocalDateTime.now();
-            SimpleOrder simpleOrder = new SimpleOrder(orderDetails2);
+            Order simpleOrder = new SimpleOrder(orderDetails2);
             simpleOrder.setStatus(PREPARING);
             orderRepository.save(simpleOrder, simpleOrder.getId());
         }

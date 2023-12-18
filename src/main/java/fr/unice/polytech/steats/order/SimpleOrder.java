@@ -7,14 +7,14 @@ import java.util.*;
 
 public class SimpleOrder extends Order {
     private DeliveryLocation deliveryLocation;
-    private double discount = 0.1;
     private Map<Menu, Integer> menusOrdered;
     private OrderDetails orderDetails;
+    private double discount = 0.1;
 
     public SimpleOrder(OrderDetails orderDetails) {
         super(orderDetails);
         this.orderDetails = orderDetails;
-        this.menusOrdered = orderDetails.menusOrdered();
+        this.menusOrdered = orderDetails.menusOrdered().get(orderDetails.getRestaurant());
         OrderVolume.getInstance().addOrder((this));
     }
 
@@ -29,7 +29,18 @@ public class SimpleOrder extends Order {
     public DeliveryLocation getDeliveryLocation(){
         return orderDetails.getDeliveryLocation();
     }
-
+    public double getPrice(){
+        double total = 0;
+        for (Map.Entry<Menu, Integer> entry : menusOrdered.entrySet()) {
+            Menu menu = entry.getKey();
+            int quantity = entry.getValue();
+            total += menu.getBasePrice() * quantity;
+        }
+        if(getTotalMenus()>=10){
+            return total - (total*discount);
+        }
+        return total;
+    }
     public int getTotalMenus(){
         int sum = 0;
         for (int value : menusOrdered.values()) {
@@ -42,23 +53,7 @@ public class SimpleOrder extends Order {
         this.discount = discount;
     }
 
-    public double getPrice(){
-        double total = 0;
-        for (Map.Entry<Menu, Integer> entry : menusOrdered.entrySet()) {
-            Menu menu = entry.getKey();
-            int quantity = entry.getValue();
-            total += menu.getBasePrice() * quantity;
-        }
-        if(getTotalMenus()>=10){
-            return total-(total*discount);
-        }
-        return total;
-    }
     public Menu getMenu(){
         return menusOrdered.keySet().iterator().next();
     }
-
-    
-    
-
 }

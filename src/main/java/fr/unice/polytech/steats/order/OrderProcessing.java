@@ -1,18 +1,14 @@
 package fr.unice.polytech.steats.order;
 
-import fr.unice.polytech.steats.delivery.DeliveryLocation;
 import fr.unice.polytech.steats.exceptions.order.EmptyCartException;
 import fr.unice.polytech.steats.exceptions.order.PaymentException;
 import fr.unice.polytech.steats.exceptions.restaurant.DeliveryDateNotAvailable;
-import fr.unice.polytech.steats.restaurant.Menu;
-import fr.unice.polytech.steats.restaurant.Restaurant;
-import fr.unice.polytech.steats.users.CampusUser;
+import fr.unice.polytech.steats.order.strategy.OrderProcessingStrategy;
 
-import java.time.LocalDateTime;
-import java.util.Map;
 import java.util.NoSuchElementException;
 
 public interface OrderProcessing {
-    SimpleOrder process(OrderDetails orderDetails)
+    Order process(OrderDetails orderDetails)
             throws EmptyCartException, PaymentException, DeliveryDateNotAvailable, NoSuchElementException;
+    void setOrderProcessingStrategy(OrderProcessingStrategy orderProcessingStrategy);
 }

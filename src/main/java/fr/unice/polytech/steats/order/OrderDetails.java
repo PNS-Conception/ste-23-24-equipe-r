@@ -10,28 +10,24 @@ import java.util.List;
 import java.util.Map;
 
 public class OrderDetails {
-    private List<Restaurant> restaurants;
     private Restaurant restaurant;
+    private List<Restaurant> restaurants;
     private CampusUser orderOwner;
-    private List<Order> orders;
     private LocalDateTime deliveryTime;
     private DeliveryLocation deliveryLocation;
+    private int recipientNumber;
 
-    protected OrderDetails(CampusUser campusUser, List<Order> orders, LocalDateTime deliveryTime, DeliveryLocation deliveryLocation, List<Restaurant> restaurants, Restaurant restaurant) {
+    protected OrderDetails(CampusUser campusUser, LocalDateTime deliveryTime, DeliveryLocation deliveryLocation, List<Restaurant> restaurants, Restaurant restaurant, int recipientNumber) {
         this.orderOwner = campusUser;
-        this.orders = orders;
         this.deliveryTime = deliveryTime;
         this.deliveryLocation = deliveryLocation;
         this.restaurants = restaurants;
         this.restaurant = restaurant;
+        this.recipientNumber = recipientNumber;
     }
 
     public CampusUser getOrderOwner() {
         return this.orderOwner;
-    }
-
-    public List<Order> getOrders() {
-        return this.orders;
     }
 
     public LocalDateTime getDeliveryTime() {
@@ -44,10 +40,11 @@ public class OrderDetails {
     public List<Restaurant> getRestaurants() {
         return this.restaurants;
     }
-    public Map<Menu, Integer> menusOrdered(){
+    public Map<Restaurant, Map<Menu, Integer>> menusOrdered(){
         return this.orderOwner.getCart().getMenusCopy();
     }
     public Restaurant getRestaurant(){
         return this.restaurant;
     }
+    public int getRecipientNumber(){return this.recipientNumber;}
 }

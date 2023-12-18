@@ -5,5 +5,5 @@ import fr.unice.polytech.steats.users.CampusUser;
 import java.util.List;
 
 public interface UserOrderHistory {
-    List<SimpleOrder> getPreviousOrders(CampusUser user);
+    List<Order> getPreviousOrders(CampusUser user);
 }

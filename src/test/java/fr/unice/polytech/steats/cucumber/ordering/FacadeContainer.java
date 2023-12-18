@@ -6,6 +6,8 @@ import fr.unice.polytech.steats.order.grouporder.GroupOrderFinder;
 import fr.unice.polytech.steats.order.grouporder.GroupOrderRegistration;
 import fr.unice.polytech.steats.order.grouporder.GroupOrderService;
 import fr.unice.polytech.steats.order.grouporder.SubOrderManager;
+import fr.unice.polytech.steats.order.strategy.OrderProcessingStrategy;
+import fr.unice.polytech.steats.order.strategy.SimpleOrderProcessingStrategy;
 import fr.unice.polytech.steats.restaurant.MenuComments.CommentsRegistry;
 import fr.unice.polytech.steats.restaurant.RestaurantLocator;
 import fr.unice.polytech.steats.restaurant.RestaurantRegistration;
@@ -36,6 +38,7 @@ public class FacadeContainer {
     public GroupOrderFinder groupOrderFinder;
     public GroupOrderRegistration groupOrderRegistration;
     public SubOrderManager subOrderManager;
+    public SimpleOrderProcessingStrategy simpleOrderProcessingStrategy;
 
     public FacadeContainer(AppExplicitConfig config){
         this.container = config.getContainer();
@@ -56,5 +59,6 @@ public class FacadeContainer {
         this.groupOrderFinder = container.getComponent(GroupOrderFinder.class);
         this.groupOrderRegistration = container.getComponent(GroupOrderRegistration.class);
         this.subOrderManager = container.getComponent(SubOrderManager.class);
+        this.simpleOrderProcessingStrategy = container.getComponent(SimpleOrderProcessingStrategy.class);
     }
 }

@@ -6,6 +6,8 @@ import fr.unice.polytech.steats.exceptions.order.PaymentException;
 import fr.unice.polytech.steats.exceptions.others.NoSuchElementException;
 import fr.unice.polytech.steats.exceptions.restaurant.DeliveryDateNotAvailable;
 import fr.unice.polytech.steats.order.*;
+import fr.unice.polytech.steats.order.strategy.OrderProcessingStrategy;
+import fr.unice.polytech.steats.order.strategy.SimpleOrderProcessingStrategy;
 import fr.unice.polytech.steats.restaurant.Restaurant;
 import fr.unice.polytech.steats.restaurant.RestaurantLocator;
 import fr.unice.polytech.steats.users.CampusUser;
@@ -17,7 +19,7 @@ import java.time.format.DateTimeFormatter;
 
 import static org.junit.Assert.assertEquals;
 
-public class OrderSteps {
+public class SimpleOrderSteps {
     SimpleOrder order;
     final CampusUserFinder campusUserFinder;
     LocalDateTime deliveryTime;
@@ -25,11 +27,13 @@ public class OrderSteps {
     Restaurant restaurant;
     final OrderProcessing orderProcessing;
     final RestaurantLocator restaurantLocator;
+    final SimpleOrderProcessingStrategy simpleOrderProcessingStrategy;
 
-    public OrderSteps(FacadeContainer container){
+    public SimpleOrderSteps(FacadeContainer container){
         this.campusUserFinder = container.campusUserRegistry;
         this.orderProcessing = container.orderProcessing;
         this.restaurantLocator = container.restaurantLocator;
+        this.simpleOrderProcessingStrategy = container.simpleOrderProcessingStrategy;
     }
 
     @And("chooses delivery time {string} of the restaurant {string} and delivery location {string}")
@@ -42,7 +46,7 @@ public class OrderSteps {
     @And("{string} confirms and pays for the cart")
     public void confirmsAndPaysForTheCart(String customerName) throws PaymentException,
             EmptyCartException, DeliveryDateNotAvailable, NoSuchElementException {
-
+        orderProcessing.setOrderProcessingStrategy(simpleOrderProcessingStrategy);
         CampusUser campusUser = campusUserFinder.findByName(customerName).orElseThrow(() -> new NoSuchElementException("Element not found"));
         OrderDetails orderDetails = new OrderDetailsBuilder()
                 .restaurant(restaurant)
@@ -50,12 +54,10 @@ public class OrderSteps {
                 .deliveryTime(deliveryTime)
                 .deliveryLocation(deliveryLocation)
                 .build();
-        order = orderProcessing.process(orderDetails);
+        order = (SimpleOrder)orderProcessing.process(orderDetails);
     }
     @And("the price of the order is {double}")
     public void thePriceOfSOrderIs(double price) {
-        System.out.println("order price : "+order.getPrice());
-        System.out.println("menus number : "+order.getTotalMenus());
         assertEquals(price, order.getPrice(), 0.01);
     }
 

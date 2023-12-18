@@ -14,6 +14,7 @@ import fr.unice.polytech.steats.order.OrderDetails;
 import fr.unice.polytech.steats.order.OrderDetailsBuilder;
 import fr.unice.polytech.steats.order.SimpleOrder;
 import fr.unice.polytech.steats.order.grouporder.*;
+import fr.unice.polytech.steats.order.strategy.SimpleOrderProcessingStrategy;
 import fr.unice.polytech.steats.restaurant.Menu;
 import fr.unice.polytech.steats.restaurant.Restaurant;
 import fr.unice.polytech.steats.restaurant.RestaurantLocator;
@@ -39,7 +40,6 @@ public class GroupOrderSteps {
     final GroupOrderRegistration groupOrderRegistration;
     final SubOrderManager subOrderManager;
     DeliveryLocation deliveryLocation;
-
     public GroupOrderSteps(FacadeContainer container){
         campusUserFinder = container.campusUserRegistry;
         restaurantLocator = container.restaurantLocator;
@@ -102,7 +102,7 @@ public class GroupOrderSteps {
         campusUser = campusUserFinder.findByName(userName).orElseThrow(() -> new NoSuchElementException("Element not found"));
         Menu menu = restaurant.getMenufromName(menuName);
         CartHandler cartHandler = new CartHandler(campusUser.getCart());
-        cartHandler.addItem(menu, quantity);
+        cartHandler.addItem(restaurant, menu, quantity);
         OrderDetails orderDetails = new OrderDetailsBuilder()
                 .restaurant(restaurant)
                 .orderOwner(campusUser)

@@ -1,24 +1,27 @@
 package fr.unice.polytech.steats.order;
 
-import fr.unice.polytech.steats.delivery.DeliveryLocation;
 import fr.unice.polytech.steats.restaurant.Menu;
 import fr.unice.polytech.steats.restaurant.Restaurant;
-import fr.unice.polytech.steats.users.CampusUser;
-
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
-import static java.util.Collections.singletonList;
-
 public class MultipleOrder extends Order{
     private OrderDetails orderDetails;
-    private double discount = 0.1;
+    private Map<Restaurant, Map<Menu, Integer>> menusOrdered;
     public MultipleOrder(OrderDetails orderDetails) {
         super(orderDetails);
         this.orderDetails = orderDetails;
+        this.menusOrdered = orderDetails.menusOrdered();
     }
     public List<Restaurant> getRestaurants(){
         return orderDetails.getRestaurants();
     }
+    public Map<Restaurant, Map<Menu, Integer>> getMenusOrdered() {
+        return menusOrdered;
+    }
+
+    public void setMenusOrdered(Map<Restaurant, Map<Menu, Integer>> menusOrdered) {
+        this.menusOrdered = menusOrdered;
+    }
+
 }

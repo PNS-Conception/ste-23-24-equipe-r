@@ -6,6 +6,8 @@ import fr.unice.polytech.steats.exceptions.order.EmptyCartException;
 import fr.unice.polytech.steats.exceptions.order.PaymentException;
 import fr.unice.polytech.steats.exceptions.restaurant.DeliveryDateNotAvailable;
 import fr.unice.polytech.steats.order.*;
+import fr.unice.polytech.steats.order.strategy.OrderProcessingStrategy;
+import fr.unice.polytech.steats.order.strategy.SimpleOrderProcessingStrategy;
 import fr.unice.polytech.steats.restaurant.Menu;
 import fr.unice.polytech.steats.restaurant.Restaurant;
 import fr.unice.polytech.steats.users.CampusUser;
@@ -18,6 +20,8 @@ import java.util.List;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import org.mockito.Mock;
+import org.mockito.Mockito;
 
 import static fr.unice.polytech.steats.delivery.DeliveryLocation.LIBRARY;
 import static org.junit.Assert.assertEquals;
@@ -25,29 +29,34 @@ import static org.junit.Assert.assertEquals;
 public class AccessPreviousOrders {
     CampusUser campusUser;
     final OrderProcessing orderProcessing;
+    Restaurant restaurant;
 
-    List<SimpleOrder> previousSimpleOrders = new ArrayList<>();
+    List<Order> previousSimpleOrders = new ArrayList<>();
     UserOrderHistory userOrderHistory;
+    SimpleOrderProcessingStrategy simpleOrderProcessingStrategy;
 
     public AccessPreviousOrders(FacadeContainer container) {
         userOrderHistory = container.userOrderHistory;
         orderProcessing = container.orderProcessing;
+        simpleOrderProcessingStrategy = container.simpleOrderProcessingStrategy;
     }
 
     @Given("a logged-in Campus user {string} and a list of previous orders")
     public void a_logged_in_Campus_user_and_a_list_of_previous_orders (String name) throws EmptyCartException, PaymentException, DeliveryDateNotAvailable {
+        orderProcessing.setOrderProcessingStrategy(simpleOrderProcessingStrategy);
+        restaurant = new Restaurant("restaurant");
         campusUser = new CampusUser(name);
         Cart cart = campusUser.getCart();
-        cart.addMenu(new Menu("MaxBurger", 12));
-        cart.addMenu(new Menu("CheeseBurger", 13));
+        cart.addMenu(restaurant, new Menu("MaxBurger", 12),1);
+        cart.addMenu(restaurant, new Menu("CheeseBurger", 13),1);
         OrderDetailsBuilder builder = new OrderDetailsBuilder()
-                .restaurant(new Restaurant("R1"))
+                .restaurant(restaurant)
                 .orderOwner(campusUser)
                 .deliveryTime(LocalDate.now().atTime(LocalTime.NOON))
                 .deliveryLocation(LIBRARY);
         OrderDetails orderDetails1 = builder.build();
         orderProcessing.process(orderDetails1);
-        cart.addMenu(new Menu("DoubleBurger", 17));
+        cart.addMenu(restaurant,new Menu("DoubleBurger", 17),1);
         OrderDetails orderDetails2 = builder.build();
         orderProcessing.process(orderDetails2);
     }

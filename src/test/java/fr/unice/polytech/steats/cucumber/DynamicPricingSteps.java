@@ -39,11 +39,12 @@ public class DynamicPricingSteps {
     }
     @When("processing a payment for a {string} with the following {string} base on the user type")
     public void processing_a_payment_for_a_meal_with_the_following_base_on_the_user_type(String menuName, String price) {
-        menu = new Menu(menuName, 20);
-        menu.setPriceForUserType(campusUser.getStatus(), Double.parseDouble(price));
-        restaurant.getMenus().add(menu);
+        double parsedPrice = Double.parseDouble(price);
+        Menu menu = new Menu(menuName, 20);
+        menu.setPriceForUserType(campusUser.getStatus(), parsedPrice);
+        restaurant.addMenu(menu);
         assertTrue(restaurant.getMenus().contains(menu));
-        campusUser.getCart().getMenuMap().put(menu, 1);
+        campusUser.getCart().addMenu(restaurant, menu, 1);
     }
     @Then("the system calculate the final price as {string}")
     public void the_system_calculate_the_final_price_as(String finalPrice) {

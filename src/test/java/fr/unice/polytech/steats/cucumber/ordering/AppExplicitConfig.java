@@ -6,6 +6,8 @@ import fr.unice.polytech.steats.order.OrderManager;
 import fr.unice.polytech.steats.order.OrderRepository;
 import fr.unice.polytech.steats.order.grouporder.GroupOrderRepository;
 import fr.unice.polytech.steats.order.grouporder.GroupOrderService;
+import fr.unice.polytech.steats.order.strategy.MultipleOrderProcessingStrategy;
+import fr.unice.polytech.steats.order.strategy.SimpleOrderProcessingStrategy;
 import fr.unice.polytech.steats.payment.PaymentProxyMock;
 import fr.unice.polytech.steats.payment.PaymentManager;
 import fr.unice.polytech.steats.restaurant.MenuComments.CommentsRegistry;
@@ -24,7 +26,6 @@ public class AppExplicitConfig {
         if (container == null){
             container = new DefaultPicoContainer(new Caching());
 
-            // Register your components
             container.addComponent(RestaurantRepository.class);
             container.addComponent(RestaurantRegistry.class);
             container.addComponent(UserRepository.class);
@@ -39,6 +40,8 @@ public class AppExplicitConfig {
             container.addComponent(DeliveryRepository.class);
             container.addComponent(CommentsRepository.class);
             container.addComponent(CommentsRegistry.class);
+            container.addComponent(SimpleOrderProcessingStrategy.class);
+            container.addComponent(MultipleOrderProcessingStrategy.class);
 
         }
         return container;

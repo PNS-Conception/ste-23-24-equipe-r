@@ -5,23 +5,22 @@ import fr.unice.polytech.steats.restaurant.Restaurant;
 import fr.unice.polytech.steats.users.CampusUser;
 import java.time.LocalDateTime;
 import java.util.List;
+
 public class OrderDetailsBuilder {
+
     private CampusUser orderOwner;
-    private List<Order> orders;
     private LocalDateTime deliveryTime;
     private DeliveryLocation deliveryLocation;
     private List<Restaurant> restaurants;
     private Restaurant restaurant;
+    private int recipientNumber;
+
     public OrderDetails build(){
-        return new OrderDetails(orderOwner, orders, deliveryTime, deliveryLocation, restaurants, restaurant);
+        return new OrderDetails(orderOwner, deliveryTime, deliveryLocation, restaurants, restaurant, recipientNumber);
     }
 
     public OrderDetailsBuilder orderOwner(CampusUser orderOwner){
         this.orderOwner = orderOwner;
-        return this;
-    }
-    public OrderDetailsBuilder orders(List<Order> orders){
-        this.orders = orders;
         return this;
     }
     public OrderDetailsBuilder deliveryTime(LocalDateTime deliveryTime){
@@ -40,4 +39,9 @@ public class OrderDetailsBuilder {
         this.restaurant = restaurant;
         return this;
     }
+    public OrderDetailsBuilder recipientNumber(int n){
+        this.recipientNumber = n;
+        return this;
+    }
+
 }

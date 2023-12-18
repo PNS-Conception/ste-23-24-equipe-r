@@ -3,15 +3,10 @@ package fr.unice.polytech.steats.order.grouporder;
 import fr.unice.polytech.steats.delivery.DeliveryLocation;
 import fr.unice.polytech.steats.order.Order;
 import fr.unice.polytech.steats.order.OrderDetails;
-import fr.unice.polytech.steats.order.OrderDetailsBuilder;
 import fr.unice.polytech.steats.order.SimpleOrder;
-import fr.unice.polytech.steats.users.CampusUser;
 import fr.unice.polytech.steats.util.GroupOrderCodeGenerator;
-
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 public class GroupOrder extends Order {
     private final OrderDetails orderDetails;

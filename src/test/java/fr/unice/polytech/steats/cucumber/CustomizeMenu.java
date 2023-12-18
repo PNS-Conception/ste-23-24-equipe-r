@@ -3,10 +3,13 @@ import fr.unice.polytech.steats.cucumber.ordering.FacadeContainer;
 import fr.unice.polytech.steats.restaurant.Menu;
 import fr.unice.polytech.steats.restaurant.MenuComments.CommentsRegistry;
 import fr.unice.polytech.steats.restaurant.MenuComments.MenuComment;
+import fr.unice.polytech.steats.restaurant.Restaurant;
 import fr.unice.polytech.steats.users.CampusUser;
+import fr.unice.polytech.steats.users.User;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import org.mockito.Mockito;
 
 import java.util.*;
 
@@ -17,6 +20,7 @@ import static org.junit.Assert.assertFalse;
 public class CustomizeMenu {
     CampusUser CU ;
     Menu UserMenu ;
+    Restaurant restaurantMock = Mockito.mock(Restaurant.class);
 
     MenuComment menuComment;
 
@@ -28,12 +32,10 @@ public class CustomizeMenu {
     @Given("a logged in campus user {string}")
     public void a_logged_in_campus_user(String string) {
         CU=new CampusUser(string);
-        System.out.println("------------> "+CU.getId());
     }
 
     @Given("a chosen Menu {string} with the price {int}")
     public void a_chosen_menu(String name ,int price) {
-        System.out.println(name);
         UserMenu = new Menu(name,price);
         Map<String, Map<String,Integer>> options = new HashMap<>();
 
@@ -47,7 +49,6 @@ public class CustomizeMenu {
 
     @Given("a list of possible modifications for each menu item {string}, {string}, {string}")
     public void a_list_of_possible_modifications_for_each_menu_item(String string, String string2, String string3) {
-        System.out.println("options: " + UserMenu.getOptions());
     }
 
     @When("the user chooses the sauce {string}, the dessert {string}, and the add-ons {string}")
@@ -68,7 +69,7 @@ public class CustomizeMenu {
         for(String option : UserMenu.getSelectedOptions().keySet())
             OptionsPrice+=UserMenu.getOptions().get(option).get(UserMenu.getSelectedOptions().get(option));
         assertEquals(UserMenu.calculateNewPrice(),OptionsPrice,0.00001);
-        CU.addMenuToCart(UserMenu);
+        CU.getCart().addMenu(restaurantMock, UserMenu, 1);
     }
 
 
