@@ -1,35 +1,77 @@
-# SopiaTech Eats-Team-23-24 #template
-_Template for classroom SI4-COO_
-
->. CETTE PAGE DOIT ETRE MISE A JOUR POUR CORRESPONDRE A VOTRE PROJET.  
->. C'est seulement un modèle !!
->. Vous l'organisez comme bon vous semble, mais comme un vrai projet.
+# SopiaTech Eats-Team-23-24
 
 
 ## TEAM
 
-Présentez vous! 
+El Betioui Jamal Eddine (PO)
+Akhyat Brahim (SA)
+Mesaouri Debouon Bilal (QA)
+Beidouri Saad (Ops)
 
 ## doc
 Contient vos rapports et les documents qui présentent votre projet.
 
+## Les principaux UC traités
 
-## .github
-   1. Contient sous workflows/maven.yml, une version d'un fichier d'actions qui est déclenché dès que vous poussez du code. 
-Sur cette version initiale seule un test Junit5 est déclenché pour vérifier que tout fonctionne.
-       - GitHub Actions (See in .gitHub/workflows) to simply make a maven+test compilation
-  2. Contient sous ISSUE_TEMPLATE, les modèles pour les issues user_story et bug. Vous pouvez le compléter à votre guise.
 
-## src
- - pom.xml :  
-       - Cucumber 7 et JUnit 5  
-       - JDK 17   
-       - Etc.  
-   Ce pom.xml sera mis à jour avec la démonstration qui vous sera donnée ultérieurement.
+#### #6 Place a Group Order
 
-Lorsque vous passerez en développement, les codes donnés peuvent être éliminés.   
-De nouveaux exemples vous seront donnés.   
-Nous les laissons cependant pour votre permettre de vérifier que vous n'avez pas de problème d'intégration continue.
+As a Campus User,
+I want to have the ability to create or join group orders,
+So that I can conveniently engage in collective ordering activities with other campus users.
+
+
+#### #8  Manage Restaurants
+
+As a campus Admin, I want to be able to add, delete and update restaurants informations so that the restaurants in our application stay up to date
+
+#### #19 place an order
+
+As a campus user,
+I want to make a selection from a chosen restaurant's menu and finalize my order,
+So that the restaurant can prepare and deliver my chosen menus.
+
+
+#### #34 Send notification when the delivery is ready
+
+As a campus user or a delivery person, I want to be notified about the delivery so that i have informations about it
+
+
+## Comment lancer le projet et l'installer
+
+### 1. Clonage du Projet :
+
+```
+git clone https://github.com/votre-utilisateur/nom-du-projet.git
+```
+
+### 2. Exécution des Tests :
+```
+mvn test
+```
+
+Cette commande lancera tous les tests du projet. Assurez-vous que Maven est installé sur votre machine.
+
+### 3. Autres Commandes Utiles :
+
+Pour nettoyer le projet (supprimer les fichiers générés lors de la compilation et des tests) :
+
+```
+mvn clean
+```
+
+Pour compiler le projet sans exécuter les tests :
+
+```
+mvn compile
+```
+
+
+Pour installer les dépendances et compiler le projet :
+
+```
+mvn install
+```
 
 
 <!-- ## Ce que fait votre projet
