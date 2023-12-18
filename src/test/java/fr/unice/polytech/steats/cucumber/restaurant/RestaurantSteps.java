@@ -8,7 +8,6 @@ import fr.unice.polytech.steats.steatspico.exceptions.others.NoSuchElementExcept
 import fr.unice.polytech.steats.steatspico.exceptions.restaurant.AlreadyExistingRestaurantException;
 import fr.unice.polytech.steats.steatspico.interfaces.restaurant.RestaurantLocator;
 import fr.unice.polytech.steats.steatspico.interfaces.restaurant.RestaurantRegistration;
-import fr.unice.polytech.steats.steatspico.restaurant.*;
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
