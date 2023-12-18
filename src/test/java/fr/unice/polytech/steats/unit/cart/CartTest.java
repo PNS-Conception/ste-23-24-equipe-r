@@ -1,8 +1,8 @@
 package fr.unice.polytech.steats.unit.cart;
 
-import fr.unice.polytech.steats.cart.Cart;
-import fr.unice.polytech.steats.restaurant.Menu;
-import fr.unice.polytech.steats.restaurant.Restaurant;
+import fr.unice.polytech.steats.steatspico.entities.cart.Cart;
+import fr.unice.polytech.steats.steatspico.entities.restaurant.Menu;
+import fr.unice.polytech.steats.steatspico.entities.restaurant.Restaurant;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

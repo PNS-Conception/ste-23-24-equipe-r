@@ -1,7 +1,7 @@
 package fr.unice.polytech.steats.unit.Notification;
-import fr.unice.polytech.steats.notification.Notification;
-import fr.unice.polytech.steats.users.CampusUser;
-import fr.unice.polytech.steats.users.User;
+import fr.unice.polytech.steats.steatspico.entities.notification.Notification;
+import fr.unice.polytech.steats.steatspico.entities.users.CampusUser;
+import fr.unice.polytech.steats.steatspico.entities.users.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

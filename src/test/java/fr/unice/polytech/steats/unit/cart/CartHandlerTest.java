@@ -1,14 +1,13 @@
 package fr.unice.polytech.steats.unit.cart;
 
-import fr.unice.polytech.steats.cart.Cart;
-import fr.unice.polytech.steats.cart.CartHandler;
-import fr.unice.polytech.steats.exceptions.cart.MenuRemovalFromCartException;
-import fr.unice.polytech.steats.restaurant.Menu;
-import fr.unice.polytech.steats.restaurant.Restaurant;
-import fr.unice.polytech.steats.users.CampusUser;
+import fr.unice.polytech.steats.steatspico.entities.cart.Cart;
+import fr.unice.polytech.steats.steatspico.components.CartHandler;
+import fr.unice.polytech.steats.steatspico.exceptions.cart.MenuRemovalFromCartException;
+import fr.unice.polytech.steats.steatspico.entities.restaurant.Menu;
+import fr.unice.polytech.steats.steatspico.entities.restaurant.Restaurant;
+import fr.unice.polytech.steats.steatspico.entities.users.CampusUser;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 
 import java.util.Map;
 
