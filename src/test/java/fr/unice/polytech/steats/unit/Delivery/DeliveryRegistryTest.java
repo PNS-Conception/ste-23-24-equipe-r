@@ -1,15 +1,15 @@
 package fr.unice.polytech.steats.unit.Delivery;
 
-import fr.unice.polytech.steats.delivery.Delivery;
-import fr.unice.polytech.steats.delivery.DeliveryLocation;
-import fr.unice.polytech.steats.delivery.DeliveryRegistry;
-import fr.unice.polytech.steats.delivery.DeliveryRepository;
-import fr.unice.polytech.steats.order.OrderDetails;
-import fr.unice.polytech.steats.order.OrderDetailsBuilder;
-import fr.unice.polytech.steats.order.SimpleOrder;
-import fr.unice.polytech.steats.restaurant.Restaurant;
-import fr.unice.polytech.steats.users.CampusUser;
-import fr.unice.polytech.steats.users.DeliveryPerson;
+import fr.unice.polytech.steats.steatspico.entities.delivery.Delivery;
+import fr.unice.polytech.steats.steatspico.entities.delivery.DeliveryLocation;
+import fr.unice.polytech.steats.steatspico.components.DeliveryRegistry;
+import fr.unice.polytech.steats.steatspico.repositories.DeliveryRepository;
+import fr.unice.polytech.steats.steatspico.entities.order.OrderDetails;
+import fr.unice.polytech.steats.steatspico.entities.order.OrderDetailsBuilder;
+import fr.unice.polytech.steats.steatspico.entities.order.SimpleOrder;
+import fr.unice.polytech.steats.steatspico.entities.restaurant.Restaurant;
+import fr.unice.polytech.steats.steatspico.entities.users.CampusUser;
+import fr.unice.polytech.steats.steatspico.entities.users.DeliveryPerson;
 import org.junit.jupiter.api.BeforeEach;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -17,7 +17,7 @@ import org.mockito.MockitoAnnotations;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-import static fr.unice.polytech.steats.delivery.DeliveryStatus.IN_PROGRESS;
+import static fr.unice.polytech.steats.steatspico.entities.delivery.DeliveryStatus.IN_PROGRESS;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 

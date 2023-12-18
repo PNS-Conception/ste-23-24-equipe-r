@@ -1,19 +1,19 @@
 package fr.unice.polytech.steats.unit.Delivery;
-import fr.unice.polytech.steats.delivery.Delivery;
-import fr.unice.polytech.steats.delivery.DeliveryLocation;
+import fr.unice.polytech.steats.steatspico.entities.delivery.Delivery;
+import fr.unice.polytech.steats.steatspico.entities.delivery.DeliveryLocation;
 
-import fr.unice.polytech.steats.order.OrderDetails;
-import fr.unice.polytech.steats.order.OrderDetailsBuilder;
-import fr.unice.polytech.steats.order.SimpleOrder;
-import fr.unice.polytech.steats.restaurant.Restaurant;
-import fr.unice.polytech.steats.users.CampusUser;
-import fr.unice.polytech.steats.users.DeliveryPerson;
+import fr.unice.polytech.steats.steatspico.entities.order.OrderDetails;
+import fr.unice.polytech.steats.steatspico.entities.order.OrderDetailsBuilder;
+import fr.unice.polytech.steats.steatspico.entities.order.SimpleOrder;
+import fr.unice.polytech.steats.steatspico.entities.restaurant.Restaurant;
+import fr.unice.polytech.steats.steatspico.entities.users.CampusUser;
+import fr.unice.polytech.steats.steatspico.entities.users.DeliveryPerson;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
 
-import static fr.unice.polytech.steats.delivery.DeliveryStatus.*;
+import static fr.unice.polytech.steats.steatspico.entities.delivery.DeliveryStatus.*;
 import static org.junit.jupiter.api.Assertions.*;
 public class DeliveryTest {
     private SimpleOrder simpleOrder;

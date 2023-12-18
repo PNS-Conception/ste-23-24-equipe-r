@@ -1,31 +1,36 @@
 package fr.unice.polytech.steats.unit.cart;
-import fr.unice.polytech.steats.cart.Cart;
-import fr.unice.polytech.steats.restaurant.Menu;
-import fr.unice.polytech.steats.restaurant.Restaurant;
+
+import fr.unice.polytech.steats.steatspico.entities.cart.Cart;
+import fr.unice.polytech.steats.steatspico.entities.restaurant.Menu;
+import fr.unice.polytech.steats.steatspico.entities.restaurant.Restaurant;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class CartTest {
     private Cart cart;
+    private Restaurant mockRestaurant;
 
     @BeforeEach
     void setUp() {
         cart = new Cart();
+        mockRestaurant = new Restaurant("Mock Restaurant"); // Mock or Dummy Restaurant
     }
 
     @Test
     void testEmptyCart() {
         // Given
-        cart.addMenu(new Menu("Burger", 10.0));
-        cart.addMenu(new Menu("Pizza", 12.0));
+        cart.addMenu(mockRestaurant, new Menu("Burger", 10.0), 1);
+        cart.addMenu(mockRestaurant, new Menu("Pizza", 12.0), 1);
 
         // When
         cart.emptyCart();
 
         // Then
-        assertTrue(cart.getMenuMap().isEmpty());
+        assertTrue(cart.getRestaurantMenusMap().isEmpty());
     }
 
     @Test
@@ -34,37 +39,26 @@ public class CartTest {
         Menu burger = new Menu("Burger", 10.0);
 
         // When
-        cart.addMenu(burger);
+        cart.addMenu(mockRestaurant, burger, 1);
 
         // Then
-        assertEquals(1, cart.getMenuMap().size());
-        assertTrue(cart.getMenuMap().containsKey(burger));
-        assertEquals(1, cart.getMenuMap().get(burger));
+        Map<Menu, Integer> menusFromRestaurant = cart.getRestaurantMenusMap().get(mockRestaurant);
+        assertNotNull(menusFromRestaurant);
+        assertTrue(menusFromRestaurant.containsKey(burger));
+        assertEquals(1, menusFromRestaurant.get(burger));
     }
 
     @Test
     void testGetSize() {
         // Given
-        cart.addMenu(new Menu("Burger", 10.0));
-        cart.addMenu(new Menu("Pizza", 12.0));
+        cart.addMenu(mockRestaurant, new Menu("Burger", 10.0), 1);
+        cart.addMenu(mockRestaurant, new Menu("Pizza", 12.0), 1);
 
         // When
         int size = cart.getSize();
 
         // Then
         assertEquals(2, size);
-    }
-
-    @Test
-    void testSetRestaurant() {
-        // Given
-        Restaurant restaurant = new Restaurant("FastFood");
-
-        // When
-        cart.setRestaurant(restaurant);
-
-        // Then
-        assertEquals(restaurant, cart.getRestaurant());
     }
 
 }

@@ -1,10 +1,10 @@
 package fr.unice.polytech.steats.unit.OrderTest;
 
-import fr.unice.polytech.steats.order.Order;
-import fr.unice.polytech.steats.order.OrderDetails;
-import fr.unice.polytech.steats.order.OrderStatus;
-import fr.unice.polytech.steats.order.SimpleOrder;
-import fr.unice.polytech.steats.users.CampusUser;
+import fr.unice.polytech.steats.steatspico.entities.order.Order;
+import fr.unice.polytech.steats.steatspico.entities.order.OrderDetails;
+import fr.unice.polytech.steats.steatspico.entities.order.OrderStatus;
+import fr.unice.polytech.steats.steatspico.entities.order.SimpleOrder;
+import fr.unice.polytech.steats.steatspico.entities.users.CampusUser;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
