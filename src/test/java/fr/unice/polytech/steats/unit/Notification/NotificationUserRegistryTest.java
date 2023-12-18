@@ -1,10 +1,10 @@
 package fr.unice.polytech.steats.unit.Notification;
 
-import fr.unice.polytech.steats.notification.Notification;
-import fr.unice.polytech.steats.notification.NotificationRegistry;
-import fr.unice.polytech.steats.notification.NotificationRepository;
-import fr.unice.polytech.steats.users.CampusUser;
-import fr.unice.polytech.steats.users.User;
+import fr.unice.polytech.steats.steatspico.entities.notification.Notification;
+import fr.unice.polytech.steats.steatspico.components.NotificationRegistry;
+import fr.unice.polytech.steats.steatspico.repositories.NotificationRepository;
+import fr.unice.polytech.steats.steatspico.entities.users.CampusUser;
+import fr.unice.polytech.steats.steatspico.entities.users.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;

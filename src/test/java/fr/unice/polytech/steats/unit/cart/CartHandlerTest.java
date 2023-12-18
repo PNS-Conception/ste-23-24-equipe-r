@@ -1,20 +1,28 @@
 package fr.unice.polytech.steats.unit.cart;
-import fr.unice.polytech.steats.cart.Cart;
-import fr.unice.polytech.steats.cart.CartHandler;
-import fr.unice.polytech.steats.exceptions.cart.MenuRemovalFromCartException;
-import fr.unice.polytech.steats.restaurant.Menu;
-import fr.unice.polytech.steats.users.CampusUser;
+
+import fr.unice.polytech.steats.steatspico.entities.cart.Cart;
+import fr.unice.polytech.steats.steatspico.components.CartHandler;
+import fr.unice.polytech.steats.steatspico.exceptions.cart.MenuRemovalFromCartException;
+import fr.unice.polytech.steats.steatspico.entities.restaurant.Menu;
+import fr.unice.polytech.steats.steatspico.entities.restaurant.Restaurant;
+import fr.unice.polytech.steats.steatspico.entities.users.CampusUser;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.Map;
+
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
+
 public class CartHandlerTest {
     private CartHandler cartHandler;
     private Cart cart;
+    private Restaurant mockRestaurant;
 
     @BeforeEach
     void setUp() {
         cart = new Cart();
+        mockRestaurant = mock(Restaurant.class); // Mocking Restaurant
         cartHandler = new CartHandler(cart);
     }
 
@@ -24,33 +32,37 @@ public class CartHandlerTest {
         Menu burger = new Menu("Burger", 10.0);
 
         // When
-        cartHandler.addItem(burger, 2);
+        cartHandler.addItem(mockRestaurant, burger, 2); // Using mocked Restaurant
 
         // Then
-        assertEquals(2, cart.getMenuMap().get(burger));
+        Map<Menu, Integer> menusFromMockRestaurant = cart.getRestaurantMenusMap().get(mockRestaurant);
+        assertNotNull(menusFromMockRestaurant);
+        assertEquals(2, menusFromMockRestaurant.get(burger));
     }
 
     @Test
-    void testRemoveItem() {
+    void testRemoveItem() throws MenuRemovalFromCartException {
         // Given
         Menu pizza = new Menu("Pizza", 12.0);
-        cartHandler.addItem(pizza, 3);
+        cartHandler.addItem(mockRestaurant, pizza, 3);
 
         // When
-        assertDoesNotThrow(() -> cartHandler.removeItem(pizza, 2));
+        cartHandler.removeItem(mockRestaurant, pizza, 2);
 
         // Then
-        assertEquals(1, cart.getMenuMap().get(pizza));
+        Map<Menu, Integer> menusFromMockRestaurant = cart.getRestaurantMenusMap().get(mockRestaurant);
+        assertNotNull(menusFromMockRestaurant);
+        assertEquals(1, menusFromMockRestaurant.get(pizza));
     }
 
     @Test
     void testRemoveItemException() {
         // Given
         Menu pasta = new Menu("Pasta", 15.0);
-        cartHandler.addItem(pasta, 3);
+        cartHandler.addItem(mockRestaurant, pasta, 3);
 
         // When/Then
-        assertThrows(MenuRemovalFromCartException.class, () -> cartHandler.removeItem(pasta, 5));
+        assertThrows(MenuRemovalFromCartException.class, () -> cartHandler.removeItem(mockRestaurant, pasta, 5));
     }
 
     @Test
@@ -58,8 +70,8 @@ public class CartHandlerTest {
         // Given
         Menu burger = new Menu("Burger", 10.0);
         Menu pizza = new Menu("Pizza", 12.0);
-        cartHandler.addItem(burger, 2);
-        cartHandler.addItem(pizza, 3);
+        cartHandler.addItem(mockRestaurant, burger, 2);
+        cartHandler.addItem(mockRestaurant, pizza, 3);
 
         CampusUser campusUser = new CampusUser("Student");
 
@@ -69,5 +81,4 @@ public class CartHandlerTest {
         // Then
         assertEquals(2 * burger.getBasePrice() + 3 * pizza.getBasePrice(), totalPrice);
     }
-
 }
