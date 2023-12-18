@@ -1,14 +1,15 @@
 package fr.unice.polytech.steats.steatspico.components;
 
 import fr.unice.polytech.steats.steatspico.exceptions.order.PaymentException;
+import fr.unice.polytech.steats.steatspico.interfaces.payment.Bank;
 import fr.unice.polytech.steats.steatspico.interfaces.payment.Payment;
 import fr.unice.polytech.steats.steatspico.connectors.PaymentProxy;
 import fr.unice.polytech.steats.steatspico.entities.users.CampusUser;
 
 public class PaymentManager implements Payment {
 
-    private final PaymentProxy paymentProxy;
-    public PaymentManager(PaymentProxy paymentProxy){
+    private final Bank paymentProxy;
+    public PaymentManager(Bank paymentProxy){
         this.paymentProxy = paymentProxy;
     }
 

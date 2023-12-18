@@ -32,7 +32,6 @@ public class OrderManager implements OrderLocator, UserOrderHistory, OrderProces
     private OrderProcessingStrategy orderProcessingStrategy;
     public OrderManager(OrderRepository orderRepository) {
         this.orderRepository = orderRepository;
-;
     }
 
     @Override
