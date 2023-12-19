@@ -11,29 +11,31 @@ Beidouri Saad (Ops)
 ## Les principaux UC traités
 
 
-#### #6 Place a Group Order
+#### [#6 Place a Group Order](https://github.com/PNS-Conception/ste-23-24-equipe-r/issues/6)
+
 
 As a Campus User,
 I want to have the ability to create or join group orders,
 So that I can conveniently engage in collective ordering activities with other campus users.
 
 
-#### #8  Manage Restaurants
+#### [#8  Manage Restaurants](https://github.com/PNS-Conception/ste-23-24-equipe-r/issues/8)
+
 
 As a campus Admin, I want to be able to add, delete and update restaurants informations so that the restaurants in our application stay up to date
 
-#### #19 place an order
+#### [#19 place an order](https://github.com/PNS-Conception/ste-23-24-equipe-r/issues/19)
 
 As a campus user,
 I want to make a selection from a chosen restaurant's menu and finalize my order,
 So that the restaurant can prepare and deliver my chosen menus.
 
 
-#### #34 Send notification when the delivery is ready
+#### [#34 Send notification when the delivery is ready](https://github.com/PNS-Conception/ste-23-24-equipe-r/issues/34)
 
 As a campus user or a delivery person, I want to be notified about the delivery so that i have informations about it
 
-#### #37 place a buffet order
+#### [#37 place a buffet order](https://github.com/PNS-Conception/ste-23-24-equipe-r/issues/37)
 As a Campus User, I want to choose and order a buffet menu from a restaurant on campus, so that I can have it delivered to a specific location at a designated time for group events.
 
 ## Comment lancer le projet et l'installer
@@ -41,7 +43,7 @@ As a Campus User, I want to choose and order a buffet menu from a restaurant on 
 ### 1. Clonage du Projet :
 
 ```
-git clone https://github.com/votre-utilisateur/nom-du-projet.git
+git clone https://github.com/PNS-Conception/ste-23-24-equipe-r.git
 ```
 
 ### 2. Exécution des Tests :
