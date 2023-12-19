@@ -15,7 +15,6 @@ public class RatingSystem {
         deliveryPersonRatings= new HashMap<>();
     }
 
-    ///// getters
     public Map<Restaurant, List<RatingInfo>> getRestaurantRatings() {
         return restaurantRatings;
     }
