@@ -8,9 +8,6 @@ Akhyat Brahim (SA)
 Mesaouri Debouon Bilal (QA)
 Beidouri Saad (Ops)
 
-## doc
-Contient vos rapports et les documents qui présentent votre projet.
-
 ## Les principaux UC traités
 
 
@@ -36,6 +33,8 @@ So that the restaurant can prepare and deliver my chosen menus.
 
 As a campus user or a delivery person, I want to be notified about the delivery so that i have informations about it
 
+#### #37 place a buffet order
+As a Campus User, I want to choose and order a buffet menu from a restaurant on campus, so that I can have it delivered to a specific location at a designated time for group events.
 
 ## Comment lancer le projet et l'installer
 
