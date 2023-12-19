@@ -72,17 +72,17 @@ Pour installer les dépendances et compiler le projet :
 mvn install
 ```
 
+### 4. Structure du projet : 
 
-<!-- ## Ce que fait votre projet
+Le projet adopte une structure d'architecture en couches (*layered architecture*), s'alignant avec les principes de la conception pilotée par le domaine (Domain-Driven Design). Chaque couche, telle que les composants, regroupe en sous-ensembles les classes en fonction de leur contexte dans le domaine métier. Par exemple, au sein de la couche des composants, tous les composants gérant les commandes sont regroupés ensemble. Cette logique de classification est répliquée de manière similaire pour d'autres concepts du domaine, comme les restaurants, les utilisateurs, etc., afin d'assurer une organisation claire et de maintenir une cohérence au sein de chaque couche.
 
+- components: Services et logique métier, groupés par fonctionnalité.
+- connectors: Gestion de la communication avec systèmes externes.
+- entities: Entités du domaine représentant concepts et règles métier.
+- interfaces: Contrats pour les composants.
+- repositories: pour abstraction de la persistance des données.
+- util: Fonctions utilitaires.
 
-### Principales User stories
-Vous mettez en évidence les principales user stories de votre projet.
-Chaque user story doit être décrite par 
-   - son identifiant en tant que issue github (#), 
-   - sa forme classique (As a… I want to… In simpleOrder to…) (pour faciliter la lecture)
-   - Le nom du fichier feature Cucumber et le nom des scénarios qui servent de tests d’acceptation pour la story.
-   Les contenus détaillés sont dans l'issue elle-même. -->
    
 
    
