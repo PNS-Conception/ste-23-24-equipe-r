@@ -4,8 +4,8 @@
 ## TEAM
 
 El Betioui Jamal Eddine (PO)
-Akhyat Brahim (SA)
-Mesaouri Debouon Bilal (QA)
+Akhyate Brahim (SA)
+Mesaouri Deboun Bilal (QA)
 Beidouri Saad (Ops)
 
 ## Les principaux UC traités
@@ -22,16 +22,7 @@ As a Campus User,
 I want to have the ability to create or join group orders,
 So that I can conveniently engage in collective ordering activities with other campus users.
 
-#### [#2 A campus user adds food to the cart ](https://github.com/PNS-Conception/ste-23-24-equipe-r/issues/2)
-As a campus user, I want to be able to add a menu to the cart so that I can have my desired menu delivered to my location.
-
-#### [#10 CampusUser confirms order](https://github.com/PNS-Conception/ste-23-24-equipe-r/issues/10)
-As a Campus User,
-I want to be able to create my order,
-So that the restaurant could receive my order and start preparing it.
-
 #### [#8  Manage Restaurants](https://github.com/PNS-Conception/ste-23-24-equipe-r/issues/8)
-
 
 As a campus Admin, I want to be able to add, delete and update restaurants informations so that the restaurants in our application stay up to date
 
@@ -40,18 +31,10 @@ As a restaurant, I want to apply different prices for meals based on the user ty
 
 #### [#25 Discount and Credit System for Orders with Threshold Logic](https://github.com/PNS-Conception/ste-23-24-equipe-r/issues/25)
 As a campus user, I want to have a reduction for big orders so that iI pay less
-#### [#7 Order Acceptance for Delivery Preparation](https://github.com/PNS-Conception/ste-23-24-equipe-r/issues/7)
-As a restaurant staff member, I want to accept an order so that I can prepare it and hand it over to the delivery person.
 
 #### [#34 Send notification when the delivery is ready](https://github.com/PNS-Conception/ste-23-24-equipe-r/issues/34)
 
 As a campus user or a delivery person, I want to be notified about the delivery so that i have informations about it
-#### [#11 Pick up an Order ](https://github.com/PNS-Conception/ste-23-24-equipe-r/issues/11)
-As a delivery person, I want pick up an order so that I can deliver his order
-#### [#12 Confirm Delivery](https://github.com/PNS-Conception/ste-23-24-equipe-r/issues/12)
-As a Delivery Person,
-I want to be able to confirm the delivery of an order,
-So that the system can update the order status to "DELIVERED".
 
 #### [#27 Get statistical insights](https://github.com/PNS-Conception/ste-23-24-equipe-r/issues/27)
 As a user, I want to get statistical insights so that can analyze data
